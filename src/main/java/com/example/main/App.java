@@ -13,7 +13,7 @@ public class App extends Application {
 		GameBoard gameBoard = new GameBoard();
 		gameBoard.setAlignment(Pos.CENTER);
 
-		Scene scene = new Scene(gameBoard, 800, 600);
+		Scene scene = new Scene(gameBoard, 550, 550);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
