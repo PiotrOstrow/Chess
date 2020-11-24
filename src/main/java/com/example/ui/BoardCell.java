@@ -1,0 +1,61 @@
+package com.example.ui;
+
+import com.example.game.Color;
+import com.example.game.pieces.ChessPiece;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+
+public class BoardCell extends StackPane {
+
+	public static final int GRID_CELL_SIZE = 64;
+
+	private final int x;
+	private final int y;
+	private final Color color;
+
+	private final ImageView imageView;
+
+	public BoardCell(int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.color = (x + y) % 2 == 0 ? Color.BLACK : Color.WHITE;
+
+		if(color == Color.BLACK)
+			setStyle("-fx-background-color: black");
+		else
+			setStyle("-fx-background-color: white");
+
+		imageView = new ImageView();
+		getChildren().add(imageView);
+
+		setMinSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
+	}
+
+
+	public void setPiece(ChessPiece piece) {
+		if(piece == null) {
+			imageView.setImage(null);
+		} else {
+			Image image = new Image("Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_king.png");
+			imageView.setImage(image);
+		}
+	}
+
+	public void setHighlighted(boolean highlighted) {
+		if(highlighted)
+			setStyle("-fx-background-color: yellow");
+		else if(color == Color.BLACK)
+			setStyle("-fx-background-color: black");
+		else
+			setStyle("-fx-background-color: white");
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+}

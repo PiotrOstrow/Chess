@@ -1,31 +1,66 @@
 package com.example.ui;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import com.example.game.Game;
+import com.example.game.pieces.ChessPiece;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+
+import static com.example.ui.BoardCell.GRID_CELL_SIZE;
 
 public class GameBoard extends GridPane {
 
-	private static final int GRID_CELL_SIZE = 64;
+	private final BoardCell[][] cells = new BoardCell[8][8];
+
+	private BoardCell highlighted;
+
+	private Game currentGame;
 
 	public GameBoard() {
 		for(int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				ImageView imageView = new ImageView();
-				imageView.setImage(new Image("Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_king.png"));
-				StackPane element = new StackPane(imageView);
-				element.setMinSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
-				if((x + y) % 2 == 0)
-					element.setStyle("-fx-background-color: black");
-				else
-					element.setStyle("-fx-background-color: white");
-				add(element, x, y);
+				cells[x][y] = new BoardCell(x, y);
+				add(cells[x][y], x, y);
+
+				cells[x][y].setOnMouseClicked(this::handleClick);
 			}
 		}
 
 		setStyle("-fx-border-color: black; -fx-border-width: 4px;");
 		setMaxSize(GRID_CELL_SIZE * 8, GRID_CELL_SIZE * 8);
 		setPrefSize(GRID_CELL_SIZE * 8, GRID_CELL_SIZE * 8);
+	}
+
+	private void handleClick(MouseEvent event) {
+		if(currentGame != null) {
+			BoardCell target = (BoardCell) event.getSource();
+			if (highlighted != null) {
+				move(highlighted, target);
+				highlighted.setHighlighted(false);
+				highlighted = null;
+			} else if (currentGame.getPiece(target.getX(), target.getY()) != null) {
+				highlighted = target;
+				highlighted.setHighlighted(true);
+			}
+		}
+	}
+
+	private void move(BoardCell from, BoardCell to) {
+		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
+
+		if(chessPiece.move(currentGame, to.getX(), to.getY())) {
+			from.setPiece(null);
+			to.setPiece(chessPiece);
+		}
+	}
+
+	public void setGame(Game game) {
+		this.currentGame = game;
+
+		for(int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				ChessPiece piece = game.getPiece(x, y);
+				cells[x][y].setPiece(piece);
+			}
+		}
 	}
 }
