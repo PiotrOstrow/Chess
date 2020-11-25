@@ -2,6 +2,7 @@ package com.example.game;
 
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.King;
+import com.example.game.pieces.Knight;
 import com.example.game.pieces.Pawn;
 
 import java.util.ArrayList;
@@ -15,8 +16,8 @@ public class Game {
 	public Game() {
 
 		pieces.add(new King(4, 4, Color.BLACK));
-		pieces.add(new Pawn(4, 5, Color.BLACK));
-		pieces.add(new Pawn(5, 4, Color.WHITE));
+
+		setUpNormal();
 	}
 
 	public ChessPiece getPiece(int x, int y) {
@@ -30,5 +31,30 @@ public class Game {
 	public boolean move(ChessPiece chessPiece, int x, int y) {
 		// TODO: check if move results in a check, update 2d array
 		return chessPiece.move(this, x, y);
+	}
+
+	public void setUpNormal(){
+		for (int i=0; i<=7; i++){
+			pieces.add(new Pawn(i, 1, Color.WHITE));
+			pieces.add(new Pawn(i, 6, Color.BLACK));
+		}
+		pieces.add(new King(4, 0, Color.WHITE));
+		pieces.add(new King(4, 7, Color.BLACK));
+		pieces.add(new Knight(1, 0, Color.WHITE));
+		pieces.add(new Knight(1, 7, Color.BLACK));
+		pieces.add(new Knight(6, 0, Color.WHITE));
+		pieces.add(new Knight(6, 7, Color.BLACK));
+		/*
+		pieces.add(new Rook(0, 0, Color.WHITE));
+		pieces.add(new Rook(0, 7, Color.BLACK));
+		pieces.add(new Rook(7, 0, Color.WHITE));
+		pieces.add(new Rook(7, 7, Color.BLACK));
+		pieces.add(new Bishop(2, 0, Color.WHITE));
+		pieces.add(new Bishop(2, 7, Color.BLACK));
+		pieces.add(new Bishop(5, 0, Color.WHITE));
+		pieces.add(new Bishop(5, 7, Color.BLACK));
+		pieces.add(new Queen(3, 0, Color.WHITE));
+		pieces.add(new Queen(3, 7, Color.BLACK));
+		*/
 	}
 }

@@ -21,7 +21,10 @@ public class Pawn extends ChessPiece{
 
     @Override
     public String getImagePath() {
-        return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_king.png";
+        if (this.color == color.WHITE) {
+            return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_pawn.png";
+        }
+        else return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\black_pawn.png";
     }
 
     @Override
