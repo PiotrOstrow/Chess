@@ -2,8 +2,12 @@ package com.example.ui;
 
 import com.example.game.Game;
 import com.example.game.pieces.ChessPiece;
+import com.example.game.pieces.Position;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.ui.BoardCell.GRID_CELL_SIZE;
 
@@ -12,6 +16,7 @@ public class GameBoard extends GridPane {
 	private final BoardCell[][] cells = new BoardCell[8][8];
 
 	private BoardCell highlighted;
+	private final List<Position> highlightedPossibleMoves = new ArrayList<>();
 
 	private Game currentGame;
 
@@ -35,11 +40,23 @@ public class GameBoard extends GridPane {
 			BoardCell target = (BoardCell) event.getSource();
 			if (highlighted != null) {
 				move(highlighted, target);
-				highlighted.setHighlighted(false);
+				highlighted.setHighlighted(BoardCell.Highlight.NONE);
 				highlighted = null;
+
+				for(Position p : highlightedPossibleMoves)
+					cells[p.getX()][p.getY()].setHighlighted(BoardCell.Highlight.NONE);
 			} else if (currentGame.getPiece(target.getX(), target.getY()) != null) {
 				highlighted = target;
-				highlighted.setHighlighted(true);
+				highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
+
+				ChessPiece chessPiece = currentGame.getPiece(target.getX(), target.getY());
+				List<Position> possibleMoves = chessPiece.getPossibleMoves(currentGame);
+
+				highlightedPossibleMoves.clear();
+				highlightedPossibleMoves.addAll(possibleMoves);
+
+				for(Position p : highlightedPossibleMoves)
+					cells[p.getX()][p.getY()].setHighlighted(BoardCell.Highlight.POSSIBLE_MOVE);
 			}
 		}
 	}
@@ -47,7 +64,7 @@ public class GameBoard extends GridPane {
 	private void move(BoardCell from, BoardCell to) {
 		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
 
-		if(chessPiece.move(currentGame, to.getX(), to.getY())) {
+		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
 			from.setPiece(null);
 			to.setPiece(chessPiece);
 		}

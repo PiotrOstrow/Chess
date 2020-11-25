@@ -26,4 +26,9 @@ public class Game {
 
 		return null;
 	}
+
+	public boolean move(ChessPiece chessPiece, int x, int y) {
+		// TODO: check if move results in a check, update 2d array
+		return chessPiece.move(this, x, y);
+	}
 }

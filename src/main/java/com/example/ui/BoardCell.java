@@ -10,9 +10,15 @@ public class BoardCell extends StackPane {
 
 	public static final int GRID_CELL_SIZE = 64;
 
+	public enum Highlight {
+		NONE, SELECTED, POSSIBLE_MOVE
+	}
+
 	private final int x;
 	private final int y;
 	private final Color color;
+
+	private Highlight highlight = Highlight.NONE;
 
 	private final ImageView imageView;
 
@@ -32,23 +38,33 @@ public class BoardCell extends StackPane {
 		setMinSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
 	}
 
-
 	public void setPiece(ChessPiece piece) {
 		if(piece == null) {
 			imageView.setImage(null);
 		} else {
-			Image image = new Image("Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_king.png");
+			Image image = new Image(piece.getImagePath());
 			imageView.setImage(image);
 		}
 	}
 
-	public void setHighlighted(boolean highlighted) {
-		if(highlighted)
-			setStyle("-fx-background-color: yellow");
-		else if(color == Color.BLACK)
-			setStyle("-fx-background-color: black");
-		else
-			setStyle("-fx-background-color: white");
+	public void setHighlighted(Highlight highlight) {
+		switch(highlight) {
+			case NONE:
+				if(color == Color.BLACK)
+					setStyle("-fx-background-color: black");
+				else
+					setStyle("-fx-background-color: white");
+				break;
+			case SELECTED:
+				setStyle("-fx-background-color: yellow");
+				break;
+			case POSSIBLE_MOVE:
+				if(color == Color.BLACK)
+					setStyle("-fx-background-color: rgb(128, 128, 0)");
+				else
+					setStyle("-fx-background-color: rgb(255, 255, 191)");
+				break;
+		}
 	}
 
 	public int getX() {
