@@ -12,10 +12,17 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    protected boolean canMove(Game game, int x, int y) {
+    protected boolean canMove(Game game, int x, int y)  {
+        int x_diff = Math.abs(x - this.getPosition().getX());
+        int y_diff = Math.abs(y - this.getPosition().getY());
+
+        if((x_diff == 1 && y_diff == 2) || (x_diff == 2 && y_diff == 1))
+            return true;
+
         return false;
 
     }
+
     @Override
     public String getImagePath() {
         if(color == Color.WHITE)
