@@ -45,26 +45,26 @@ public class Game {
 
 	public void setUpNormal(){
 		for (int i=0; i<=7; i++){
-			addPiece(new Pawn(i, 1, Color.WHITE));
-			addPiece(new Pawn(i, 6, Color.BLACK));
+			addPiece(new Pawn(i, 6, Color.WHITE));
+			addPiece(new Pawn(i, 1, Color.BLACK));
 		}
-		addPiece(new King(4, 0, Color.WHITE));
-		addPiece(new King(4, 7, Color.BLACK));
-		addPiece(new Knight(1, 0, Color.WHITE));
-		addPiece(new Knight(1, 7, Color.BLACK));
-		addPiece(new Knight(6, 0, Color.WHITE));
-		addPiece(new Knight(6, 7, Color.BLACK));
-		addPiece(new Rook(0, 0, Color.WHITE));
-		addPiece(new Rook(0, 7, Color.BLACK));
-		addPiece(new Rook(7, 0, Color.WHITE));
-		addPiece(new Rook(7, 7, Color.BLACK));
+		addPiece(new King(4, 7, Color.WHITE));
+		addPiece(new King(4, 0, Color.BLACK));
+		addPiece(new Knight(1, 7, Color.WHITE));
+		addPiece(new Knight(1, 0, Color.BLACK));
+		addPiece(new Knight(6, 7, Color.WHITE));
+		addPiece(new Knight(6, 0, Color.BLACK));
+		addPiece(new Rook(0, 7, Color.WHITE));
+		addPiece(new Rook(0, 0, Color.BLACK));
+		addPiece(new Rook(7, 7, Color.WHITE));
+		addPiece(new Rook(7, 0, Color.BLACK));
 		/*
-		addPiece(new Bishop(2, 0, Color.WHITE));
-		addPiece(new Bishop(2, 7, Color.BLACK));
-		addPiece(new Bishop(5, 0, Color.WHITE));
-		addPiece(new Bishop(5, 7, Color.BLACK));
-		addPiece(new Queen(3, 0, Color.WHITE));
-		addPiece(new Queen(3, 7, Color.BLACK));
+		addPiece(new Bishop(2, 7, Color.WHITE));
+		addPiece(new Bishop(2, 0, Color.BLACK));
+		addPiece(new Bishop(5, 7, Color.WHITE));
+		addPiece(new Bishop(5, 0, Color.BLACK));
+		addPiece(new Queen(3, 7, Color.WHITE));
+		addPiece(new Queen(3, 0, Color.BLACK));
 		*/
 	}
 

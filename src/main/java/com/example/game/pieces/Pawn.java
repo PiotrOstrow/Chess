@@ -13,7 +13,7 @@ public class Pawn extends ChessPiece{
     @Override
     protected boolean canMove(Game game, int x, int y) {
         int dir=1;
-        if (this.color==color.BLACK) dir = -1;
+        if (this.color==color.WHITE) dir = -1;
 
         if (game.getPiece(x,y)==null)
             if (position.getX()==x)
@@ -41,7 +41,7 @@ public class Pawn extends ChessPiece{
         int x = position.getX();
         int y = position.getY();
         int dir=1;
-        if (this.color==color.BLACK) {dir = -1;}
+        if (this.color==color.WHITE) {dir = -1;}
 
         if (game.getPiece(x, y+dir)==null) {
             list.add(new Position(x, y + dir));
