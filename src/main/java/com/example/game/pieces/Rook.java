@@ -18,7 +18,9 @@ public class Rook extends ChessPiece {
 
     @Override
     public String getImagePath() {
-        return null;
+        if(color == Color.WHITE)
+            return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_rook.png";
+        return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\black_rook.png";
     }
 
     @Override

@@ -25,7 +25,7 @@ public class BoardCell extends StackPane {
 	public BoardCell(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.color = (x + y) % 2 == 0 ? Color.BLACK : Color.WHITE;
+		this.color = (x + y) % 2 == 0 ? Color.WHITE : Color.BLACK;
 
 		if(color == Color.BLACK)
 			setStyle("-fx-background-color: black");
