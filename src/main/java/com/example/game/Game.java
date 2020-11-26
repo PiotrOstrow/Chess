@@ -4,6 +4,7 @@ import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.King;
 import com.example.game.pieces.Knight;
 import com.example.game.pieces.Pawn;
+import com.example.game.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,11 @@ public class Game {
 		pieces.add(new Knight(1, 7, Color.BLACK));
 		pieces.add(new Knight(6, 0, Color.WHITE));
 		pieces.add(new Knight(6, 7, Color.BLACK));
-		/*
 		pieces.add(new Rook(0, 0, Color.WHITE));
 		pieces.add(new Rook(0, 7, Color.BLACK));
 		pieces.add(new Rook(7, 0, Color.WHITE));
 		pieces.add(new Rook(7, 7, Color.BLACK));
+		/*
 		pieces.add(new Bishop(2, 0, Color.WHITE));
 		pieces.add(new Bishop(2, 7, Color.BLACK));
 		pieces.add(new Bishop(5, 0, Color.WHITE));
