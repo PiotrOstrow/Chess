@@ -3,7 +3,7 @@ package com.example.game.pieces;
 import com.example.game.Color;
 import com.example.game.Game;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends ChessPiece{
@@ -12,11 +12,19 @@ public class Pawn extends ChessPiece{
 
     @Override
     protected boolean canMove(Game game, int x, int y) {
-        if (this.color == color.BLACK) {
+        int dir=1;
+        if (this.color==color.BLACK) dir = -1;
 
-            return position.distance(x, y) == 1;
-        }
-    else return position.distance(x, y) == 2;
+        if (game.getPiece(x,y)==null)
+            if (position.getX()==x)
+                if (position.getY()==y-dir)
+                    return true;
+                else if (position.getY()==y-2*dir && position.getY()==3.5 - 2.5 * dir && game.getPiece(x,y-dir)==null)
+                    return true;
+        if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir)
+            return true;
+
+        return false;
     }
 
     @Override
@@ -29,7 +37,25 @@ public class Pawn extends ChessPiece{
 
     @Override
     public List<Position> getPossibleMoves(Game game) {
-        return Collections.emptyList();
+        List<Position> list = new ArrayList<>();
+        int x = position.getX();
+        int y = position.getY();
+        int dir=1;
+        if (this.color==color.BLACK) {dir = -1;}
+
+        if (game.getPiece(x, y+dir)==null) {
+            list.add(new Position(x, y + dir));
+            if ((y == 3.5 - 2.5 * dir) && game.getPiece(x, y + 2 * dir) == null) {
+                list.add(new Position(x, y + 2 * dir));
+            }
+        }
+        if (game.getPiece(x-1, y+dir)!=null && game.getPiece(x-1, y+dir).color != this.color)
+            list.add(new Position(x-1,y+dir));
+        if (game.getPiece(x+1, y+dir)!=null && game.getPiece(x+1, y+dir).color != this.color)
+            list.add(new Position(x+1,y+dir));
+
+        return list;
     }
+
 
 }
