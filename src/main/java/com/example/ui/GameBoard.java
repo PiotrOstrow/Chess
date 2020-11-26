@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.ui.BoardCell.GRID_CELL_SIZE;
@@ -79,5 +80,9 @@ public class GameBoard extends GridPane {
 				cells[x][y].setPiece(piece);
 			}
 		}
+	}
+
+	public Game getCurrentGame() {
+		return currentGame;
 	}
 }

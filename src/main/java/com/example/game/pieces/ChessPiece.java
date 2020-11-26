@@ -3,8 +3,6 @@ package com.example.game.pieces;
 import com.example.game.Color;
 import com.example.game.Game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class ChessPiece {
@@ -20,6 +18,8 @@ public abstract class ChessPiece {
 	}
 
 	public final boolean move(Game game, int x, int y) {
+		if (x == position.getX() && y == position.getY())
+			return false;
 		if (!canMoveInternal(game, x, y))
 			return false;
 

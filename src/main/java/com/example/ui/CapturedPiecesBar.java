@@ -25,8 +25,13 @@ public class CapturedPiecesBar extends HBox {
 		this.color = color;
 	}
 
-	public void set(Game game) {
+	public void setGame(Game game) {
 		getChildren().clear();
+
+		for(ChessPiece capturedPiece : game.getCapturedPieces())
+			if(capturedPiece.getColor() == this.color)
+				addPiece(capturedPiece);
+
 		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> {
 			while(c.next()) {
 				if (c.wasAdded()) {
