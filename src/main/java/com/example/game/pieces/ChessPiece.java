@@ -12,6 +12,8 @@ public abstract class ChessPiece {
 	protected final Color color;
 	protected final Position position;
 
+	private boolean hasMoved = false;
+
 	public ChessPiece(int x, int y, Color color) {
 		this.color = color;
 		this.position = new Position(x, y);
@@ -21,6 +23,7 @@ public abstract class ChessPiece {
 		if (!canMoveInternal(game, x, y))
 			return false;
 
+		hasMoved = true;
 		position.set(x, y);
 
 		return true;
@@ -38,6 +41,10 @@ public abstract class ChessPiece {
 		return canMove(game, x, y);
 	}
 
+	protected boolean hasMoved() {
+		return hasMoved;
+	}
+
 	protected abstract boolean canMove(Game game, int x, int y);
 
 	public abstract String getImagePath();
@@ -46,5 +53,9 @@ public abstract class ChessPiece {
 
 	public final Position getPosition() {
 		return position;
+	}
+
+	public Color getColor(){
+		return color;
 	}
 }
