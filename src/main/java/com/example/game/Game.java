@@ -10,7 +10,7 @@ public class Game {
 	private final ObservableList<ChessPiece> capturedPieces = FXCollections.observableArrayList();
 
 	public Game() {
-		setUpNormal();
+
 	}
 
 	public ChessPiece getPiece(int x, int y) {
@@ -37,7 +37,7 @@ public class Game {
 		return false;
 	}
 
-	private void addPiece(ChessPiece piece){
+	public void addPiece(ChessPiece piece){
 		pieces[piece.getPosition().getX()][piece.getPosition().getY()] = piece;
 	}
 

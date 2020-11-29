@@ -31,7 +31,9 @@ public class App extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		startGame(new Game());
+		Game game = new Game();
+		game.setUpNormal();
+		startGame(game);
 	}
 
 	private void startGame(Game game){

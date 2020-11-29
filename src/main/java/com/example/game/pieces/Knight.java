@@ -3,6 +3,7 @@ package com.example.game.pieces;
 import com.example.game.Color;
 import com.example.game.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Knight extends ChessPiece {
