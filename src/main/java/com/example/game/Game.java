@@ -1,10 +1,6 @@
 package com.example.game;
 
-import com.example.game.pieces.ChessPiece;
-import com.example.game.pieces.King;
-import com.example.game.pieces.Knight;
-import com.example.game.pieces.Pawn;
-import com.example.game.pieces.Rook;
+import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -60,11 +56,11 @@ public class Game {
 		addPiece(new Rook(0, 0, Color.BLACK));
 		addPiece(new Rook(7, 7, Color.WHITE));
 		addPiece(new Rook(7, 0, Color.BLACK));
-		/*
 		addPiece(new Bishop(2, 7, Color.WHITE));
 		addPiece(new Bishop(2, 0, Color.BLACK));
 		addPiece(new Bishop(5, 7, Color.WHITE));
 		addPiece(new Bishop(5, 0, Color.BLACK));
+		/*
 		addPiece(new Queen(3, 7, Color.WHITE));
 		addPiece(new Queen(3, 0, Color.BLACK));
 		*/
