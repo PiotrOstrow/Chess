@@ -16,7 +16,7 @@ public class Knight extends ChessPiece {
         int x_diff = Math.abs(x - this.getPosition().getX());
         int y_diff = Math.abs(y - this.getPosition().getY());
 
-        if((x_diff == 1 && y_diff == 2) || (x_diff == 2 && y_diff == 1))
+        if(x_diff + y_diff == 3)
             return true;
 
         return false;
@@ -57,11 +57,12 @@ public class Knight extends ChessPiece {
             list.add(new Position(position.getX() + 1, position.getY() - 2));
         if(isValidPosition(game, position.getX() + 2, position.getY() - 1))
             list.add(new Position(position.getX() + 2, position.getY() - 1));
+        if(isValidPosition(game, position.getX() - 2, position.getY() + 1))
+            list.add(new Position(position.getX() - 2, position.getY() + 1));
 
 
         return list;
     }
-
 
 
 
