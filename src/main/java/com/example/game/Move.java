@@ -2,7 +2,7 @@ package com.example.game;
 
 import com.example.game.pieces.ChessPiece;
 
-public class MoveLog {
+public class Move {
 
 	public final ChessPiece movedPiece;
 	public final int fromX;
@@ -11,7 +11,7 @@ public class MoveLog {
 	public final int toY;
 	public final ChessPiece captured;
 
-	public MoveLog(ChessPiece movedPiece, int fromX, int fromY, int toX, int toY, ChessPiece captured) {
+	public Move(ChessPiece movedPiece, int fromX, int fromY, int toX, int toY, ChessPiece captured) {
 		this.movedPiece = movedPiece;
 		this.fromX = fromX;
 		this.fromY = fromY;

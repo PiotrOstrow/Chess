@@ -15,7 +15,7 @@ public class Game {
 	private final ChessPiece[][] pieces = new ChessPiece[8][8];
 	private final ObservableList<ChessPiece> capturedPieces = FXCollections.observableArrayList();
 
-	private final Stack<MoveLog> moveLogStack = new Stack<>();
+	private final Stack<Move> moveLogStack = new Stack<>();
 
 	public Game() {
 		setUpNormal();
@@ -36,7 +36,7 @@ public class Game {
 			if(pieces[x][y] != null)
 				capturedPieces.add(pieces[x][y]);
 
-			moveLogStack.add(new MoveLog(chessPiece, previousX, previousY, x, y, pieces[x][y]));
+			moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][y]));
 
 			pieces[x][y] = chessPiece;
 			pieces[previousX][previousY] = null;
@@ -47,12 +47,16 @@ public class Game {
 
 	public void reverseMove() {
 		if(!moveLogStack.isEmpty()) {
-			MoveLog log = moveLogStack.pop();
+			Move move = moveLogStack.pop();
 
-			log.movedPiece.getPosition().set(log.fromX, log.fromY);
+			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
-			pieces[log.fromX][log.fromY] = log.movedPiece;
-			pieces[log.toX][log.toY] = log.captured;
+			pieces[move.fromX][move.fromY] = move.movedPiece;
+			pieces[move.toX][move.toY] = move.captured;
+
+			// reverse captured piece
+			if (move.captured != null)
+				capturedPieces.remove(move.captured);
 		}
 	}
 
