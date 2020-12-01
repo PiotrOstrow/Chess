@@ -57,5 +57,10 @@ public class Pawn extends ChessPiece{
         return list;
     }
 
+    @Override
+    public boolean isPromoteAble(){
+        return true;
+    }
+
 
 }
