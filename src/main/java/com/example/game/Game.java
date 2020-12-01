@@ -17,9 +17,14 @@ public class Game {
 
 	private final Stack<Move> moveLogStack = new Stack<>();
 
+	public Stack<Move> getMoveLogStack() {
+		return moveLogStack;
+	}
+
 	public Game() {
 		setUpNormal();
 	}
+
 
 	public ChessPiece getPiece(int x, int y) {
 		return pieces[x][y];

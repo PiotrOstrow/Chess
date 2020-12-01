@@ -1,25 +1,43 @@
 package com.example.ui;
 
 import com.example.game.Game;
+import com.example.game.Move;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
+
+
+
 
 public class RightMenu extends GridPane {
 
-	public final Button testButton;
+	private final ListView<Move> list = new ListView<>();
 
 	private Game currentGame;
 
+
 	public RightMenu() {
-		testButton = new Button("Test");
-		getChildren().add(testButton);
+		//ListView<String> list = new ListView<>();
 
+		//ObservableList<String> items = FXCollections.observableArrayList(
+				//"Undo move", "Redo move", "New Game");
+		//list = new ListView<>();
+		//list.setItems(items);
+		getChildren().add(list);
+		list.setPrefWidth(150);
+		list.setPrefHeight(70);
 		setAlignment(Pos.CENTER);
-		setMaxWidth(200);
+		setMaxWidth(300);
+
+
+	}
+		public void setGame(Game game) {
+			this.currentGame = game;
+			list.setItems(FXCollections.observableArrayList(game.getMoveLogStack()));
+
+		}
 	}
 
-	public void setGame(Game game) {
-		this.currentGame = game;
-	}
-}
+

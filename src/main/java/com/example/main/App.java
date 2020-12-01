@@ -9,6 +9,7 @@ import com.example.ui.RightMenu;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -20,16 +21,14 @@ public class App extends Application {
 	private CapturedPiecesBar topBar;
 	private CapturedPiecesBar bottomBar;
 
+
 	@Override
 	public void start(Stage primaryStage) {
 		gameBoard = new GameBoard();
-
 		rightMenu = new RightMenu();
 		//temporary
-		rightMenu.testButton.setOnMouseClicked(event -> {
-			gameBoard.getCurrentGame().reverseMove();
-			gameBoard.setGame(gameBoard.getCurrentGame());
-		});
+
+
 
 		topBar = new CapturedPiecesBar(Color.WHITE);
 		bottomBar = new CapturedPiecesBar(Color.BLACK);
