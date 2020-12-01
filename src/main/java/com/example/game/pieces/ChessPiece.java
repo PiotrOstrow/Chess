@@ -75,4 +75,8 @@ public abstract class ChessPiece {
 	public Color getColor(){
 		return color;
 	}
+
+	public boolean isPromoteAble(){
+		return false;
+	}
 }
