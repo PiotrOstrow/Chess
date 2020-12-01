@@ -63,11 +63,7 @@ public class GameBoard extends GridPane {
 
 	private void move(BoardCell from, BoardCell to) {
 		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
-
-		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
-			from.setPiece(null);
-			to.setPiece(chessPiece);
-		}
+		currentGame.move(chessPiece, to.getX(), to.getY());
 	}
 
 	public void setGame(Game game) {
