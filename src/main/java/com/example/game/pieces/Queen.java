@@ -20,7 +20,7 @@ public class Queen extends ChessPiece {
 		int xDir = getPosition().getX() == x ? 0 : getPosition().getX() - x > 0 ? -1 : 1;
 		int yDir = getPosition().getY() == y ? 0 : getPosition().getY() - y > 0 ? -1 : 1;
 
-		for (int x1 = position.getX() + xDir, y1 = position.getY() + yDir; x1 != x && y1 != y; x1 += xDir, y1 += yDir)
+		for (int x1 = position.getX() + xDir, y1 = position.getY() + yDir; x1 != x || y1 != y; x1 += xDir, y1 += yDir)
 			if (game.getPiece(x1, y1) != null)
 				return false;
 
