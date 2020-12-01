@@ -60,10 +60,8 @@ public class Game {
 		addPiece(new Bishop(2, 0, Color.BLACK));
 		addPiece(new Bishop(5, 7, Color.WHITE));
 		addPiece(new Bishop(5, 0, Color.BLACK));
-		/*
 		addPiece(new Queen(3, 7, Color.WHITE));
 		addPiece(new Queen(3, 0, Color.BLACK));
-		*/
 	}
 
 	public ObservableList<ChessPiece> getCapturedPieces() {

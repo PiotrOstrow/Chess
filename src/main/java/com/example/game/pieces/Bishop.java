@@ -39,43 +39,12 @@ public class Bishop extends ChessPiece {
 	public List<Position> getPossibleMoves(Game game) {
 		List<Position> list = new ArrayList<>();
 
-		for (int x = getPosition().getX() + 1, y = getPosition().getY() + 1; x < 8 && y < 8; x++, y++) {
-			if (game.getPiece(x, y) != null) {
-				if (game.getPiece(x, y).color != this.color)
-					list.add(new Position(x, y));
-				break;
-			} else {
-				list.add(new Position(x, y));
-			}
-		}
+		int[] directions = new int[]{-1, 1};
 
-		for (int x = getPosition().getX() - 1, y = getPosition().getY() + 1; x >= 0 && y < 8; x--, y++) {
-			if (game.getPiece(x, y) != null) {
-				if (game.getPiece(x, y).color != this.color)
-					list.add(new Position(x, y));
-				break;
-			} else {
-				list.add(new Position(x, y));
-			}
-		}
-
-		for (int x = getPosition().getX() + 1, y = getPosition().getY() - 1; x < 8 && y >= 0; x++, y--) {
-			if (game.getPiece(x, y) != null) {
-				if (game.getPiece(x, y).color != this.color)
-					list.add(new Position(x, y));
-				break;
-			} else {
-				list.add(new Position(x, y));
-			}
-		}
-
-		for (int x = getPosition().getX() - 1, y = getPosition().getY() - 1; x >= 0 && y >= 0; x--, y--) {
-			if (game.getPiece(x, y) != null) {
-				if (game.getPiece(x, y).color != this.color)
-					list.add(new Position(x, y));
-				break;
-			} else {
-				list.add(new Position(x, y));
+		for(Integer xDir : directions) {
+			for(Integer yDir : directions) {
+				for(int i = 1; i <= maxTravelDistance(game, xDir, yDir); i++)
+					list.add(new Position(getPosition().getX() + i * xDir, getPosition().getY() + i * yDir));
 			}
 		}
 

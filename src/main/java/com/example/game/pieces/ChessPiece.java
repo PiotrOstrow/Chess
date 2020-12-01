@@ -41,6 +41,23 @@ public abstract class ChessPiece {
 		return canMove(game, x, y);
 	}
 
+	/**
+	 * returns max travel distance, until the edge of the board or the position of a piece that can be captured
+	 */
+	protected int maxTravelDistance(Game game, int xDir, int yDir){
+		int distance = 0;
+		for (int x = getPosition().getX() + xDir, y = getPosition().getY() + yDir; x < 8 && y < 8 && x >= 0 && y >= 0; x += xDir, y += yDir) {
+			if (game.getPiece(x, y) != null) {
+				if (game.getPiece(x, y).color != this.color)
+					distance++;
+				break;
+			} else {
+				distance++;
+			}
+		}
+		return distance;
+	}
+
 	protected boolean hasMoved() {
 		return hasMoved;
 	}
