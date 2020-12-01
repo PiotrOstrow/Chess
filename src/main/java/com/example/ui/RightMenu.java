@@ -19,12 +19,6 @@ public class RightMenu extends GridPane {
 
 
 	public RightMenu() {
-		//ListView<String> list = new ListView<>();
-
-		//ObservableList<String> items = FXCollections.observableArrayList(
-				//"Undo move", "Redo move", "New Game");
-		//list = new ListView<>();
-		//list.setItems(items);
 		getChildren().add(list);
 		list.setPrefWidth(150);
 		list.setPrefHeight(70);
