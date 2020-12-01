@@ -36,11 +36,14 @@ public class App extends Application {
 		startGame(game);
 	}
 
-	private void startGame(Game game){
+	private void startGame(final Game game){
 		gameBoard.setGame(game);
 
 		topBar.set(game);
 		bottomBar.set(game);
+
+		// temporary
+		game.addGameCallback(() -> gameBoard.setGame(game));
 	}
 
 	public static void main(String[] args) {

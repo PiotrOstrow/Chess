@@ -4,13 +4,25 @@ import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+
 public class Game {
 
 	private final ChessPiece[][] pieces = new ChessPiece[8][8];
 	private final ObservableList<ChessPiece> capturedPieces = FXCollections.observableArrayList();
 
-	public Game() {
+	private final ArrayList<GameCallback> callbacks = new ArrayList<>();
 
+	private final Player playerWhite;
+	private final Player playerBlack;
+
+	private Player currentMovePlayer;
+
+	public Game() {
+		playerWhite = new Player(Color.WHITE);
+		playerBlack = new Computer(this, Color.BLACK);
+
+		currentMovePlayer = playerWhite;
 	}
 
 	public ChessPiece getPiece(int x, int y) {
@@ -32,6 +44,12 @@ public class Game {
 
 			pieces[x][y] = chessPiece;
 			pieces[previousX][previousY] = null;
+
+			// switch current move player, bofore callback
+			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+
+			for(GameCallback callback : callbacks)
+				callback.onMoved();
 			return true;
 		}
 		return false;
@@ -64,7 +82,15 @@ public class Game {
 		addPiece(new Queen(3, 0, Color.BLACK));
 	}
 
+	public Color getCurrentMovePlayer() {
+		return currentMovePlayer.color;
+	}
+
 	public ObservableList<ChessPiece> getCapturedPieces() {
 		return FXCollections.unmodifiableObservableList(capturedPieces);
+	}
+
+	public void addGameCallback(GameCallback callback) {
+		callbacks.add(callback);
 	}
 }
