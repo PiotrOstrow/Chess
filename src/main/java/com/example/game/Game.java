@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class Game {
 
@@ -13,8 +15,13 @@ public class Game {
 
 	private final ArrayList<GameCallback> callbacks = new ArrayList<>();
 
+	private final Stack<Move> moveLogStack = new Stack<>();
+
 	private final Player playerWhite;
 	private final Player playerBlack;
+
+	private King whiteKing;
+	private King blackKing;
 
 	private Player currentMovePlayer;
 
@@ -45,21 +52,70 @@ public class Game {
 			if ((y==0 || y==7)&&chessPiece.isPromoteAble())
 				chessPiece = new Queen(x,y,chessPiece.getColor());
 
+			moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][y]));
+
 			pieces[x][y] = chessPiece;
 			pieces[previousX][previousY] = null;
 
-			// switch current move player, bofore callback
-			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+			if(isInCheck(chessPiece.getColor())){
+				reverseMove();
+			} else {
+				// switch current move player, bofore callback
+				currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
 
-			for(GameCallback callback : callbacks)
-				callback.onMoved();
+				for (GameCallback callback : callbacks)
+					callback.onMoved();
+			}
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * @return true if given color is in check
+	 */
+	private boolean isInCheck(Color color) {
+		King king = getKing(color);
+
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				ChessPiece piece = getPiece(x, y);
+				if (piece != null && piece.getColor() != color) {
+					List<Position> possibleMoves = piece.getPossibleMoves(this);
+					for(Position position : possibleMoves){
+						if(position.getX() == king.getPosition().getX() && position.getY() == king.getPosition().getY())
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public void reverseMove() {
+		if(!moveLogStack.isEmpty()) {
+			Move move = moveLogStack.pop();
+
+			move.movedPiece.getPosition().set(move.fromX, move.fromY);
+
+			pieces[move.fromX][move.fromY] = move.movedPiece;
+			pieces[move.toX][move.toY] = move.captured;
+
+			// reverse captured piece
+			if (move.captured != null)
+				capturedPieces.remove(move.captured);
+		}
+	}
+
 	public void addPiece(ChessPiece piece){
 		pieces[piece.getPosition().getX()][piece.getPosition().getY()] = piece;
+
+		if(piece instanceof King){
+			if(piece.getColor() == Color.WHITE)
+				whiteKing = (King) piece;
+			else
+				blackKing = (King) piece;
+		}
 	}
 
 	public void setUpNormal(){
@@ -95,5 +151,11 @@ public class Game {
 
 	public void addGameCallback(GameCallback callback) {
 		callbacks.add(callback);
+	}
+
+	public King getKing(Color color) {
+		if(color == Color.WHITE)
+			return whiteKing;
+		return blackKing;
 	}
 }
