@@ -56,9 +56,9 @@ public class Game {
 			if(isInCheck(chessPiece.getColor())){
 				reverseMove();
 				return false;
-			} else { // move passed
-				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
-					chessPiece = new Queen(x,y,chessPiece.getColor());
+			} else { // move passedgit
+				if ((y==0 || y==7)&&chessPiece.isPromoteAble()) 
+					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
 
 				possibleMovesCache.clear();
 
