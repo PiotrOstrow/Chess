@@ -30,7 +30,7 @@ public class App extends Application {
 
 		{ //Main menu
 			mainMenu = new MainMenu();
-			mainScene = new Scene(mainMenu, 700, 600);
+			mainScene = new Scene(mainMenu, 750, 750);
 			mainMenu.setOnNewGame(event -> {
 				primaryStage.setScene(gameScene);
 				startGame(new Game());
@@ -47,7 +47,7 @@ public class App extends Application {
 			borderPane.setTop(topBar);
 			borderPane.setBottom(bottomBar);
 
-			gameScene = new Scene(borderPane, 700, 600);
+			gameScene = new Scene(borderPane, 750, 750);
 		}
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(mainScene);

@@ -1,5 +1,6 @@
 package com.example.ui;
 
+import com.example.game.Color;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -11,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
+import java.net.URL;
+
 public class MainMenu extends StackPane {
 
 	private final Button newGameButton, resumeGameButton, exitButton;
@@ -21,17 +24,24 @@ public class MainMenu extends StackPane {
 	public MainMenu() {
 
 		Label chessLabel = new Label("CHESS GAME");
-		chessLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: white; -fx-font-family: Arial; -fx-font-weight: bold");
+		chessLabel.setStyle("-fx-text-fill: white;-fx-font-weight: bold");
+		URL url1 = getClass().getResource("/norwester/norwester.otf");
+		Font font = Font.loadFont(url1.toString(), 48);
+		chessLabel.setFont(font);
 		newGameButton = new Button("New game");
 		resumeGameButton = new Button("Resume game");
 		exitButton = new Button("Exit");
 		Label createdByLabel = new Label("Created by 8x8");
+		createdByLabel.setStyle("-fx-text-fill: gray; -fx-font-size: 10");
 
 		VBox vBox = new VBox(chessLabel, newGameButton, resumeGameButton, exitButton, createdByLabel);
 
-		newGameButton.setMinSize(150, 20);
-		resumeGameButton.setMinSize(150, 20);
-		exitButton.setMinSize(150,20);
+		chessLabel.setPrefHeight(100);
+		chessLabel.setAlignment(Pos.TOP_CENTER);
+
+		newGameButton.setPrefSize(170, 40);
+		resumeGameButton.setPrefSize(170, 40);
+		exitButton.setPrefSize(170,40);
 		exitButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
 
 		vBox.setSpacing(10);
