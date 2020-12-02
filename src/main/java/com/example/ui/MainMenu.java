@@ -22,7 +22,7 @@ public class MainMenu extends GridPane {
 
 		setMaxSize(200, 100);
 		setAlignment(Pos.CENTER);
-		setStyle("-fx-border-width: 4px; -fx-border-color: black; -fx-border-radius:4px; -fx-background-color:white");
+		setStyle("-fx-border-width: 5px; -fx-border-color: black; -fx-border-radius:4px; -fx-background-radius:4px; -fx-background-color:white");
 	}
 
 	public void setOnNewGame(EventHandler<ActionEvent> eventHandler) {
