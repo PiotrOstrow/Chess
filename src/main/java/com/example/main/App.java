@@ -23,34 +23,35 @@ public class App extends Application {
 	private CapturedPiecesBar topBar;
 	private CapturedPiecesBar bottomBar;
 	private MainMenu mainMenu;
+	private Scene mainScene, gameScene;
 
 	@Override
 	public void start(Stage primaryStage) {
 
-		mainMenu = new MainMenu();
-		gameBoard = new GameBoard();
-		gameBoard.setEffect(new GaussianBlur(10));
+		{ //Main menu
+			mainMenu = new MainMenu();
+			mainScene = new Scene(mainMenu, 600, 600);
+			mainMenu.setOnNewGame(event -> {
+				primaryStage.setScene(gameScene);
+				startGame(new Game());
+			});
+		}
+		{ // Game
+			gameBoard = new GameBoard();
 
-		topBar = new CapturedPiecesBar(Color.BLACK);
-		bottomBar = new CapturedPiecesBar(Color.WHITE);
+			topBar = new CapturedPiecesBar(Color.BLACK);
+			bottomBar = new CapturedPiecesBar(Color.WHITE);
 
-		BorderPane borderPane = new BorderPane();
-		borderPane.setCenter(new StackPane(gameBoard, mainMenu));
-		borderPane.setTop(topBar);
-		borderPane.setBottom(bottomBar);
-
-		Scene scene = new Scene(borderPane, 600, 600);
-
-		mainMenu.setOnNewGame(event -> {
-			gameBoard.setEffect(null);
+			BorderPane borderPane = new BorderPane();
 			borderPane.setCenter(gameBoard);
-			startGame(new Game());
-		});
+			borderPane.setTop(topBar);
+			borderPane.setBottom(bottomBar);
 
+			gameScene = new Scene(borderPane, 600, 600);
+		}
 		primaryStage.setTitle("Chess");
-		primaryStage.setScene(scene);
+		primaryStage.setScene(mainScene);
 		primaryStage.show();
-
 	}
 
 	private void startGame(Game game){
