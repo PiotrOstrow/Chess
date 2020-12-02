@@ -9,6 +9,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 public class MainMenu extends StackPane {
 
@@ -18,23 +19,23 @@ public class MainMenu extends StackPane {
 	private final double backgroundImageAspectRatio;
 
 	public MainMenu() {
-		GridPane gridPane = new GridPane();
+
 		Label chessLabel = new Label("CHESS GAME");
-		chessLabel.setStyle("-fx-font-size: 30px; -fx-font-style: bold; -fx-text-fill: white");
+		chessLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: white; -fx-font-family: Arial; -fx-font-weight: bold");
 		newGameButton = new Button("New game");
 		resumeGameButton = new Button("Resume game");
 		exitButton = new Button("Exit");
-
 		Label createdByLabel = new Label("Created by 8x8");
-		createdByLabel.setStyle("-fx-font-size: 12px; -fx-font-style: bold; -fx-text-fill: gray");
 
-		gridPane.add(chessLabel, 0, 0);
-		gridPane.add(newGameButton, 0, 1);
-		gridPane.add(resumeGameButton, 0, 2);
-		gridPane.add(exitButton, 0, 3);
-		gridPane.add(createdByLabel, 0, 4);
+		VBox vBox = new VBox(chessLabel, newGameButton, resumeGameButton, exitButton, createdByLabel);
 
-		gridPane.setAlignment(Pos.CENTER);
+		newGameButton.setMinSize(150, 20);
+		resumeGameButton.setMinSize(150, 20);
+		exitButton.setMinSize(150,20);
+		exitButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
+
+		vBox.setSpacing(10);
+		vBox.setAlignment(Pos.CENTER);
 
 		Image backgroundImage = new Image("hassan-pasha-7SjEuEF06Zw-unsplash.jpg");
 		backgroundImageView = new ImageView(backgroundImage);
@@ -42,7 +43,7 @@ public class MainMenu extends StackPane {
 		backgroundImageAspectRatio = backgroundImage.getWidth() / backgroundImage.getHeight();
 
 		getChildren().add(backgroundImageView);
-		getChildren().add(gridPane);
+		getChildren().add(vBox);
 
 		setStyle("-fx-background-color: black");
 	}
