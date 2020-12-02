@@ -78,6 +78,10 @@ public class Game {
 		if(possibleMovesCache.containsKey(piece))
 			return possibleMovesCache.get(piece);
 
+		// piece will be moved around, save current position
+		int x = piece.getPosition().getX();
+		int y = piece.getPosition().getY();
+
 		List<Position> possibleMoves = piece.getPossibleMoves(this);
 
 		ListIterator<Position> iterator = possibleMoves.listIterator();
@@ -85,16 +89,18 @@ public class Game {
 			Position pos = iterator.next();
 
 			// make the move by just swapping
-			// TODO: what about position objects inside ChessPiece ? will not work for king's possible positions
 			ChessPiece temp = pieces[pos.getX()][pos.getY()];
 			pieces[pos.getX()][pos.getY()] = piece;
 			pieces[piece.getPosition().getX()][piece.getPosition().getY()] = null;
+			// adjust positions in the objects so the king also has correct highlights
+			piece.getPosition().set(pos.getX(), pos.getY());
 
 			// if in check, remove from possible moves
 			if(isInCheck(piece.getColor()))
 				iterator.remove();
 
-			// reverse the move
+			// reverse the move and reset piece position
+			piece.getPosition().set(x, y);
 			pieces[piece.getPosition().getX()][piece.getPosition().getY()] = piece;
 			pieces[pos.getX()][pos.getY()] = temp;
 		}
