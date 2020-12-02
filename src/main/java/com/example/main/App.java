@@ -37,13 +37,13 @@ public class App extends Application {
 	}
 
 	private void startGame(final Game game){
-		gameBoard.setGame(game);
+		gameBoard.setGame(game, Color.WHITE);
 
 		topBar.set(game);
 		bottomBar.set(game);
 
 		// temporary
-		game.addGameCallback(() -> gameBoard.setGame(game));
+		game.addGameCallback(() -> gameBoard.setGame(game, Color.WHITE));
 	}
 
 	public static void main(String[] args) {

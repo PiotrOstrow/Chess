@@ -96,5 +96,4 @@ public class Game {
 	public void addGameCallback(GameCallback callback) {
 		callbacks.add(callback);
 	}
-
 }

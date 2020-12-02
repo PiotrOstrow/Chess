@@ -1,5 +1,6 @@
 package com.example.ui;
 
+import com.example.game.Color;
 import com.example.game.Game;
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.Position;
@@ -19,6 +20,7 @@ public class GameBoard extends GridPane {
 	private final List<Position> highlightedPossibleMoves = new ArrayList<>();
 
 	private Game currentGame;
+	private Color controlledColor;
 
 	public GameBoard() {
 		for(int x = 0; x < 8; x++) {
@@ -38,6 +40,8 @@ public class GameBoard extends GridPane {
 	private void handleClick(MouseEvent event) {
 		if(currentGame != null) {
 			BoardCell target = (BoardCell) event.getSource();
+			ChessPiece chessPiece = null;
+
 			if (highlighted != null) {
 				move(highlighted, target);
 				highlighted.setHighlighted(BoardCell.Highlight.NONE);
@@ -45,11 +49,11 @@ public class GameBoard extends GridPane {
 
 				for(Position p : highlightedPossibleMoves)
 					cells[p.getX()][p.getY()].setHighlighted(BoardCell.Highlight.NONE);
-			} else if (currentGame.getPiece(target.getX(), target.getY()) != null) {
+			} else if ((chessPiece = currentGame.getPiece(target.getX(), target.getY())) != null
+					&& chessPiece.getColor() == controlledColor && currentGame.getCurrentMovePlayer() == controlledColor) {
 				highlighted = target;
 				highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
 
-				ChessPiece chessPiece = currentGame.getPiece(target.getX(), target.getY());
 				List<Position> possibleMoves = chessPiece.getPossibleMoves(currentGame);
 
 				highlightedPossibleMoves.clear();
@@ -70,8 +74,9 @@ public class GameBoard extends GridPane {
 		}
 	}
 
-	public void setGame(Game game) {
+	public void setGame(Game game, Color controlledColor) {
 		this.currentGame = game;
+		this.controlledColor = controlledColor;
 
 		for(int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {

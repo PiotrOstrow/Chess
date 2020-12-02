@@ -2,13 +2,16 @@ package com.example.game;
 
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.Position;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Computer extends Player implements GameCallback {
+public class Computer extends Player {
 
 	private final Game game;
 	private final Random random = new Random();
@@ -16,11 +19,18 @@ public class Computer extends Player implements GameCallback {
 	public Computer(Game game, Color color) {
 		super(color);
 		this.game = game;
-		game.addGameCallback(this);
+
+		Timeline timeline = new Timeline(new KeyFrame(
+				Duration.millis(100),
+				ae -> move()));
+
+		game.addGameCallback(() -> {
+			timeline.setDelay(Duration.millis(Math.random() * 1500));
+			timeline.play();
+		});
 	}
 
-	@Override
-	public void onMoved() {
+	private void move() {
 		if (game.getCurrentMovePlayer() == this.color) {
 			// random piece, random move
 			List<ChessPiece> pieces = new ArrayList<>();
