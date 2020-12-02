@@ -38,9 +38,8 @@ public class BoardCell extends StackPane {
 		chessImageView = new ImageView();
 		getChildren().add(chessImageView);
 
-		setMinSize(10, 10);
+		setMinSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
 		setPrefSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
-		setMaxSize(GRID_CELL_SIZE * 4, GRID_CELL_SIZE * 4);
 	}
 
 	public void setPiece(ChessPiece piece) {

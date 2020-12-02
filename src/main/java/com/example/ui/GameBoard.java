@@ -35,7 +35,16 @@ public class GameBoard extends GridPane {
 		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_top.png")), 1, 0, 8, 1);
 		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
 
+		setMinSize(100, 100);
 		setAlignment(Pos.CENTER);
+	}
+
+	@Override
+	public void resize(double width, double height) {
+		super.resize(width, height);
+		double min = Math.min(width, height);
+		setScaleX(min / 680);
+		setScaleY(min / 680);
 	}
 
 	private void handleClick(MouseEvent event) {
