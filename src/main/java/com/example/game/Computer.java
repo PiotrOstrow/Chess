@@ -51,7 +51,7 @@ public class Computer extends Player {
 			ChessPiece piece = null;
 			List<Position> possibleMoves = null;
 			for(ChessPiece p : pieces){
-				possibleMoves = p.getPossibleMoves(game);
+				possibleMoves = game.getPossibleMoves(p);
 				if(possibleMoves.size() > 0){
 					piece = p;
 					 break;

@@ -4,14 +4,13 @@ import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Game {
 
 	private final ChessPiece[][] pieces = new ChessPiece[8][8];
 	private final ObservableList<ChessPiece> capturedPieces = FXCollections.observableArrayList();
+	private final HashMap<ChessPiece, List<Position>> possibleMovesCache = new HashMap<>();
 
 	private final ArrayList<GameCallback> callbacks = new ArrayList<>();
 
@@ -59,7 +58,10 @@ public class Game {
 
 			if(isInCheck(chessPiece.getColor())){
 				reverseMove();
+				return false;
 			} else {
+				possibleMovesCache.clear();
+
 				// switch current move player, bofore callback
 				currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
 
@@ -69,6 +71,37 @@ public class Game {
 			return true;
 		}
 		return false;
+	}
+
+	// filters out possible moves resulting in check of the king with the same color and caches the result until a move is made
+	public List<Position> getPossibleMoves(ChessPiece piece) {
+		if(possibleMovesCache.containsKey(piece))
+			return possibleMovesCache.get(piece);
+
+		List<Position> possibleMoves = piece.getPossibleMoves(this);
+
+		ListIterator<Position> iterator = possibleMoves.listIterator();
+		while(iterator.hasNext()) {
+			Position pos = iterator.next();
+
+			// make the move by just swapping
+			// TODO: what about position objects inside ChessPiece ? will not work for king's possible positions
+			ChessPiece temp = pieces[pos.getX()][pos.getY()];
+			pieces[pos.getX()][pos.getY()] = piece;
+			pieces[piece.getPosition().getX()][piece.getPosition().getY()] = null;
+
+			// if in check, remove from possible moves
+			if(isInCheck(piece.getColor()))
+				iterator.remove();
+
+			// reverse the move
+			pieces[piece.getPosition().getX()][piece.getPosition().getY()] = piece;
+			pieces[pos.getX()][pos.getY()] = temp;
+		}
+
+		possibleMovesCache.put(piece, possibleMoves);
+
+		return possibleMoves;
 	}
 
 	/**

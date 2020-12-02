@@ -66,7 +66,7 @@ public class GameBoard extends GridPane {
 				highlighted = target;
 				highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
 
-				List<Position> possibleMoves = chessPiece.getPossibleMoves(currentGame);
+				List<Position> possibleMoves = currentGame.getPossibleMoves(chessPiece);
 
 				highlightedPossibleMoves.clear();
 				highlightedPossibleMoves.addAll(possibleMoves);
