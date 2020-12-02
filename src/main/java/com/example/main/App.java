@@ -27,7 +27,7 @@ public class App extends Application {
 		borderPane.setTop(topBar);
 		borderPane.setBottom(bottomBar);
 
-		Scene scene = new Scene(borderPane, 600, 600);
+		Scene scene = new Scene(borderPane, 750, 750);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
