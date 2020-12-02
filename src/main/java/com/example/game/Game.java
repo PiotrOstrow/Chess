@@ -48,9 +48,6 @@ public class Game {
 			if(pieces[x][y] != null)
 				capturedPieces.add(pieces[x][y]);
 
-			if ((y==0 || y==7)&&chessPiece.isPromoteAble())
-				chessPiece = new Queen(x,y,chessPiece.getColor());
-
 			moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][y]));
 
 			pieces[x][y] = chessPiece;
@@ -59,7 +56,10 @@ public class Game {
 			if(isInCheck(chessPiece.getColor())){
 				reverseMove();
 				return false;
-			} else {
+			} else { // move passed
+				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
+					chessPiece = new Queen(x,y,chessPiece.getColor());
+
 				possibleMovesCache.clear();
 
 				// switch current move player, bofore callback
