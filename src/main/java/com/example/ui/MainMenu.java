@@ -1,6 +1,6 @@
 package com.example.ui;
 
-import com.example.game.Color;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -44,6 +44,11 @@ public class MainMenu extends StackPane {
 		exitButton.setPrefSize(170,40);
 		exitButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
 
+		Font font2 = Font.loadFont(url1.toString(), 14);
+		newGameButton.setFont(font2);
+		resumeGameButton.setFont(font2);
+		exitButton.setFont(font2);
+
 		vBox.setSpacing(10);
 		vBox.setAlignment(Pos.CENTER);
 
@@ -56,6 +61,8 @@ public class MainMenu extends StackPane {
 		getChildren().add(vBox);
 
 		setStyle("-fx-background-color: black");
+
+		exitButton.setOnAction((e) -> Platform.exit());
 	}
 
 	@Override

@@ -6,15 +6,9 @@ import com.example.ui.CapturedPiecesBar;
 import com.example.ui.GameBoard;
 import com.example.ui.MainMenu;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -27,28 +21,27 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		mainMenu = new MainMenu();
+		mainScene = new Scene(mainMenu, 750, 750);
+		mainMenu.setOnNewGame(event -> {
+			primaryStage.setScene(gameScene);
+			Game game = new Game();
+			game.setUpNormal();
+			startGame(game);
+		});
 
-		{ //Main menu
-			mainMenu = new MainMenu();
-			mainScene = new Scene(mainMenu, 750, 750);
-			mainMenu.setOnNewGame(event -> {
-				primaryStage.setScene(gameScene);
-				startGame(new Game());
-			});
-		}
-		{ // Game
-			gameBoard = new GameBoard();
+		gameBoard = new GameBoard();
+		topBar = new CapturedPiecesBar(Color.BLACK);
+		bottomBar = new CapturedPiecesBar(Color.WHITE);
 
-			topBar = new CapturedPiecesBar(Color.BLACK);
-			bottomBar = new CapturedPiecesBar(Color.WHITE);
+		BorderPane borderPane = new BorderPane();
+		borderPane.setCenter(gameBoard);
+		borderPane.setTop(topBar);
+		borderPane.setBottom(bottomBar);
 
-			BorderPane borderPane = new BorderPane();
-			borderPane.setCenter(gameBoard);
-			borderPane.setTop(topBar);
-			borderPane.setBottom(bottomBar);
+		gameScene = new Scene(borderPane, 750, 750);
 
-			gameScene = new Scene(borderPane, 750, 750);
-		}
+		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
