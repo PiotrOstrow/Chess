@@ -2,9 +2,6 @@ package com.example.ui;
 
 import com.example.game.Color;
 import com.example.game.pieces.*;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,12 +38,6 @@ public class BoardCell extends StackPane {
 		chessImageView = new ImageView();
 		getChildren().add(chessImageView);
 
-		cellImageView.fitWidthProperty().bind(widthProperty());
-		cellImageView.fitHeightProperty().bind(heightProperty());
-
-		chessImageView.fitWidthProperty().bind(widthProperty());
-		chessImageView.fitHeightProperty().bind(heightProperty());
-
 		setMinSize(10, 10);
 		setPrefSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
 		setMaxSize(GRID_CELL_SIZE * 4, GRID_CELL_SIZE * 4);
@@ -79,7 +70,6 @@ public class BoardCell extends StackPane {
 	}
 
 	public void setHighlighted(Highlight highlight) {
-
 		switch(highlight) {
 			case NONE:
 				cellImageView.setEffect(null);
