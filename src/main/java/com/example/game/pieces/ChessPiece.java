@@ -58,7 +58,7 @@ public abstract class ChessPiece {
 		return distance;
 	}
 
-	protected boolean hasMoved() {
+	public boolean hasMoved() {
 		return hasMoved;
 	}
 
@@ -74,5 +74,9 @@ public abstract class ChessPiece {
 
 	public Color getColor(){
 		return color;
+	}
+
+	public boolean isPromoteAble(){
+		return false;
 	}
 }
