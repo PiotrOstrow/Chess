@@ -5,7 +5,6 @@ import com.example.game.Game;
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.Pawn;
 import com.example.game.pieces.Position;
-import com.jfoenix.controls.JFXDialog;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +17,7 @@ import java.util.List;
 
 public class GameBoard extends StackPane {
 
+	private final PromotionDialog promotionDialog;
 	private final BoardCell[][] cells = new BoardCell[8][8];
 
 	private BoardCell highlighted;
@@ -41,11 +41,17 @@ public class GameBoard extends StackPane {
 		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_top.png")), 1, 0, 8, 1);
 		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
 
-		setMinSize(100, 100);
-		setAlignment(Pos.CENTER);
-
+		gridPane.setAlignment(Pos.CENTER);
 		getChildren().add(gridPane);
 
+		promotionDialog = new PromotionDialog();
+		promotionDialog.setDialogContainer(this);
+		promotionDialog.setOverlayClose(false);
+		promotionDialog.setAlignment(Pos.CENTER);
+		getChildren().add(promotionDialog);
+
+		setMinSize(100, 100);
+		setAlignment(Pos.CENTER);
 	}
 
 	@Override
@@ -86,12 +92,11 @@ public class GameBoard extends StackPane {
 
 	private void move(BoardCell from, BoardCell to) {
 		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
-		currentGame.move(chessPiece, to.getX(), to.getY());
 
 		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
 			if(chessPiece instanceof Pawn) {
 				if(chessPiece.getPosition().getY() == 0 || chessPiece.getPosition().getY() == 7) {
-
+					promotionDialog.show();
 				}
 			}
 		}

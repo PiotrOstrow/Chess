@@ -8,9 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Promotion extends JFXDialog {
+public class PromotionDialog extends JFXDialog {
 
-    public Promotion() {
+    public PromotionDialog() {
 
         JFXDialogLayout content = new JFXDialogLayout();
 
