@@ -40,6 +40,7 @@ public class App extends Application {
 		root.getChildren().addAll(borderPane);
 
 		JFXDialog jfxDialog = new JFXDialog();
+		jfxDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
 		JFXDialogLayout content = new JFXDialogLayout();
 		HBox hBox = new HBox();
 		hBox.setSpacing(10);

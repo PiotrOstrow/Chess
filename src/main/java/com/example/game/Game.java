@@ -37,7 +37,8 @@ public class Game {
 		return pieces[x][y];
 	}
 
-	public boolean move(ChessPiece chessPiece, int x, int y) {
+	public MoveResult move(ChessPiece chessPiece, int x, int y) {
+		MoveResult moveResult = MoveResult.FAIL;
 		// TODO: check if move results in a check
 		// save the location before moving
 		int previousX = chessPiece.getPosition().getX();
@@ -55,14 +56,15 @@ public class Game {
 
 			if(isInCheck(chessPiece.getColor())){
 				reverseMove();
-				return false;
+				moveResult = MoveResult.FAIL;
 			} else { // move passed
 				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
-					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
+					moveResult = MoveResult.PROMOTION;
+				else
+					moveResult = MoveResult.SUCCESS;
 
 				onMoved();
 			}
-			return true;
 		} else if(canCastleMove(chessPiece, x, y)) {
 			King king = getKing(chessPiece.getColor());
 			Rook rook = (Rook) (chessPiece instanceof King ?  getPiece(x, y) : chessPiece);
@@ -82,9 +84,13 @@ public class Game {
 
 			onMoved();
 
-			return true;
+			moveResult = MoveResult.SUCCESS;
 		}
-		return false;
+		return moveResult;
+	}
+
+	public void promote(Class<? extends ChessPiece> pieceType) {
+		// TODO: create new piece
 	}
 
 	// called after every move
