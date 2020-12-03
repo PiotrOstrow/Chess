@@ -95,8 +95,8 @@ public class BoardCell extends StackPane {
 
 				if(color == Color.WHITE)
 					rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
-				//else
-				//	rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.25));
+				else
+					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
 				break;
 		}
 	}
