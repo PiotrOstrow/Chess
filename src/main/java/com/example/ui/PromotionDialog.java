@@ -17,18 +17,22 @@ public class PromotionDialog extends JFXDialog {
         Image queen = new Image("/Chess_ArtWork/Chess Symbols/Wood/QueenW.png");
         JFXButton jfxButton1 = new JFXButton();
         jfxButton1.setGraphic(new ImageView(queen));
+        jfxButton1.setStyle("-jfx-button-type: RAISED");
 
         Image knight = new Image("/Chess_ArtWork/Chess Symbols/Wood/KnightW.png");
         JFXButton jfxButton2 = new JFXButton();
         jfxButton2.setGraphic(new ImageView(knight));
+        jfxButton2.setStyle("-jfx-button-type: RAISED");
 
         Image rook = new Image("/Chess_ArtWork/Chess Symbols/Wood/RookW.png");
         JFXButton jfxButton3 = new JFXButton();
         jfxButton3.setGraphic(new ImageView(rook));
+        jfxButton3.setStyle("-jfx-button-type: RAISED");
 
         Image bishop = new Image("/Chess_ArtWork/Chess Symbols/Wood/BishopW.png");
         JFXButton jfxButton4 = new JFXButton();
         jfxButton4.setGraphic(new ImageView(bishop));
+        jfxButton4.setStyle("-jfx-button-type: RAISED");
 
         HBox hBox = new HBox(jfxButton1, jfxButton2, jfxButton3, jfxButton4);
         hBox.setSpacing(10);

@@ -9,8 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +46,7 @@ public class GameBoard extends StackPane {
 		promotionDialog = new PromotionDialog();
 		promotionDialog.setDialogContainer(this);
 		promotionDialog.setOverlayClose(false);
-		promotionDialog.setAlignment(Pos.CENTER);
 		getChildren().add(promotionDialog);
-
-		setMinSize(100, 100);
 		setAlignment(Pos.CENTER);
 	}
 
