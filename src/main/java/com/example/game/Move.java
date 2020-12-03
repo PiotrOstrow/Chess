@@ -4,6 +4,7 @@ import com.example.game.pieces.ChessPiece;
 
 public class Move {
 
+	// in case of castling, movedPiece is the King, capturedPiece is the Rook
 	public final ChessPiece movedPiece;
 	public final int fromX;
 	public final int fromY;

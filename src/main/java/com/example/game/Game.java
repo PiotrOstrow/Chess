@@ -57,19 +57,52 @@ public class Game {
 				reverseMove();
 				return false;
 			} else { // move passed
-				if ((y==0 || y==7)&&chessPiece.isPromoteAble()) 
+				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
 					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
 
-				possibleMovesCache.clear();
-
-				// switch current move player, bofore callback
-				currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
-
-				for (GameCallback callback : callbacks)
-					callback.onMoved();
+				onMoved();
 			}
 			return true;
+		} else if(canCastleMove(chessPiece, x, y)) {
+			King king = getKing(chessPiece.getColor());
+			Rook rook = (Rook) (chessPiece instanceof King ?  getPiece(x, y) : chessPiece);
+
+			int xDir = king.getPosition().getX() - rook.getPosition().getX() > 0 ? -1 : 1;
+
+			pieces[king.getPosition().getX()][king.getPosition().getY()] = null;
+			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = null;
+
+			rook.getPosition().setX(king.getPosition().getX() + xDir);
+			king.getPosition().setX(king.getPosition().getX() + xDir * 2);
+
+			pieces[king.getPosition().getX()][king.getPosition().getY()] = king;
+			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = rook;
+
+			moveLogStack.add(new Move(king, 4, king.getPosition().getY(), king.getPosition().getX(), king.getPosition().getY(), rook));
+
+			onMoved();
+
+			return true;
 		}
+		return false;
+	}
+
+	// called after every move
+	private void onMoved() {
+		possibleMovesCache.clear();
+
+		// switch current move player, bofore callback
+		currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+
+		for (GameCallback callback : callbacks)
+			callback.onMoved();
+	}
+
+	private boolean canCastleMove(ChessPiece chessPiece, int x, int y){
+		if(chessPiece instanceof King || chessPiece instanceof Rook)
+			for(Position possibleMove : getPossibleMoves(chessPiece))
+				if(possibleMove.getX() == x && possibleMove.getY() == y)
+					return true;
 		return false;
 	}
 
@@ -199,9 +232,26 @@ public class Game {
 	}
 
 	public void reverseMove() {
-		if(!moveLogStack.isEmpty()) {
-			Move move = moveLogStack.pop();
+		if(moveLogStack.isEmpty())
+			return;
 
+		Move move = moveLogStack.pop();
+
+		if (move.movedPiece instanceof King && Math.abs(move.fromX - move.toX) > 1) { // castling
+			ChessPiece king = move.movedPiece;
+			ChessPiece rook = move.captured;
+			int xDir = move.fromX - move.toX > 0 ? -1 : 1;
+			int rookX = xDir > 0 ? 7 : 0;
+
+			pieces[king.getPosition().getX()][king.getPosition().getY()] = null;
+			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = null;
+
+			king.getPosition().set(move.fromX, move.fromY);
+			rook.getPosition().set(rookX, move.fromY);
+
+			pieces[king.getPosition().getX()][king.getPosition().getY()] = king;
+			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = rook;
+		} else { // regular move
 			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
 			pieces[move.fromX][move.fromY] = move.movedPiece;
