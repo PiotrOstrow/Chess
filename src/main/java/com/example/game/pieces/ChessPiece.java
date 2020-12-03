@@ -58,7 +58,7 @@ public abstract class ChessPiece {
 		return distance;
 	}
 
-	protected boolean hasMoved() {
+	public boolean hasMoved() {
 		return hasMoved;
 	}
 

@@ -56,7 +56,7 @@ public class Game {
 			if(isInCheck(chessPiece.getColor())){
 				reverseMove();
 				return false;
-			} else { // move passedgit
+			} else { // move passed
 				if ((y==0 || y==7)&&chessPiece.isPromoteAble()) 
 					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
 
@@ -105,9 +105,76 @@ public class Game {
 			pieces[pos.getX()][pos.getY()] = temp;
 		}
 
+		// castling
+		if(!piece.hasMoved() && piece instanceof King) {
+			King king = (King) piece;
+			// already checked if king moved, the Y position should be correct
+			ChessPiece pieceLeft = getPiece(0, king.getPosition().getY());
+			ChessPiece pieceRight = getPiece(7, king.getPosition().getY());
+
+			if(pieceLeft instanceof Rook && canCastle(king, (Rook) pieceLeft)) {
+				possibleMoves.add(new Position(0, king.getPosition().getY()));
+				getPossibleMoves(pieceLeft).add(new Position(king.getPosition()));
+			}
+
+			if(pieceRight instanceof Rook && canCastle(king, (Rook) pieceRight)) {
+				possibleMoves.add(new Position(7, king.getPosition().getY()));
+				getPossibleMoves(pieceRight).add(new Position(king.getPosition()));
+			}
+		}
+
 		possibleMovesCache.put(piece, possibleMoves);
 
+		// so that the code for castling gets run and possible move for castling gets added
+		if(!piece.hasMoved() && piece instanceof Rook)
+			getPossibleMoves(getKing(piece.getColor()));
+
 		return possibleMoves;
+	}
+
+	private boolean canCastle(King king, Rook rook) {
+		// Castling may be done only if the king has never moved, the rook involved has never moved...
+		if(king.getColor() != rook.getColor() || king.hasMoved() || rook.hasMoved())
+			return false;
+
+		// the squares between the king and the rook involved are unoccupied...
+		int dir = king.getPosition().getX() - rook.getPosition().getX() > 0 ? -1 : 1;
+		for(int x = king.getPosition().getX() + dir; x != rook.getPosition().getX(); x += dir)
+			if(getPiece(x, king.getPosition().getY()) != null)
+				return false;
+
+		// the king is not in check...
+		if(isInCheck(king.getColor()))
+			return false;
+
+		// and the king does not cross over or end on a square attacked by an enemy piece...
+		// get all positions in between
+		int squaresInBetween = Math.abs(king.getPosition().getX() - rook.getPosition().getX()) - 1;
+		Position[] positions = new Position[squaresInBetween];
+		for(int i = 0, x = king.getPosition().getX() + dir; x != rook.getPosition().getX(); i++, x += dir)
+			positions[i] = new Position(x, king.getPosition().getY());
+
+		// check every position int between for every possible move for all pieces of opposite color
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				ChessPiece piece = getPiece(x, y);
+
+				// have to break the loop for the king if it's never moved, otherwise it would result in an infinite resursive loop
+				if(piece == null || piece.getColor() == king.getColor() || (piece instanceof King && !piece.hasMoved()))
+					continue;
+
+				// compare each possible position with each position in between the king and the rook
+				for(Position pos1 : getPossibleMoves(piece)){
+					for(Position pos2 : positions){
+						if(pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY())
+							return false;
+					}
+				}
+
+			}
+		}
+
+		return true;
 	}
 
 	/**

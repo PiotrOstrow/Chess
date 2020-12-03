@@ -18,17 +18,14 @@ public class Move {
 		this.toX = toX;
 		this.toY = toY;
 		this.captured = captured;
-
-
 	}
 
 	@Override
 	public String toString() {
 		char x1 = (char) ('a' + fromX);
 		char x2 = (char) ('a' + toX);
-		return movedPiece.getClass().getSimpleName() + " moved " + x1 + fromY + " -> " + x2 + toY;
+		int y1 = 8 - fromY;
+		int y2 = 8 - toY;
+		return movedPiece.getClass().getSimpleName() + " moved " + x1 + y1 + " -> " + x2 + y2;
 	}
-
-
-
 }

@@ -10,6 +10,11 @@ public class Position {
 		this.y = y;
 	}
 
+	public Position(Position other) {
+		this.x = other.x;
+		this.y = other.y;
+	}
+
 	public boolean isDiagonal(Position other) {
 		return isDiagonal(other.x, other.y);
 	}
