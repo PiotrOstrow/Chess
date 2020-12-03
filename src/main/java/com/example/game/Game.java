@@ -4,6 +4,8 @@ import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
@@ -37,6 +39,24 @@ public class Game {
 		return pieces[x][y];
 	}
 
+	public void promote(Class<? extends ChessPiece> pieceType) {
+		try {
+			// find pawn to be promoted
+			ChessPiece pawn = null;
+			for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 0);
+			for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 7);
+
+			if (!(pawn instanceof Pawn))
+				throw new IllegalStateException("Trying to promote while no pawn is in the required position");
+
+			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.class, Integer.class, Color.class);
+			ChessPiece newPiece = constructor.newInstance(pawn.getPosition().getX(), pawn.getPosition().getY(), pawn.getColor());
+			addPiece(newPiece); // overrides old piece
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public boolean move(ChessPiece chessPiece, int x, int y) {
 		// TODO: check if move results in a check
 		// save the location before moving
@@ -57,9 +77,6 @@ public class Game {
 				reverseMove();
 				return false;
 			} else { // move passed
-				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
-					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
-
 				onMoved();
 			}
 			return true;
