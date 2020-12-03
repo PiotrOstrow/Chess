@@ -99,7 +99,7 @@ public class GameBoard extends GridPane implements GameCallback {
 	}
 
 	private void highlightCheck(BoardCell cell) {
-		cell.setHighlighted(BoardCell.Highlight.CHECK);
+		cell.setChecked(true);
 		checkHightlight.add(cell);
 	}
 
@@ -108,17 +108,15 @@ public class GameBoard extends GridPane implements GameCallback {
 		setGame(currentGame, controlledColor); // temporary
 
 		for(BoardCell cell : checkHightlight)
-			cell.setHighlighted(BoardCell.Highlight.NONE);
+			cell.setChecked(false);
 		checkHightlight.clear();
 
 		King checkedKing = currentGame.getCheckedKing();
-		if(checkedKing != null) {
+		if(checkedKing != null && checkedKing.getColor() == controlledColor) {
 			ChessPiece checkingPiece = currentGame.getCheckingPiece();
 
 			Position p1 = checkedKing.getPosition();
 			Position p2 = checkingPiece.getPosition();
-
-
 
 			highlightCheck(cells[p1.getX()][p1.getY()]);
 			highlightCheck(cells[p2.getX()][p2.getY()]);

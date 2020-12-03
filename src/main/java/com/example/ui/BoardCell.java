@@ -13,7 +13,7 @@ public class BoardCell extends StackPane {
 	public static final int GRID_CELL_SIZE = 80;
 
 	public enum Highlight {
-		NONE, SELECTED, POSSIBLE_MOVE, CHECK
+		NONE, SELECTED, POSSIBLE_MOVE
 	}
 
 	private final int x;
@@ -23,6 +23,9 @@ public class BoardCell extends StackPane {
 	private final ImageView chessImageView;
 	private final ImageView cellImageView;
 	private final Rectangle rectangle;
+
+	private Highlight highlight = Highlight.NONE;
+	private boolean checked;
 
 	public BoardCell(int x, int y) {
 		this.x = x;
@@ -75,10 +78,16 @@ public class BoardCell extends StackPane {
 	}
 
 	public void setHighlighted(Highlight highlight) {
+		this.highlight = highlight;
 		switch(highlight) {
 			case NONE:
-				cellImageView.setEffect(null);
-				rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				if(checked) {
+					cellImageView.setEffect(new Glow(2));
+					rectangle.setFill(javafx.scene.paint.Color.rgb(255, 0, 0, 0.75));
+				} else {
+					cellImageView.setEffect(null);
+					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				}
 				break;
 			case SELECTED:
 			case POSSIBLE_MOVE:
@@ -89,11 +98,12 @@ public class BoardCell extends StackPane {
 				//else
 				//	rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.25));
 				break;
-			case CHECK:
-				cellImageView.setEffect(new Glow(2));
-				rectangle.setFill(javafx.scene.paint.Color.rgb(192, 0, 0, 1));
-				break;
 		}
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+		setHighlighted(highlight);
 	}
 
 	public int getX() {
