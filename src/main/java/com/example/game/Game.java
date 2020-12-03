@@ -26,6 +26,9 @@ public class Game {
 
 	private Player currentMovePlayer;
 
+	private King checkedKing;
+	private ChessPiece checkingPiece;
+
 	public Game() {
 		playerWhite = new Player(Color.WHITE);
 		playerBlack = new Computer(this, Color.BLACK);
@@ -59,7 +62,6 @@ public class Game {
 	}
 
 	public boolean move(ChessPiece chessPiece, int x, int y) {
-		// TODO: check if move results in a check
 		// save the location before moving
 		int previousX = chessPiece.getPosition().getX();
 		int previousY = chessPiece.getPosition().getY();
@@ -113,6 +115,14 @@ public class Game {
 		// switch current move player, bofore callback
 		if(switchPlayer)
 			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+
+		// TODO: temporary?
+		if((checkingPiece = getCheckingPiece(Color.WHITE)) != null)
+			checkedKing = getKing(Color.WHITE);
+		else if((checkingPiece = getCheckingPiece(Color.BLACK)) != null)
+			checkedKing = getKing(Color.BLACK);
+		else
+			checkedKing = null;
 
 		for (GameCallback callback : callbacks)
 			callback.onMoved();
@@ -234,6 +244,14 @@ public class Game {
 	 * @return true if given color is in check
 	 */
 	private boolean isInCheck(Color color) {
+		return getCheckingPiece(color) != null;
+	}
+
+	/**
+	 * @param color color of King to check check on
+	 * @return the piece that checks the king of the given color, null if not in check
+	 */
+	private ChessPiece getCheckingPiece(Color color) {
 		King king = getKing(color);
 
 		for(int x = 0; x < 8; x++) {
@@ -242,13 +260,14 @@ public class Game {
 				if (piece != null && piece.getColor() != color) {
 					List<Position> possibleMoves = piece.getPossibleMoves(this);
 					for(Position position : possibleMoves){
-						if(position.getX() == king.getPosition().getX() && position.getY() == king.getPosition().getY())
-							return true;
+						if(position.getX() == king.getPosition().getX() && position.getY() == king.getPosition().getY()) {
+							return piece;
+						}
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public void reverseMove() {
@@ -333,5 +352,13 @@ public class Game {
 		if(color == Color.WHITE)
 			return whiteKing;
 		return blackKing;
+	}
+
+	public King getCheckedKing() {
+		return checkedKing;
+	}
+
+	public ChessPiece getCheckingPiece() {
+		return checkingPiece;
 	}
 }
