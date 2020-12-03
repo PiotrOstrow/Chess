@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.example</groupId>
     <artifactId>Chess</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -30,6 +30,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -43,7 +44,14 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.5</version>
                 <configuration>
-                    <mainClass>com.example.main.Main</mainClass>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <launcher>Chess</launcher>
+                    <jlinkImageName>Chess</jlinkImageName>
+                    <jlinkZipName>Chess</jlinkZipName>
+                    <mainClass>com.example.main.Matar</mainClass>
                 </configuration>
             </plugin>
             <plugin>

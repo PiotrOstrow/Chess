@@ -32,10 +32,10 @@ public class GameBoard extends GridPane {
 			}
 		}
 
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_left_legend.png")), 0, 0, 1, 10);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_right.png")), 9, 0, 1, 10);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_top.png")), 1, 0, 8, 1);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
+		add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_left_legend.png")), 0, 0, 1, 10);
+		add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_right.png")), 9, 0, 1, 10);
+		add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_top.png")), 1, 0, 8, 1);
+		add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
 
 		setMinSize(100, 100);
 		setAlignment(Pos.CENTER);
