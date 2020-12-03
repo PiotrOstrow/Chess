@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
@@ -45,11 +44,9 @@ public class Game {
 	public void promote(Class<? extends ChessPiece> pieceType) {
 		try {
 			// find pawn to be promoted
-			ChessPiece pawn = null;
-			for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 0);
-			for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 7);
+			ChessPiece pawn = getPromotablePawn();
 
-			if (!(pawn instanceof Pawn))
+			if (pawn == null)
 				throw new IllegalStateException("Trying to promote while no pawn is in the required position");
 
 			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.TYPE, Integer.TYPE, Color.class);
@@ -151,6 +148,12 @@ public class Game {
 		while(iterator.hasNext()) {
 			Position pos = iterator.next();
 
+			// TODO: Pawn returns positions out of bounds in the list
+			if(pos.getX() < 0 || pos.getX() >= 8 || pos.getY() < 0 || pos.getY() >= 8){
+				iterator.remove();
+				continue;
+			}
+
 			// make the move by just swapping
 			ChessPiece temp = pieces[pos.getX()][pos.getY()];
 			pieces[pos.getX()][pos.getY()] = piece;
@@ -240,6 +243,21 @@ public class Game {
 		return true;
 	}
 
+	/**
+	 * Returns a pawn that is in the position to be promoted, can only be one at a time, null if there is none
+	 */
+	private ChessPiece getPromotablePawn() {
+		ChessPiece pawn = null;
+
+		for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 0);
+		for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 7);
+
+		if(pawn instanceof Pawn)
+			return pawn;
+
+		return null;
+	}
+
 	public boolean isInCheckMate(Color color) {
 		// if player has no possible moves, then the king is in check mate
 		for(int x = 0; x < 8; x++) {
@@ -252,7 +270,10 @@ public class Game {
 				}
 			}
 		}
-		return true;
+
+		// unless there is a pawn to promote
+		ChessPiece pawn = getPromotablePawn();
+		return pawn != null && pawn.getColor() != color;
 	}
 
 	/**
