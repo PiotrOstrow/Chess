@@ -54,12 +54,24 @@ public class App extends Application {
 		bottomBar.set(game);
 
 		// temporary
-		game.addGameCallback(() -> gameBoard.onMoved());
+		game.addGameCallback(() -> {
+			gameBoard.onMoved();
+
+			if(game.isInCheckMate(Color.WHITE)) {
+				gameOver(gameBoard.getControlledColor() != Color.WHITE);
+			} else if (game.isInCheckMate(Color.BLACK)) {
+				gameOver(gameBoard.getControlledColor() != Color.BLACK);
+			}
+		});
 	}
 
-	//private void choosePromotion() {
-
-	//}
+	private void gameOver(boolean win) {
+		if(win) {
+			System.out.println("Game won");
+		} else {
+			System.out.println("Game lost");
+		}
+	}
 
 	public static void main(String[] args) {
 		launch(args);

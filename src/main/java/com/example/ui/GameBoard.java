@@ -158,4 +158,8 @@ public class GameBoard extends StackPane {
 			highlightCheck(cells[p2.getX()][p2.getY()]);
 		}
 	}
+
+	public Color getControlledColor() {
+		return controlledColor;
+	}
 }

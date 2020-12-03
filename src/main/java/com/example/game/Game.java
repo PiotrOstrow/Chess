@@ -240,6 +240,21 @@ public class Game {
 		return true;
 	}
 
+	public boolean isInCheckMate(Color color) {
+		// if player has no possible moves, then the king is in check mate
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				ChessPiece piece = getPiece(x, y);
+				if(piece != null && piece.getColor() == color){
+					List<Position> possibleMoves = getPossibleMoves(piece);
+					if(possibleMoves.size() > 0)
+						return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * @return true if given color is in check
 	 */
