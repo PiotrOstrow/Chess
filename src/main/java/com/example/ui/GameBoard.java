@@ -2,9 +2,7 @@ package com.example.ui;
 
 import com.example.game.Color;
 import com.example.game.Game;
-import com.example.game.pieces.ChessPiece;
-import com.example.game.pieces.Pawn;
-import com.example.game.pieces.Position;
+import com.example.game.pieces.*;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,6 +50,26 @@ public class GameBoard extends StackPane {
 
 		setMinSize(100, 100);
 		setAlignment(Pos.CENTER);
+
+		promotionDialog.queenButton.setOnAction(event -> {
+			currentGame.promote(Queen.class);
+			promotionDialog.close();
+		});
+
+		promotionDialog.knightButton.setOnAction(event -> {
+			currentGame.promote(Knight.class);
+			promotionDialog.close();
+		});
+
+		promotionDialog.rookButton.setOnAction(event -> {
+			currentGame.promote(Rook.class);
+			promotionDialog.close();
+		});
+
+		promotionDialog.bishopButton.setOnAction(event -> {
+			currentGame.promote(Bishop.class);
+			promotionDialog.close();
+		});
 	}
 
 	@Override

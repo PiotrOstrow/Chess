@@ -49,9 +49,10 @@ public class Game {
 			if (!(pawn instanceof Pawn))
 				throw new IllegalStateException("Trying to promote while no pawn is in the required position");
 
-			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.class, Integer.class, Color.class);
+			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.TYPE, Integer.TYPE, Color.class);
 			ChessPiece newPiece = constructor.newInstance(pawn.getPosition().getX(), pawn.getPosition().getY(), pawn.getColor());
 			addPiece(newPiece); // overrides old piece
+			onMoved(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,7 +78,8 @@ public class Game {
 				reverseMove();
 				return false;
 			} else { // move passed
-				onMoved();
+				boolean promoted = (y==0 || y==7)&&chessPiece.isPromoteAble();
+				onMoved(!promoted);
 			}
 			return true;
 		} else if(canCastleMove(chessPiece, x, y)) {
@@ -97,7 +99,7 @@ public class Game {
 
 			moveLogStack.add(new Move(king, 4, king.getPosition().getY(), king.getPosition().getX(), king.getPosition().getY(), rook));
 
-			onMoved();
+			onMoved(true);
 
 			return true;
 		}
@@ -105,11 +107,12 @@ public class Game {
 	}
 
 	// called after every move
-	private void onMoved() {
+	private void onMoved(boolean switchPlayer) {
 		possibleMovesCache.clear();
 
 		// switch current move player, bofore callback
-		currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+		if(switchPlayer)
+			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
 
 		for (GameCallback callback : callbacks)
 			callback.onMoved();
