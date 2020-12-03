@@ -5,16 +5,18 @@ import com.example.game.Game;
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.Pawn;
 import com.example.game.pieces.Position;
+import com.jfoenix.controls.JFXDialog;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameBoard extends GridPane {
+public class GameBoard extends StackPane {
 
 	private final BoardCell[][] cells = new BoardCell[8][8];
 
@@ -25,21 +27,25 @@ public class GameBoard extends GridPane {
 	private Color controlledColor;
 
 	public GameBoard() {
+		GridPane gridPane = new GridPane();
 		for(int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				cells[x][y] = new BoardCell(x, y);
 				cells[x][y].setOnMouseClicked(this::handleClick);
-				add(cells[x][y], x + 1, y + 1);
+				gridPane.add(cells[x][y], x + 1, y + 1);
 			}
 		}
 
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_left_legend.png")), 0, 0, 1, 10);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_right.png")), 9, 0, 1, 10);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_top.png")), 1, 0, 8, 1);
-		add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
+		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_left_legend.png")), 0, 0, 1, 10);
+		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_right.png")), 9, 0, 1, 10);
+		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_top.png")), 1, 0, 8, 1);
+		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
 
 		setMinSize(100, 100);
 		setAlignment(Pos.CENTER);
+
+		getChildren().add(gridPane);
+
 	}
 
 	@Override
@@ -85,7 +91,7 @@ public class GameBoard extends GridPane {
 		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
 			if(chessPiece instanceof Pawn) {
 				if(chessPiece.getPosition().getY() == 0 || chessPiece.getPosition().getY() == 7) {
-					// show dialog
+
 				}
 			}
 		}
