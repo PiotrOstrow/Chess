@@ -3,6 +3,7 @@ package com.example.ui;
 import com.example.game.Color;
 import com.example.game.Game;
 import com.example.game.pieces.ChessPiece;
+import com.example.game.pieces.Pawn;
 import com.example.game.pieces.Position;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -80,6 +81,14 @@ public class GameBoard extends GridPane {
 	private void move(BoardCell from, BoardCell to) {
 		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
 		currentGame.move(chessPiece, to.getX(), to.getY());
+
+		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
+			if(chessPiece instanceof Pawn) {
+				if(chessPiece.getPosition().getY() == 0 || chessPiece.getPosition().getY() == 7) {
+					// show dialog
+				}
+			}
+		}
 	}
 
 	public void setGame(Game game, Color controlledColor) {
