@@ -54,7 +54,7 @@ public class App extends Application {
 		bottomBar.set(game);
 
 		// temporary
-		game.addGameCallback(() -> gameBoard.setGame(game, Color.WHITE));
+		game.addGameCallback(gameBoard);
 	}
 
 	public static void main(String[] args) {

@@ -91,7 +91,7 @@ public class BoardCell extends StackPane {
 				break;
 			case CHECK:
 				cellImageView.setEffect(new Glow(2));
-				rectangle.setFill(javafx.scene.paint.Color.rgb(192, 0, 0, 0.5));
+				rectangle.setFill(javafx.scene.paint.Color.rgb(192, 0, 0, 1));
 				break;
 		}
 	}
