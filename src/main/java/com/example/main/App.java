@@ -4,7 +4,9 @@ import com.example.game.Color;
 import com.example.game.Game;
 import com.example.ui.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -28,13 +30,31 @@ public class App extends Application {
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
-			resultDialog = new ResultDialog();
-			resultDialog.setDialogContainer(gameBoard);
 		});
 
 		gameBoard = new GameBoard();
 		topBar = new CapturedPiecesBar(Color.WHITE);
 		bottomBar = new CapturedPiecesBar(Color.BLACK);
+		resultDialog = new ResultDialog();
+		resultDialog.setDialogContainer(gameBoard);
+		resultDialog.setOverlayClose(false);
+
+		resultDialog.getRestartButton().setOnAction(event -> {
+			Game game = new Game();
+			game.setUpNormal();
+			startGame(game);
+			resultDialog.close();
+		});
+
+		resultDialog.getMenuButton().setOnAction(event -> {
+			primaryStage.setScene(mainScene);
+			resultDialog.close();
+		});
+
+		resultDialog.getExitButton().setOnAction(event -> {
+			Platform.exit();
+			resultDialog.close();
+		});
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(gameBoard);

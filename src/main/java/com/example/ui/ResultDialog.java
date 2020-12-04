@@ -87,4 +87,16 @@ public class ResultDialog extends JFXDialog {
     public Label getGameResultLabel() {
         return gameResultLabel;
     }
+
+    public JFXButton getRestartButton() {
+        return restartButton;
+    }
+
+    public JFXButton getMenuButton() {
+        return menuButton;
+    }
+
+    public JFXButton getExitButton() {
+        return exitButton;
+    }
 }
