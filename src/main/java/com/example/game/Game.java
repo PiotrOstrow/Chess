@@ -273,7 +273,7 @@ public class Game {
 
 		// unless there is a pawn to promote
 		ChessPiece pawn = getPromotablePawn();
-		return pawn != null && pawn.getColor() != color;
+		return pawn == null || pawn.getColor() != color;
 	}
 
 	/**

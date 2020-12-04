@@ -31,8 +31,8 @@ public class App extends Application {
 		});
 
 		gameBoard = new GameBoard();
-		topBar = new CapturedPiecesBar(Color.BLACK);
-		bottomBar = new CapturedPiecesBar(Color.WHITE);
+		topBar = new CapturedPiecesBar(Color.WHITE);
+		bottomBar = new CapturedPiecesBar(Color.BLACK);
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(gameBoard);

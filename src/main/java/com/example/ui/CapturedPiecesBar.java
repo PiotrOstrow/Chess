@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class CapturedPiecesBar extends HBox {
 
 	private Color color;
@@ -26,18 +28,15 @@ public class CapturedPiecesBar extends HBox {
 	}
 
 	public void set(Game game) {
+		set(game.getCapturedPieces());
+		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> set(game.getCapturedPieces()));
+	}
+
+	private void set(List<ChessPiece> pieces) {
 		getChildren().clear();
-		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> {
-			while(c.next()) {
-				if (c.wasAdded()) {
-					for (ChessPiece piece : c.getAddedSubList())
-						if (piece.getColor() == this.color)
-							addPiece(piece);
-				} else if (!c.wasPermutated()) {
-					throw new RuntimeException("Capture pieces list was modified incorrectly");
-				}
-			}
-		});
+		for(ChessPiece captured : pieces)
+			if(color == captured.getColor())
+				addPiece(captured);
 	}
 
 	private void addPiece(ChessPiece piece) {
