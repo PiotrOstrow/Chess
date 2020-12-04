@@ -7,6 +7,7 @@ import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.King;
 import com.example.game.pieces.Position;
 import javafx.geometry.Pos;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -47,6 +48,7 @@ public class GameBoard extends StackPane {
 
 		promotionDialog = new PromotionDialog();
 		promotionDialog.setDialogContainer(this);
+		promotionDialog.setEffect(new DropShadow());
 		promotionDialog.setOverlayClose(false);
 		getChildren().add(promotionDialog);
 

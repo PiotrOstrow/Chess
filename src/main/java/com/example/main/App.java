@@ -3,6 +3,9 @@ package com.example.main;
 import com.example.game.Color;
 import com.example.game.Game;
 import com.example.ui.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -10,6 +13,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class App extends Application {
 
@@ -43,17 +47,18 @@ public class App extends Application {
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
+			gameBoard.getChildren().get(0).setEffect(null);
 			resultDialog.close();
 		});
 
 		resultDialog.getMenuButton().setOnAction(event -> {
 			primaryStage.setScene(mainScene);
+			gameBoard.getChildren().get(0).setEffect(null);
 			resultDialog.close();
 		});
 
 		resultDialog.getExitButton().setOnAction(event -> {
 			Platform.exit();
-			resultDialog.close();
 		});
 
 		BorderPane borderPane = new BorderPane();
@@ -93,7 +98,11 @@ public class App extends Application {
 		} else {
 			resultDialog.getGameResultLabel().setText("Game Lost");
 		}
+		GaussianBlur blur = new GaussianBlur(0);
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5000), new KeyValue(blur.radiusProperty(), 7)));
+		gameBoard.getChildren().get(0).setEffect(blur);
 		resultDialog.show();
+		timeline.playFromStart();
 	}
 
 	public static void main(String[] args) {
