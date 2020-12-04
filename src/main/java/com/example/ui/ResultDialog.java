@@ -21,7 +21,7 @@ public class ResultDialog extends JFXDialog {
     public ResultDialog() {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        gameResultLabel = new Label("Game Won");
+        gameResultLabel = new Label("");
         gameResultLabel.setStyle("-fx-text-fill: black");
         URL url1 = getClass().getResource("/norwester/norwester.otf");
         Font font = Font.loadFont(url1.toString(), 48);
@@ -82,10 +82,6 @@ public class ResultDialog extends JFXDialog {
         content.setBody(vBox);
         setContent(content);
 
-    }
-
-    public void setGameResultLabel(Label gameResultLabel) {
-        this.gameResultLabel = gameResultLabel;
     }
 
     public Label getGameResultLabel() {

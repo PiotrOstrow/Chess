@@ -69,11 +69,11 @@ public class App extends Application {
 
 	private void gameOver(boolean win) {
 		if(win) {
-			resultDialog.show();
+			resultDialog.getGameResultLabel().setText("Game Won");
 		} else {
 			resultDialog.getGameResultLabel().setText("Game Lost");
-			resultDialog.show();
 		}
+		resultDialog.show();
 	}
 
 	public static void main(String[] args) {
