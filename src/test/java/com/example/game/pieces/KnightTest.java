@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -40,16 +42,32 @@ public class KnightTest {
 
 
 
-
     }
 
     @Test
     void testCanMove() {
-        // canMove should return true for every possible move
+        // test every possible move
         for(Position possibleMovePosition : whiteKnight.getPossibleMoves(game))
             assertTrue(whiteKnight.canMove(game, possibleMovePosition.getX(), possibleMovePosition.getY()));
 
         for(Position possibleMovePosition : blackKnight.getPossibleMoves(game))
             assertTrue(blackKnight.canMove(game, possibleMovePosition.getX(), possibleMovePosition.getY()));
+
+
+
+        // out of bounds
+        whiteKnight.canMove(game,1, 1);
+        assertFalse(whiteKnight.canMove(game,-1, 0));
+
+        // same spot
+        assertFalse(whiteKnight.canMove(game,3, 3));
+
+        // empty spot, but invalid movement
+        assertFalse(whiteKnight.canMove(game,4, 4));
+
+
+
+
     }
 }
+
