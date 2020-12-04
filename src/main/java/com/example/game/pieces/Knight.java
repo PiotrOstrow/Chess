@@ -14,6 +14,7 @@ public class Knight extends ChessPiece {
 
     @Override
     protected boolean canMove(Game game, int x, int y)  {
+        //How the Knight moves
         int x_diff = Math.abs(x - this.getPosition().getX());
         int y_diff = Math.abs(y - this.getPosition().getY());
 
@@ -42,7 +43,7 @@ public class Knight extends ChessPiece {
     @Override
     public List<Position> getPossibleMoves(Game game) {
         List<Position> list = new ArrayList<>();
-
+     // All possible moves
 
         if(isValidPosition(game, position.getX() + 1, position.getY() + 2))
             list.add(new Position(position.getX() + 1, position.getY() + 2));
