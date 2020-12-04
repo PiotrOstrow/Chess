@@ -54,6 +54,10 @@ public class MainMenu extends StackPane {
 		resumeGameButton.setFont(font2);
 		exitButton.setFont(font2);
 
+		newGameButton.setFocusTraversable(false);
+		resumeGameButton.setFocusTraversable(false);
+		exitButton.setFocusTraversable(false);
+
 		newGameButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
