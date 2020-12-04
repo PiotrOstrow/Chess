@@ -18,7 +18,7 @@ public class PromotionDialog extends JFXDialog {
 
         JFXDialogLayout content = new JFXDialogLayout();
 
-        Image queen = new Image("/Chess_ArtWork/Chess_Symbols/Wood/QueenW.png");
+        Image queen = new Image("Chess_Artwork/Chess_Symbols/Wood/QueenW.png");
         queenButton = new JFXButton();
         queenButton.setGraphic(new ImageView(queen));
         queenButton.setFocusTraversable(false);
@@ -30,7 +30,7 @@ public class PromotionDialog extends JFXDialog {
             }
         });
 
-        Image knight = new Image("/Chess_ArtWork/Chess_Symbols/Wood/KnightW.png");
+        Image knight = new Image("Chess_Artwork/Chess_Symbols/Wood/KnightW.png");
         knightButton = new JFXButton();
         knightButton.setGraphic(new ImageView(knight));
         knightButton.setFocusTraversable(false);
@@ -42,7 +42,7 @@ public class PromotionDialog extends JFXDialog {
             }
         });
 
-        Image rook = new Image("/Chess_ArtWork/Chess_Symbols/Wood/RookW.png");
+        Image rook = new Image("Chess_Artwork/Chess_Symbols/Wood/RookW.png");
         rookButton = new JFXButton();
         rookButton.setGraphic(new ImageView(rook));
         rookButton.setFocusTraversable(false);
@@ -54,7 +54,7 @@ public class PromotionDialog extends JFXDialog {
             }
         });
 
-        Image bishop = new Image("/Chess_ArtWork/Chess_Symbols/Wood/BishopW.png");
+        Image bishop = new Image("Chess_Artwork/Chess_Symbols/Wood/BishopW.png");
         bishopButton = new JFXButton();
         bishopButton.setGraphic(new ImageView(bishop));
         bishopButton.setFocusTraversable(false);
