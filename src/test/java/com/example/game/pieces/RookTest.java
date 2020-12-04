@@ -30,10 +30,7 @@ public class RookTest {
     void testCanMove() {
         for(Position possibleMovePosition : rook.getPossibleMoves(game))
             assertTrue(rook.canMove(game, possibleMovePosition.getX(), possibleMovePosition.getY()));
-    }
 
-    @Test
-    void rookShouldNotMoveDiagonally() {
         for(Position possibleMovePosition : rook.getPossibleMoves(game))
             assertFalse(possibleMovePosition.isDiagonal(rook.getPosition()));
     }
