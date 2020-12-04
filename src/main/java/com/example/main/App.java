@@ -41,7 +41,7 @@ public class App extends Application {
 
 		gameScene = new Scene(borderPane, 750, 750);
 
-		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess Pieces/Wood/KnightW.png"));
+		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
