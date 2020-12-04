@@ -51,7 +51,7 @@
                     <launcher>Chess</launcher>
                     <jlinkImageName>Chess</jlinkImageName>
                     <jlinkZipName>Chess</jlinkZipName>
-                    <mainClass>com.example.main.Matar</mainClass>
+                    <mainClass>com.example.main.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
