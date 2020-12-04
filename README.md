@@ -1,17 +1,14 @@
 ## How to run
 
-Run the following command
-
 ```
 mvn clean javafx:run
 ```
 
 ## How to build
-
-To build run the following command
+To build a jar file
 
 ```
-mvn clean javafx:jlink
+mvn package
 ```
 
 
