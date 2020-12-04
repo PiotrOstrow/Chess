@@ -15,19 +15,17 @@ import java.net.URL;
 
 public class ResultDialog extends JFXDialog {
 
-    Label gameWonLabel, gameLostLabel;
+    private Label gameResultLabel;
     JFXButton restartButton, menuButton, exitButton;
 
     public ResultDialog() {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        gameLostLabel = new Label("Game Lost");
-
-        gameWonLabel = new Label("Game Won");
-        gameWonLabel.setStyle("-fx-text-fill: black");
+        gameResultLabel = new Label("Game Won");
+        gameResultLabel.setStyle("-fx-text-fill: black");
         URL url1 = getClass().getResource("/norwester/norwester.otf");
         Font font = Font.loadFont(url1.toString(), 48);
-        gameWonLabel.setFont(font);
+        gameResultLabel.setFont(font);
 
         restartButton = new JFXButton("Restart");
         menuButton = new JFXButton("Menu");
@@ -41,6 +39,10 @@ public class ResultDialog extends JFXDialog {
         restartButton.setFont(font2);
         menuButton.setFont(font2);
         exitButton.setFont(font2);
+
+        restartButton.setPrefSize(170, 30);
+        menuButton.setPrefSize(170, 30);
+        exitButton.setPrefSize(170,30);
 
         restartButton.setButtonType(JFXButton.ButtonType.RAISED);
         menuButton.setButtonType(JFXButton.ButtonType.RAISED);
@@ -71,7 +73,7 @@ public class ResultDialog extends JFXDialog {
             }
         });
 
-        VBox vBox = new VBox(gameWonLabel, restartButton, menuButton, exitButton);
+        VBox vBox = new VBox(gameResultLabel, restartButton, menuButton, exitButton);
 
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
@@ -80,5 +82,13 @@ public class ResultDialog extends JFXDialog {
         content.setBody(vBox);
         setContent(content);
 
+    }
+
+    public void setGameResultLabel(Label gameResultLabel) {
+        this.gameResultLabel = gameResultLabel;
+    }
+
+    public Label getGameResultLabel() {
+        return gameResultLabel;
     }
 }

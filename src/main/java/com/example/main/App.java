@@ -2,9 +2,7 @@ package com.example.main;
 
 import com.example.game.Color;
 import com.example.game.Game;
-import com.example.ui.CapturedPiecesBar;
-import com.example.ui.GameBoard;
-import com.example.ui.MainMenu;
+import com.example.ui.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -18,9 +16,11 @@ public class App extends Application {
 	private CapturedPiecesBar bottomBar;
 	private MainMenu mainMenu;
 	private Scene mainScene, gameScene;
+	private ResultDialog resultDialog;
 
 	@Override
 	public void start(Stage primaryStage) {
+
 		mainMenu = new MainMenu();
 		mainScene = new Scene(mainMenu, 750, 750);
 		mainMenu.setOnNewGame(event -> {
@@ -28,6 +28,8 @@ public class App extends Application {
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
+			resultDialog = new ResultDialog();
+			resultDialog.setDialogContainer(gameBoard);
 		});
 
 		gameBoard = new GameBoard();
@@ -67,9 +69,10 @@ public class App extends Application {
 
 	private void gameOver(boolean win) {
 		if(win) {
-			System.out.println("Game won");
+			resultDialog.show();
 		} else {
-			System.out.println("Game lost");
+			resultDialog.getGameResultLabel().setText("Game Lost");
+			resultDialog.show();
 		}
 	}
 
