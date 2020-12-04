@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class CapturedPiecesBar extends HBox {
 
 	private Color color;
@@ -26,18 +28,15 @@ public class CapturedPiecesBar extends HBox {
 	}
 
 	public void set(Game game) {
+		set(game.getCapturedPieces());
+		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> set(game.getCapturedPieces()));
+	}
+
+	private void set(List<ChessPiece> pieces) {
 		getChildren().clear();
-		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> {
-			while(c.next()) {
-				if (c.wasAdded()) {
-					for (ChessPiece piece : c.getAddedSubList())
-						if (piece.getColor() == this.color)
-							addPiece(piece);
-				} else if (!c.wasPermutated()) {
-					throw new RuntimeException("Capture pieces list was modified incorrectly");
-				}
-			}
-		});
+		for(ChessPiece captured : pieces)
+			if(color == captured.getColor())
+				addPiece(captured);
 	}
 
 	private void addPiece(ChessPiece piece) {
@@ -51,17 +50,17 @@ public class CapturedPiecesBar extends HBox {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess Symbols/Wood/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess Symbols/Wood/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess Symbols/Wood/King" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess Symbols/Wood/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess Symbols/Wood/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess Symbols/Wood/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/Wood/Rook" + color + ".png";
 		return "";
 	}
 }

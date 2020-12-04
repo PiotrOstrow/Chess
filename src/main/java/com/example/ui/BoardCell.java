@@ -13,7 +13,7 @@ public class BoardCell extends StackPane {
 	public static final int GRID_CELL_SIZE = 80;
 
 	public enum Highlight {
-		NONE, SELECTED, POSSIBLE_MOVE, CHECK
+		NONE, SELECTED, POSSIBLE_MOVE
 	}
 
 	private final int x;
@@ -23,6 +23,9 @@ public class BoardCell extends StackPane {
 	private final ImageView chessImageView;
 	private final ImageView cellImageView;
 	private final Rectangle rectangle;
+
+	private Highlight highlight = Highlight.NONE;
+	private boolean checked;
 
 	public BoardCell(int x, int y) {
 		this.x = x;
@@ -34,7 +37,7 @@ public class BoardCell extends StackPane {
 		if(x1 == 'd' && y1 == 4) // missing graphic d4??
 			y1 = 2;
 
-		cellImageView = new ImageView(new Image("Chess_Artwork/Chess Board/Wood/" + x1 + y1 + ".png"));
+		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/" + x1 + y1 + ".png"));
 		getChildren().add(cellImageView);
 
 		rectangle = new Rectangle(cellImageView.getImage().getWidth(), cellImageView.getImage().getHeight());
@@ -60,25 +63,31 @@ public class BoardCell extends StackPane {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess Pieces/Wood/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess Pieces/Wood/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess Pieces/Wood/King" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess Pieces/Wood/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess Pieces/Wood/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess Pieces/Wood/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Wood/Rook" + color + ".png";
 		return "";
 	}
 
 	public void setHighlighted(Highlight highlight) {
+		this.highlight = highlight;
 		switch(highlight) {
 			case NONE:
-				cellImageView.setEffect(null);
-				rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				if(checked) {
+					cellImageView.setEffect(new Glow(2));
+					rectangle.setFill(javafx.scene.paint.Color.rgb(255, 0, 0, 0.75));
+				} else {
+					cellImageView.setEffect(null);
+					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				}
 				break;
 			case SELECTED:
 			case POSSIBLE_MOVE:
@@ -86,14 +95,15 @@ public class BoardCell extends StackPane {
 
 				if(color == Color.WHITE)
 					rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
-				//else
-				//	rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.25));
-				break;
-			case CHECK:
-				cellImageView.setEffect(new Glow(2));
-				rectangle.setFill(javafx.scene.paint.Color.rgb(192, 0, 0, 0.5));
+				else
+					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
 				break;
 		}
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+		setHighlighted(highlight);
 	}
 
 	public int getX() {

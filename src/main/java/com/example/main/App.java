@@ -31,8 +31,8 @@ public class App extends Application {
 		});
 
 		gameBoard = new GameBoard();
-		topBar = new CapturedPiecesBar(Color.BLACK);
-		bottomBar = new CapturedPiecesBar(Color.WHITE);
+		topBar = new CapturedPiecesBar(Color.WHITE);
+		bottomBar = new CapturedPiecesBar(Color.BLACK);
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(gameBoard);
@@ -41,7 +41,7 @@ public class App extends Application {
 
 		gameScene = new Scene(borderPane, 750, 750);
 
-		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess Pieces/Wood/KnightW.png"));
+		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
@@ -54,7 +54,23 @@ public class App extends Application {
 		bottomBar.set(game);
 
 		// temporary
-		game.addGameCallback(() -> gameBoard.setGame(game, Color.WHITE));
+		game.addGameCallback(() -> {
+			gameBoard.onMoved();
+
+			if(game.isInCheckMate(Color.WHITE)) {
+				gameOver(gameBoard.getControlledColor() != Color.WHITE);
+			} else if (game.isInCheckMate(Color.BLACK)) {
+				gameOver(gameBoard.getControlledColor() != Color.BLACK);
+			}
+		});
+	}
+
+	private void gameOver(boolean win) {
+		if(win) {
+			System.out.println("Game won");
+		} else {
+			System.out.println("Game lost");
+		}
 	}
 
 	public static void main(String[] args) {

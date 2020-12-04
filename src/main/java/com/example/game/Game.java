@@ -4,6 +4,7 @@ import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class Game {
@@ -24,6 +25,9 @@ public class Game {
 
 	private Player currentMovePlayer;
 
+	private King checkedKing;
+	private ChessPiece checkingPiece;
+
 	public Game() {
 		playerWhite = new Player(Color.WHITE);
 		playerBlack = new Computer(this, Color.BLACK);
@@ -37,8 +41,24 @@ public class Game {
 		return pieces[x][y];
 	}
 
+	public void promote(Class<? extends ChessPiece> pieceType) {
+		try {
+			// find pawn to be promoted
+			ChessPiece pawn = getPromotablePawn();
+
+			if (pawn == null)
+				throw new IllegalStateException("Trying to promote while no pawn is in the required position");
+
+			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.TYPE, Integer.TYPE, Color.class);
+			ChessPiece newPiece = constructor.newInstance(pawn.getPosition().getX(), pawn.getPosition().getY(), pawn.getColor());
+			addPiece(newPiece); // overrides old piece
+			onMoved(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public boolean move(ChessPiece chessPiece, int x, int y) {
-		// TODO: check if move results in a check
 		// save the location before moving
 		int previousX = chessPiece.getPosition().getX();
 		int previousY = chessPiece.getPosition().getY();
@@ -57,10 +77,8 @@ public class Game {
 				reverseMove();
 				return false;
 			} else { // move passed
-				if ((y==0 || y==7)&&chessPiece.isPromoteAble())
-					pieces[x][y] = new Queen(x, y, chessPiece.getColor());
-
-				onMoved();
+				boolean promoted = (y==0 || y==7)&&chessPiece.isPromoteAble();
+				onMoved(!promoted);
 			}
 			return true;
 		} else if(canCastleMove(chessPiece, x, y)) {
@@ -80,7 +98,7 @@ public class Game {
 
 			moveLogStack.add(new Move(king, 4, king.getPosition().getY(), king.getPosition().getX(), king.getPosition().getY(), rook));
 
-			onMoved();
+			onMoved(true);
 
 			return true;
 		}
@@ -88,11 +106,20 @@ public class Game {
 	}
 
 	// called after every move
-	private void onMoved() {
+	private void onMoved(boolean switchPlayer) {
 		possibleMovesCache.clear();
 
 		// switch current move player, bofore callback
-		currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+		if(switchPlayer)
+			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
+
+		// TODO: temporary?
+		if((checkingPiece = getCheckingPiece(Color.WHITE)) != null)
+			checkedKing = getKing(Color.WHITE);
+		else if((checkingPiece = getCheckingPiece(Color.BLACK)) != null)
+			checkedKing = getKing(Color.BLACK);
+		else
+			checkedKing = null;
 
 		for (GameCallback callback : callbacks)
 			callback.onMoved();
@@ -120,6 +147,12 @@ public class Game {
 		ListIterator<Position> iterator = possibleMoves.listIterator();
 		while(iterator.hasNext()) {
 			Position pos = iterator.next();
+
+			// TODO: Pawn returns positions out of bounds in the list
+			if(pos.getX() < 0 || pos.getX() >= 8 || pos.getY() < 0 || pos.getY() >= 8){
+				iterator.remove();
+				continue;
+			}
 
 			// make the move by just swapping
 			ChessPiece temp = pieces[pos.getX()][pos.getY()];
@@ -211,9 +244,50 @@ public class Game {
 	}
 
 	/**
+	 * Returns a pawn that is in the position to be promoted, can only be one at a time, null if there is none
+	 */
+	private ChessPiece getPromotablePawn() {
+		ChessPiece pawn = null;
+
+		for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 0);
+		for (int i = 0; i < 8 && !(pawn instanceof Pawn); i++) pawn = getPiece(i, 7);
+
+		if(pawn instanceof Pawn)
+			return pawn;
+
+		return null;
+	}
+
+	public boolean isInCheckMate(Color color) {
+		// if player has no possible moves, then the king is in check mate
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				ChessPiece piece = getPiece(x, y);
+				if(piece != null && piece.getColor() == color){
+					List<Position> possibleMoves = getPossibleMoves(piece);
+					if(possibleMoves.size() > 0)
+						return false;
+				}
+			}
+		}
+
+		// unless there is a pawn to promote
+		ChessPiece pawn = getPromotablePawn();
+		return pawn == null || pawn.getColor() != color;
+	}
+
+	/**
 	 * @return true if given color is in check
 	 */
 	private boolean isInCheck(Color color) {
+		return getCheckingPiece(color) != null;
+	}
+
+	/**
+	 * @param color color of King to check check on
+	 * @return the piece that checks the king of the given color, null if not in check
+	 */
+	private ChessPiece getCheckingPiece(Color color) {
 		King king = getKing(color);
 
 		for(int x = 0; x < 8; x++) {
@@ -222,13 +296,14 @@ public class Game {
 				if (piece != null && piece.getColor() != color) {
 					List<Position> possibleMoves = piece.getPossibleMoves(this);
 					for(Position position : possibleMoves){
-						if(position.getX() == king.getPosition().getX() && position.getY() == king.getPosition().getY())
-							return true;
+						if(position.getX() == king.getPosition().getX() && position.getY() == king.getPosition().getY()) {
+							return piece;
+						}
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public void reverseMove() {
@@ -313,5 +388,13 @@ public class Game {
 		if(color == Color.WHITE)
 			return whiteKing;
 		return blackKing;
+	}
+
+	public King getCheckedKing() {
+		return checkedKing;
+	}
+
+	public ChessPiece getCheckingPiece() {
+		return checkingPiece;
 	}
 }
