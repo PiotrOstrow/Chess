@@ -4,11 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -53,25 +51,16 @@ public class ResultDialog extends JFXDialog {
         menuButton.setFocusTraversable(false);
         exitButton.setFocusTraversable(false);
 
-        restartButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                restartButton.setCursor(Cursor.HAND);
-            }
+        restartButton.setOnMouseEntered(mouseEvent -> {
+            restartButton.setCursor(Cursor.HAND);
         });
 
-        menuButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                menuButton.setCursor(Cursor.HAND);
-            }
+        menuButton.setOnMouseEntered(mouseEvent -> {
+            menuButton.setCursor(Cursor.HAND);
         });
 
-        exitButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                exitButton.setCursor(Cursor.HAND);
-            }
+        exitButton.setOnMouseEntered(mouseEvent -> {
+            exitButton.setCursor(Cursor.HAND);
         });
 
         exitButton.setOnAction(event -> Platform.exit());

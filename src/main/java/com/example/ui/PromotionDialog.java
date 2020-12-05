@@ -23,11 +23,8 @@ public class PromotionDialog extends JFXDialog {
         queenButton.setGraphic(new ImageView(queen));
         queenButton.setFocusTraversable(false);
         queenButton.setButtonType(JFXButton.ButtonType.RAISED);
-        queenButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                queenButton.setCursor(Cursor.HAND);
-            }
+        queenButton.setOnMouseEntered(mouseEvent -> {
+            queenButton.setCursor(Cursor.HAND);
         });
 
         Image knight = new Image("Chess_Artwork/Chess_Symbols/Wood/KnightW.png");
@@ -35,11 +32,8 @@ public class PromotionDialog extends JFXDialog {
         knightButton.setGraphic(new ImageView(knight));
         knightButton.setFocusTraversable(false);
         knightButton.setButtonType(JFXButton.ButtonType.RAISED);
-        knightButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                knightButton.setCursor(Cursor.HAND);
-            }
+        knightButton.setOnMouseEntered(mouseEvent -> {
+            knightButton.setCursor(Cursor.HAND);
         });
 
         Image rook = new Image("Chess_Artwork/Chess_Symbols/Wood/RookW.png");
@@ -47,11 +41,8 @@ public class PromotionDialog extends JFXDialog {
         rookButton.setGraphic(new ImageView(rook));
         rookButton.setFocusTraversable(false);
         rookButton.setButtonType(JFXButton.ButtonType.RAISED);
-        rookButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                rookButton.setCursor(Cursor.HAND);
-            }
+        rookButton.setOnMouseEntered(mouseEvent -> {
+            rookButton.setCursor(Cursor.HAND);
         });
 
         Image bishop = new Image("Chess_Artwork/Chess_Symbols/Wood/BishopW.png");
@@ -59,11 +50,8 @@ public class PromotionDialog extends JFXDialog {
         bishopButton.setGraphic(new ImageView(bishop));
         bishopButton.setFocusTraversable(false);
         bishopButton.setButtonType(JFXButton.ButtonType.RAISED);
-        bishopButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                bishopButton.setCursor(Cursor.HAND);
-            }
+        bishopButton.setOnMouseEntered(mouseEvent -> {
+            bishopButton.setCursor(Cursor.HAND);
         });
 
         HBox hBox = new HBox(queenButton, knightButton, rookButton, bishopButton);

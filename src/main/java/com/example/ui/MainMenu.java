@@ -59,25 +59,16 @@ public class MainMenu extends StackPane {
 		resumeGameButton.setFocusTraversable(false);
 		exitButton.setFocusTraversable(false);
 
-		newGameButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				newGameButton.setCursor(Cursor.HAND);
-			}
+		newGameButton.setOnMouseEntered(mouseEvent -> {
+			newGameButton.setCursor(Cursor.HAND);
 		});
 
-		resumeGameButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				resumeGameButton.setCursor(Cursor.HAND);
-			}
+		resumeGameButton.setOnMouseEntered(mouseEvent -> {
+			resumeGameButton.setCursor(Cursor.HAND);
 		});
 
-		exitButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				exitButton.setCursor(Cursor.HAND);
-			}
+		exitButton.setOnMouseEntered(mouseEvent -> {
+			exitButton.setCursor(Cursor.HAND);
 		});
 
 		vBox.setSpacing(10);
