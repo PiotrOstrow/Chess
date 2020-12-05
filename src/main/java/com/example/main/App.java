@@ -7,41 +7,36 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class App extends Application {
 
-	private GameBoard gameBoard;
-	private CapturedPiecesBar topBar;
-	private CapturedPiecesBar bottomBar;
-	private MainMenu mainMenu;
-	private Scene mainScene, gameScene;
-	private ResultDialog resultDialog;
+	private final StackPane gameRoot = new StackPane();
+	private final GameBoard gameBoard = new GameBoard(gameRoot);
+	private final CapturedPiecesBar topBar = new CapturedPiecesBar(Color.WHITE);
+	private final CapturedPiecesBar bottomBar = new CapturedPiecesBar(Color.BLACK);
+	private final MainMenu mainMenu = new MainMenu();
+	private final ResultDialog resultDialog = new ResultDialog();
 
 	@Override
 	public void start(Stage primaryStage) {
+		final Scene scene = new Scene(mainMenu, 750, 750);
 
-		mainMenu = new MainMenu();
-		mainScene = new Scene(mainMenu, 750, 750);
+		resultDialog.setDialogContainer(gameRoot);
+		resultDialog.setOverlayClose(false);
+
 		mainMenu.setOnNewGame(event -> {
-			primaryStage.setScene(gameScene);
+			scene.setRoot(gameRoot);
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
 		});
-
-		gameBoard = new GameBoard();
-		topBar = new CapturedPiecesBar(Color.WHITE);
-		bottomBar = new CapturedPiecesBar(Color.BLACK);
-		resultDialog = new ResultDialog();
-		resultDialog.setDialogContainer(gameBoard);
-		resultDialog.setOverlayClose(false);
 
 		resultDialog.getRestartButton().setOnAction(event -> {
 			Game game = new Game();
@@ -52,25 +47,22 @@ public class App extends Application {
 		});
 
 		resultDialog.getMenuButton().setOnAction(event -> {
-			primaryStage.setScene(mainScene);
+			scene.setRoot(mainMenu);
 			gameBoard.getChildren().get(0).setEffect(null);
 			resultDialog.close();
-		});
-
-		resultDialog.getExitButton().setOnAction(event -> {
-			Platform.exit();
 		});
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(gameBoard);
 		borderPane.setTop(topBar);
 		borderPane.setBottom(bottomBar);
-
-		gameScene = new Scene(borderPane, 750, 750);
+		gameRoot.getChildren().add(borderPane);
 
 		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
-		primaryStage.setScene(mainScene);
+		primaryStage.setScene(scene);
+		primaryStage.setMinWidth(500);
+		primaryStage.setMinHeight(500);
 		primaryStage.show();
 	}
 

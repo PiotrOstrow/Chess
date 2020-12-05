@@ -3,6 +3,7 @@ package com.example.ui;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -72,6 +73,8 @@ public class ResultDialog extends JFXDialog {
                 exitButton.setCursor(Cursor.HAND);
             }
         });
+
+        exitButton.setOnAction(event -> Platform.exit());
 
         VBox vBox = new VBox(gameResultLabel, restartButton, menuButton, exitButton);
 

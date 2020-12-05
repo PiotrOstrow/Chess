@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,7 +86,6 @@ public class MainMenu extends StackPane {
 		Image backgroundImage = new Image("hassan-pasha-7SjEuEF06Zw-unsplash.jpg");
 		backgroundImageView = new ImageView(backgroundImage);
 		backgroundImageView.setEffect(new GaussianBlur(7));
-		backgroundImageAspectRatio = backgroundImage.getWidth() / backgroundImage.getHeight();
 
 		getChildren().add(backgroundImageView);
 		getChildren().add(vBox);
@@ -93,6 +93,12 @@ public class MainMenu extends StackPane {
 		setStyle("-fx-background-color: black");
 
 		exitButton.setOnAction((e) -> Platform.exit());
+
+		// offset image to be centered
+		double xOffset = 160;
+		double yOffset = 350;
+		backgroundImageView.setViewport(new Rectangle2D(xOffset, yOffset, backgroundImage.getWidth() - xOffset, backgroundImage.getHeight() - yOffset));
+		backgroundImageAspectRatio = backgroundImageView.getViewport().getWidth() / backgroundImageView.getViewport().getHeight();
 	}
 
 	@Override

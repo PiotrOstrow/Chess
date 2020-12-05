@@ -28,7 +28,7 @@ public class GameBoard extends StackPane {
 	private Game currentGame;
 	private Color controlledColor;
 
-	public GameBoard() {
+	public GameBoard(StackPane dialogRoot) {
 		GridPane gridPane = new GridPane();
 		for(int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -47,7 +47,7 @@ public class GameBoard extends StackPane {
 		getChildren().add(gridPane);
 
 		promotionDialog = new PromotionDialog();
-		promotionDialog.setDialogContainer(this);
+		promotionDialog.setDialogContainer(dialogRoot);
 		promotionDialog.setEffect(new DropShadow());
 		promotionDialog.setOverlayClose(false);
 		getChildren().add(promotionDialog);
