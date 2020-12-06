@@ -42,13 +42,16 @@ public class Game {
 	}
 
 	public void promote(Class<? extends ChessPiece> pieceType) {
+		// find pawn to be promoted
+		ChessPiece pawn = getPromotablePawn();
+
+		if (pawn == null)
+			throw new IllegalStateException("Trying to promote while no pawn is in the required position");
+
+		if(pieceType == King.class || pieceType == Pawn.class)
+			throw new IllegalArgumentException("Cannot promote Pawn to " + pieceType.getSimpleName());
+
 		try {
-			// find pawn to be promoted
-			ChessPiece pawn = getPromotablePawn();
-
-			if (pawn == null)
-				throw new IllegalStateException("Trying to promote while no pawn is in the required position");
-
 			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.TYPE, Integer.TYPE, Color.class);
 			ChessPiece newPiece = constructor.newInstance(pawn.getPosition().getX(), pawn.getPosition().getY(), pawn.getColor());
 			addPiece(newPiece); // overrides old piece

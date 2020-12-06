@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BishopTest {
@@ -34,5 +34,9 @@ public class BishopTest {
 		// canMove should return true for every possible move
 		for(Position possibleMovePosition : bishop.getPossibleMoves(game))
 			assertTrue(bishop.canMove(game, possibleMovePosition.getX(), possibleMovePosition.getY()));
+
+		assertFalse(bishop.canMove(game, bishop.getPosition().getX() + 1, bishop.getPosition().getY()));
+		assertFalse(bishop.canMove(game, bishop.getPosition().getX() + 2, bishop.getPosition().getY() + 3));
+		assertFalse(bishop.canMove(game, bishop.getPosition().getX(), bishop.getPosition().getY() - 1));
 	}
 }
