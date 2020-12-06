@@ -380,7 +380,7 @@ public class Game {
 	}
 
 	public ObservableList<ChessPiece> getCapturedPieces() {
-		return FXCollections.unmodifiableObservableList(capturedPieces);
+		return capturedPieces;
 	}
 
 	public void addGameCallback(GameCallback callback) {
