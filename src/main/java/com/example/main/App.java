@@ -3,14 +3,19 @@ package com.example.main;
 import com.example.game.Color;
 import com.example.game.Game;
 import com.example.ui.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXNodesList;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -51,6 +56,15 @@ public class App extends Application {
 			gameBoard.getChildren().get(0).setEffect(null);
 			resultDialog.close();
 		});
+
+		/*JFXButton backButton = new JFXButton("Back");
+		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
+
+		HBox hBox = new HBox();
+		hBox.setPadding(new Insets(10));
+		hBox.setAlignment(Pos.TOP_LEFT);
+		hBox.getChildren().add(backButton);
+		 */
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setCenter(gameBoard);

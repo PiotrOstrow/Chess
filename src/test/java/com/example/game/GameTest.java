@@ -29,6 +29,22 @@ public class GameTest {
 
 	@Test
 	void testIsInCheckMate() {
+		Game game = new Game(false);
+
+		King whiteKing = new King(5,3, Color.WHITE);
+		King blackKing = new King(7, 3, Color.BLACK);
+		Rook whiteRook = new Rook(7, 7, Color.WHITE);
+
+		game.addPiece(whiteKing);
+		game.addPiece(blackKing);
+		game.addPiece(whiteRook);
+
+		List<Position> blackKingPossibleMoves = game.getPossibleMoves(blackKing);
+		List<Position> whiteRookPossibleMoves = game.getPossibleMoves(whiteRook);
+
+		for(Position p1 :blackKingPossibleMoves)
+			for(Position p2 : whiteRookPossibleMoves)
+				assertFalse(p1.getX() == p2.getX() && p1.getY() == p2.getY());
 
 	}
 
