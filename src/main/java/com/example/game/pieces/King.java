@@ -17,13 +17,6 @@ public class King extends ChessPiece{
 		return position.distance(x, y) < 2;
 	}
 
-	@Override
-	public String getImagePath() {
-		if(color == Color.WHITE)
-			return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\white_king.png";
-		return "Pixel_Art_Chess_DevilsWorkshop_V03\\chess\\black_king.png";
-	}
-
 	private boolean isValidPosition(Game game, int x, int y) {
 		return (position.getX() != x || position.getY() != y) && (game.getPiece(x, y) == null || game.getPiece(x, y).color != this.color);
 	}

@@ -28,13 +28,6 @@ public class Queen extends ChessPiece {
 	}
 
 	@Override
-	public String getImagePath() {
-		if(color == Color.WHITE)
-			return "Pixel_Art_Chess_DevilsWorkshop_V03/chess/white_queen.png";
-		return "Pixel_Art_Chess_DevilsWorkshop_V03/chess/black_queen.png";
-	}
-
-	@Override
 	public List<Position> getPossibleMoves(Game game) {
 		List<Position> list = new ArrayList<>();
 

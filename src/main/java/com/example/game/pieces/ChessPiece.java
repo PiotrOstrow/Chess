@@ -64,8 +64,6 @@ public abstract class ChessPiece {
 
 	protected abstract boolean canMove(Game game, int x, int y);
 
-	public abstract String getImagePath();
-
 	public abstract List<Position> getPossibleMoves(Game game);
 
 	public final Position getPosition() {

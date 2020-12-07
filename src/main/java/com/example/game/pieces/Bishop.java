@@ -29,13 +29,6 @@ public class Bishop extends ChessPiece {
 	}
 
 	@Override
-	public String getImagePath() {
-		if (color == Color.BLACK)
-			return "Pixel_Art_Chess_DevilsWorkshop_V03/chess/black_bishop.png";
-		return "Pixel_Art_Chess_DevilsWorkshop_V03/chess/white_bishop.png";
-	}
-
-	@Override
 	public List<Position> getPossibleMoves(Game game) {
 		List<Position> list = new ArrayList<>();
 
