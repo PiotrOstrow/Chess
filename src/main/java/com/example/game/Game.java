@@ -29,8 +29,12 @@ public class Game {
 	private ChessPiece checkingPiece;
 
 	public Game() {
+		this(true);
+	}
+
+	public Game(boolean againstComputer) {
 		playerWhite = new Player(Color.WHITE);
-		playerBlack = new Computer(this, Color.BLACK);
+		playerBlack = againstComputer ? new Computer(this, Color.BLACK) : new Player(Color.BLACK);
 
 		currentMovePlayer = playerWhite;
 	}
