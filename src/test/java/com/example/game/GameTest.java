@@ -40,6 +40,25 @@ public class GameTest {
 		game.addPiece(blackKing);
 
 		assertFalse(game.isInCheckMate(Color.BLACK));
+
+		Game game2 = new Game(false);
+		game2.addPiece(new King(0, 0, Color.BLACK));
+		game2.addPiece(new King(4, 7, Color.WHITE));
+		game2.addPiece(new Queen(0, 7, Color.WHITE));
+		game2.addPiece(new Rook(1, 5, Color.WHITE));
+
+		assertTrue(game2.isInCheckMate(Color.BLACK));
+		assertFalse(game2.isInCheckMate(Color.WHITE));
+
+		Game game3 = new Game(false);
+		game3.addPiece(new King(0, 0, Color.BLACK));
+		game3.addPiece(new Bishop(2, 2, Color.BLACK));
+		game3.addPiece(new King(4, 7, Color.WHITE));
+		game3.addPiece(new Queen(0, 7, Color.WHITE));
+		game3.addPiece(new Rook(1, 5, Color.WHITE));
+
+		assertFalse(game3.isInCheckMate(Color.BLACK));
+		assertFalse(game3.isInCheckMate(Color.WHITE));
 	}
 
 	@Test
