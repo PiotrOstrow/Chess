@@ -22,7 +22,7 @@ public class RookTest {
     }
 
     @Test
-    void getPossibleMoves() {
+    void testGetPossibleMoves() {
         assertEquals(rook.getPossibleMoves(game).size(), 14);
     }
 
