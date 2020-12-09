@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,10 +29,26 @@ public class App extends Application {
 	private final CapturedPiecesBar bottomBar = new CapturedPiecesBar(Color.BLACK);
 	private final MainMenu mainMenu = new MainMenu();
 	private final ResultDialog resultDialog = new ResultDialog();
+	private final BorderPane borderPane = new BorderPane(); // game container
 
 	@Override
 	public void start(Stage primaryStage) {
-		final Scene scene = new Scene(mainMenu, 750, 750);
+		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
+		final Scene scene = new Scene(mainMenu, size, size);
+
+		/*JFXButton backButton = new JFXButton("Back");
+		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
+
+		HBox hBox = new HBox();
+		hBox.setPadding(new Insets(10));
+		hBox.setAlignment(Pos.TOP_LEFT);
+		hBox.getChildren().add(backButton);
+		 */
+
+		borderPane.setCenter(gameBoard);
+		borderPane.setTop(topBar);
+		borderPane.setBottom(bottomBar);
+		gameRoot.getChildren().add(borderPane);
 
 		resultDialog.setDialogContainer(gameRoot);
 		resultDialog.setOverlayClose(false);
@@ -47,30 +64,15 @@ public class App extends Application {
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
-			gameBoard.getChildren().get(0).setEffect(null);
+			borderPane.setEffect(null);
 			resultDialog.close();
 		});
 
 		resultDialog.getMenuButton().setOnAction(event -> {
 			scene.setRoot(mainMenu);
-			gameBoard.getChildren().get(0).setEffect(null);
+			borderPane.setEffect(null);
 			resultDialog.close();
 		});
-
-		/*JFXButton backButton = new JFXButton("Back");
-		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
-
-		HBox hBox = new HBox();
-		hBox.setPadding(new Insets(10));
-		hBox.setAlignment(Pos.TOP_LEFT);
-		hBox.getChildren().add(backButton);
-		 */
-
-		BorderPane borderPane = new BorderPane();
-		borderPane.setCenter(gameBoard);
-		borderPane.setTop(topBar);
-		borderPane.setBottom(bottomBar);
-		gameRoot.getChildren().add(borderPane);
 
 		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
@@ -106,7 +108,7 @@ public class App extends Application {
 		}
 		GaussianBlur blur = new GaussianBlur(0);
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5000), new KeyValue(blur.radiusProperty(), 7)));
-		gameBoard.getChildren().get(0).setEffect(blur);
+		borderPane.setEffect(blur);
 		resultDialog.show();
 		timeline.playFromStart();
 	}
