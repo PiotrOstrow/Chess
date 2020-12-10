@@ -51,6 +51,15 @@ public class BoardCell extends StackPane {
 		setPrefSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
 	}
 
+	public void setTheme(Theme theme) {
+		int y1 = 8 - y;
+		char x1 = (char) ('a' + x);
+		if(x1 == 'd' && y1 == 4) // missing graphic d4??
+			y1 = 2;
+
+		cellImageView.setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/" + x1 + y1 + ".png"));
+	}
+
 	public void setPiece(ChessPiece piece) {
 		if(piece == null) {
 			chessImageView.setImage(null);

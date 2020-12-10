@@ -78,6 +78,7 @@ public class App extends Application {
 		gameRoot.getChildren().add(borderPane);
 
 		settingsDialog.setDialogContainer(gameRoot);
+		settingsDialog.onThemeChanged((observable, oldValue, newValue) -> setTheme(newValue));
 
 		resultDialog.setDialogContainer(gameRoot);
 		resultDialog.setOverlayClose(false);
@@ -109,6 +110,12 @@ public class App extends Application {
 		primaryStage.setMinWidth(500);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
+	}
+
+	private void setTheme(Theme theme) {
+		gameBoard.setTheme(theme);
+		// topBar.setTheme(theme);
+		// bottomBar.setTheme(theme);
 	}
 
 	private void startGame(final Game game){

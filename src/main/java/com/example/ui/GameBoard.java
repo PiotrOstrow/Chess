@@ -76,6 +76,16 @@ public class GameBoard extends StackPane {
 		});
 	}
 
+	public void setTheme(Theme theme) {
+		for(int x = 0; x < cells.length; x++) {
+			for(int y = 0; y < cells[0].length; y++) {
+				cells[x][y].setTheme(theme);
+
+
+			}
+		}
+	}
+
 	@Override
 	public void resize(double width, double height) {
 		super.resize(width, height);
