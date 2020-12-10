@@ -4,6 +4,7 @@ import com.example.game.Color;
 import com.example.game.Game;
 import com.example.ui.*;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXNodesList;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,7 +36,8 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
-		final Scene scene = new Scene(mainMenu, size, size);
+		final JFXDecorator decorator = new JFXDecorator(primaryStage, mainMenu, false, true, true);
+		final Scene scene = new Scene(decorator, size, size);
 
 		/*JFXButton backButton = new JFXButton("Back");
 		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
@@ -54,7 +57,7 @@ public class App extends Application {
 		resultDialog.setOverlayClose(false);
 
 		mainMenu.setOnNewGame(event -> {
-			scene.setRoot(gameRoot);
+			decorator.setContent(gameRoot);
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
@@ -69,7 +72,7 @@ public class App extends Application {
 		});
 
 		resultDialog.getMenuButton().setOnAction(event -> {
-			scene.setRoot(mainMenu);
+			decorator.setContent(mainMenu);
 			borderPane.setEffect(null);
 			resultDialog.close();
 		});
