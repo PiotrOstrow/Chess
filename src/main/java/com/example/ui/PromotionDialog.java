@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.scene.Cursor;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,36 +22,28 @@ public class PromotionDialog extends JFXDialog {
         queenButton.setGraphic(new ImageView(queen));
         queenButton.setFocusTraversable(false);
         queenButton.setButtonType(JFXButton.ButtonType.RAISED);
-        queenButton.setOnMouseEntered(mouseEvent -> {
-            queenButton.setCursor(Cursor.HAND);
-        });
+        queenButton.setOnMouseEntered(mouseEvent -> queenButton.setCursor(Cursor.HAND));
 
         Image knight = new Image("Chess_Artwork/Chess_Symbols/Stone/KnightW.png");
         knightButton = new JFXButton();
         knightButton.setGraphic(new ImageView(knight));
         knightButton.setFocusTraversable(false);
         knightButton.setButtonType(JFXButton.ButtonType.RAISED);
-        knightButton.setOnMouseEntered(mouseEvent -> {
-            knightButton.setCursor(Cursor.HAND);
-        });
+        knightButton.setOnMouseEntered(mouseEvent -> knightButton.setCursor(Cursor.HAND));
 
         Image rook = new Image("Chess_Artwork/Chess_Symbols/Stone/RookW.png");
         rookButton = new JFXButton();
         rookButton.setGraphic(new ImageView(rook));
         rookButton.setFocusTraversable(false);
         rookButton.setButtonType(JFXButton.ButtonType.RAISED);
-        rookButton.setOnMouseEntered(mouseEvent -> {
-            rookButton.setCursor(Cursor.HAND);
-        });
+        rookButton.setOnMouseEntered(mouseEvent -> rookButton.setCursor(Cursor.HAND));
 
         Image bishop = new Image("Chess_Artwork/Chess_Symbols/Stone/BishopW.png");
         bishopButton = new JFXButton();
         bishopButton.setGraphic(new ImageView(bishop));
         bishopButton.setFocusTraversable(false);
         bishopButton.setButtonType(JFXButton.ButtonType.RAISED);
-        bishopButton.setOnMouseEntered(mouseEvent -> {
-            bishopButton.setCursor(Cursor.HAND);
-        });
+        bishopButton.setOnMouseEntered(mouseEvent -> bishopButton.setCursor(Cursor.HAND));
 
         HBox hBox = new HBox(queenButton, knightButton, rookButton, bishopButton);
         hBox.setSpacing(10);
