@@ -65,9 +65,9 @@ public class App extends Application {
 			scene.setRoot(gameRoot);
 			Game game;
 			SaveLoad load = new SaveLoad();
-			game = load.loadGame();
+			//game = load.loadGame();
 			//game.setUpNormal();
-			startGame(game);
+			//startGame(game);
 		});
 
 		resultDialog.getRestartButton().setOnAction(event -> {

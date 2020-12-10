@@ -20,14 +20,14 @@ public class SaveLoad{
     }
 
 
-    public Game loadGame() {
+    public void loadGame() {
 
         if (scanner.nextLine().equals("SavedGame"))
                 loadFromSave();
         if  (scanner.nextLine().equals("SavedPosition"))
             loadFromPosition();
         scanner.close();
-        return this.game;
+        //return this.game;
         }
 
 
