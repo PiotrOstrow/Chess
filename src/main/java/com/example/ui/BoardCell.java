@@ -94,7 +94,8 @@ public class BoardCell extends StackPane {
 				cellImageView.setEffect(new Glow(2));
 
 				if(color == Color.WHITE)
-					rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
+					//rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
+					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.33));
 				else
 					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
 				break;
