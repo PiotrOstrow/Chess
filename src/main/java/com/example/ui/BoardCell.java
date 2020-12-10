@@ -34,10 +34,13 @@ public class BoardCell extends StackPane {
 
 		int y1 = 8 - y;
 		char x1 = (char) ('a' + x);
+
 		if(x1 == 'd' && y1 == 4) // missing graphic d4??
 			y1 = 2;
 
-		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/" + x1 + y1 + ".png"));
+
+		System.out.println("Chess_Artwork/Chess_Board/Stone_Black/" + x1 + y1 + ".png");
+		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Stone_Black/" + x1 + y1 + ".png"));
 		getChildren().add(cellImageView);
 
 		rectangle = new Rectangle(cellImageView.getImage().getWidth(), cellImageView.getImage().getHeight());
@@ -63,17 +66,17 @@ public class BoardCell extends StackPane {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess_Pieces/Wood/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess_Pieces/Wood/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess_Pieces/Wood/King" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess_Pieces/Wood/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess_Pieces/Wood/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess_Pieces/Wood/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/Stone/Rook" + color + ".png";
 		return "";
 	}
 
