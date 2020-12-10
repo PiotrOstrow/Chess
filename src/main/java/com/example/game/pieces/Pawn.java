@@ -21,7 +21,7 @@ public class Pawn extends ChessPiece{
                     return true;
                 else if (position.getY()==y-2*dir && position.getY()==3.5 - 2.5 * dir && game.getPiece(x,y-dir)==null)
                     return true;
-        if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir)
+        if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir && game.getPiece(x,y)!=null)
             return true;
 
         return false;
@@ -42,6 +42,10 @@ public class Pawn extends ChessPiece{
         int y = position.getY();
         int dir=1;
         if (this.color==color.WHITE) {dir = -1;}
+
+        if (y == 3.5 + 3.5*dir){
+            return list;
+        }
 
         if (game.getPiece(x, y+dir)==null) {
             list.add(new Position(x, y + dir));
