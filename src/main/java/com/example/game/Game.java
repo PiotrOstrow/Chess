@@ -116,7 +116,7 @@ public class Game {
 	private void onMoved(boolean switchPlayer) {
 		possibleMovesCache.clear();
 
-		// switch current move player, bofore callback
+		// switch current move player, before callback
 		if(switchPlayer)
 			currentMovePlayer = currentMovePlayer == playerWhite ? playerBlack : playerWhite;
 

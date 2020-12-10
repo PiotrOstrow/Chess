@@ -88,7 +88,4 @@ public class ResultDialog extends JFXDialog {
         return menuButton;
     }
 
-    public JFXButton getExitButton() {
-        return exitButton;
-    }
 }

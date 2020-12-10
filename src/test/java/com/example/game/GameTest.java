@@ -39,6 +39,8 @@ public class GameTest {
 		game.addPiece(whiteRook);
 		game.addPiece(blackKing);
 
+		// black king in check
+
 		assertFalse(game.isInCheckMate(Color.BLACK));
 
 		Game game2 = new Game(false);
@@ -62,7 +64,7 @@ public class GameTest {
 	}
 
 	@Test
-	void getPossibleMoves() {
+	void testGetPossibleMoves() {
 		Game game = new Game(false);
 
 		King whiteKing = new King(0, 0, Color.WHITE);

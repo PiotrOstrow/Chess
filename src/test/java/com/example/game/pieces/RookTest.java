@@ -23,15 +23,20 @@ public class RookTest {
 
     @Test
     void testGetPossibleMoves() {
+        // with no pieces around, there should be 14 possible moves
         assertEquals(rook.getPossibleMoves(game).size(), 14);
+
+
+        // all possible moves should be horizontally or vertically
+        for(Position possibleMovePosition : rook.getPossibleMoves(game))
+            assertFalse(possibleMovePosition.isDiagonal(rook.getPosition()));
     }
 
     @Test
     void testCanMove() {
+        // test every possible move
         for(Position possibleMovePosition : rook.getPossibleMoves(game))
             assertTrue(rook.canMove(game, possibleMovePosition.getX(), possibleMovePosition.getY()));
 
-        for(Position possibleMovePosition : rook.getPossibleMoves(game))
-            assertFalse(possibleMovePosition.isDiagonal(rook.getPosition()));
     }
 }
