@@ -5,7 +5,6 @@ import com.example.game.Game;
 import com.example.ui.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
-import com.jfoenix.controls.JFXNodesList;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,6 +12,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class App extends Application {
 
@@ -32,6 +34,7 @@ public class App extends Application {
 	private final MainMenu mainMenu = new MainMenu();
 	private final ResultDialog resultDialog = new ResultDialog();
 	private final BorderPane borderPane = new BorderPane(); // game container
+	private final SettingsDialog settingsDialog = new SettingsDialog();
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,6 +44,7 @@ public class App extends Application {
 		iconImageView.setFitHeight(24);
 
 		final JFXDecorator decorator = new JFXDecorator(primaryStage, mainMenu, false, true, true);
+		decorator.setCustomMaximize(true);
 		decorator.setGraphic(iconImageView);
 
 		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
@@ -55,10 +59,25 @@ public class App extends Application {
 		hBox.getChildren().add(backButton);
 		 */
 
+		JFXButton settingsButton = new JFXButton();
+		FontIcon icon = new FontIcon("mdi-settings");
+		icon.setIconSize(24);
+		icon.setIconColor(javafx.scene.paint.Color.rgb(255, 255, 255, 1));
+		settingsButton.setGraphic(icon);
+		settingsButton.setAlignment(Pos.CENTER_RIGHT);
+		settingsButton.setOnAction(event -> settingsDialog.show());
+
+		gameRoot.setStyle("-fx-background-color: black");
+
+		StackPane settingsButtonContainer = new StackPane(settingsButton);
+		settingsButtonContainer.setAlignment(Pos.CENTER_RIGHT); // can not align button directly for whatever reason
+
 		borderPane.setCenter(gameBoard);
-		borderPane.setTop(topBar);
+		borderPane.setTop(new StackPane(topBar, settingsButtonContainer));
 		borderPane.setBottom(bottomBar);
 		gameRoot.getChildren().add(borderPane);
+
+		settingsDialog.setDialogContainer(gameRoot);
 
 		resultDialog.setDialogContainer(gameRoot);
 		resultDialog.setOverlayClose(false);
