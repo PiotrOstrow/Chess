@@ -2,9 +2,6 @@ package com.example.game.pieces;
 
 import com.example.game.Color;
 import com.example.game.Game;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class ChessPiece {

@@ -2,8 +2,6 @@ package com.example.game.pieces;
 
 import com.example.game.Color;
 import com.example.game.Game;
-import com.example.ui.GameBoard;
-
 import java.util.ArrayList;
 import java.util.List;
 
