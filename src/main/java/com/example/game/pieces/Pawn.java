@@ -58,6 +58,19 @@ public class Pawn extends ChessPiece{
         if (game.getPiece(x+1, y+dir)!=null && game.getPiece(x+1, y+dir).color != this.color)
             list.add(new Position(x+1,y+dir));
 
+        /*
+        //en passant
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x-1,y) instanceof Pawn)&&(game.getPiece(x-1,y).color != this.color)){
+            //TODO before implementing: check if that was last move
+            list.add(new Position(x-1,y+dir));
+        }
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x+1,y) instanceof Pawn)&&(game.getPiece(x+1,y).color != this.color)){
+            //TODO before implementing: check if that was last move
+            list.add(new Position(x+1,y+dir));
+        }
+        */
+
+
         return list;
     }
 
