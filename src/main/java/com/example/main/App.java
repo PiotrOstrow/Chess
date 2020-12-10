@@ -2,6 +2,7 @@ package com.example.main;
 
 import com.example.game.Color;
 import com.example.game.Game;
+import com.example.game.SaveLoad;
 import com.example.ui.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXNodesList;
@@ -57,6 +58,15 @@ public class App extends Application {
 			scene.setRoot(gameRoot);
 			Game game = new Game();
 			game.setUpNormal();
+			startGame(game);
+		});
+
+		mainMenu.setOnResumeGame(event -> {
+			scene.setRoot(gameRoot);
+			Game game;
+			SaveLoad load = new SaveLoad();
+			game = load.loadGame();
+			//game.setUpNormal();
 			startGame(game);
 		});
 

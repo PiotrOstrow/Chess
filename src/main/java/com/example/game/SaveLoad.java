@@ -7,21 +7,27 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class SaveLoad{
-    Scanner scanner = new Scanner(new File("saves\\SavedGame.txt"));
+    Scanner scanner;
     //Scanner scanner = new Scanner(new File("saves\\SavedPosition.txt"));
     Game game = new Game();
 
-    public SaveLoad() throws FileNotFoundException {
+    public SaveLoad()  {
+        try {
+            scanner = new Scanner(new File("saves/SavedGame.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void loadGame() {
+    public Game loadGame() {
 
         if (scanner.nextLine().equals("SavedGame"))
                 loadFromSave();
         if  (scanner.nextLine().equals("SavedPosition"))
             loadFromPosition();
         scanner.close();
+        return this.game;
         }
 
 
@@ -31,6 +37,8 @@ public class SaveLoad{
         int fromy;
         int tox;
         int toy;
+
+        game.setUpNormal();
 
         while (scanner.hasNext()) {
             fromx = scanner.nextInt();

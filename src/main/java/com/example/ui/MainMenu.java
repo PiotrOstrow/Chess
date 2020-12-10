@@ -117,4 +117,8 @@ public class MainMenu extends StackPane {
 	public void setOnNewGame(EventHandler<ActionEvent> eventHandler) {
 		newGameButton.setOnAction(eventHandler);
 	}
+
+	public void setOnResumeGame(EventHandler<ActionEvent> eventHandler) {
+		resumeGameButton.setOnAction(eventHandler);
+	}
 }
