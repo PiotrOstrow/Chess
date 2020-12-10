@@ -404,4 +404,12 @@ public class Game {
 	public ChessPiece getCheckingPiece() {
 		return checkingPiece;
 	}
+
+	public Stack<Move> getMoveLogStack() {return this.moveLogStack;}
+
+	public void setCurrentMovePlayer(Color color){
+		if (color == Color.WHITE) this.currentMovePlayer = playerWhite;
+		if (color == Color.BLACK) this.currentMovePlayer = playerBlack;
+
+	}
 }

@@ -77,4 +77,6 @@ public abstract class ChessPiece {
 	public boolean isPromoteAble(){
 		return false;
 	}
+
+	public boolean getCanMove(Game game, int x, int y){ return canMove(game,x,y);}
 }
