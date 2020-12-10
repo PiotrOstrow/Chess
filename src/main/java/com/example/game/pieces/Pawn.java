@@ -21,7 +21,7 @@ public class Pawn extends ChessPiece{
                     return true;
                 else if (position.getY()==y-2*dir && position.getY()==3.5 - 2.5 * dir && game.getPiece(x,y-dir)==null)
                     return true;
-        if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir)
+        if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir && game.getPiece(x,y)!=null)
             return true;
 
         return false;
@@ -35,6 +35,10 @@ public class Pawn extends ChessPiece{
         int dir=1;
         if (this.color==color.WHITE) {dir = -1;}
 
+        if (y == 3.5 + 3.5*dir){
+            return list;
+        }
+
         if (game.getPiece(x, y+dir)==null) {
             list.add(new Position(x, y + dir));
             if ((y == 3.5 - 2.5 * dir) && game.getPiece(x, y + 2 * dir) == null) {
@@ -45,6 +49,19 @@ public class Pawn extends ChessPiece{
             list.add(new Position(x-1,y+dir));
         if (game.getPiece(x+1, y+dir)!=null && game.getPiece(x+1, y+dir).color != this.color)
             list.add(new Position(x+1,y+dir));
+
+        /*
+        //en passant
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x-1,y) instanceof Pawn)&&(game.getPiece(x-1,y).color != this.color)){
+            //TODO before implementing: check if that was last move
+            list.add(new Position(x-1,y+dir));
+        }
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x+1,y) instanceof Pawn)&&(game.getPiece(x+1,y).color != this.color)){
+            //TODO before implementing: check if that was last move
+            list.add(new Position(x+1,y+dir));
+        }
+        */
+
 
         return list;
     }
