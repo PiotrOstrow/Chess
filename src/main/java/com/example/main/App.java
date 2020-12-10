@@ -35,8 +35,15 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
+		Image iconImage = new Image("Chess_Artwork/Chess_Pieces/Stone/KnightW.png");
+		ImageView iconImageView = new ImageView(iconImage);
+		iconImageView.setFitWidth(24);
+		iconImageView.setFitHeight(24);
+
 		final JFXDecorator decorator = new JFXDecorator(primaryStage, mainMenu, false, true, true);
+		decorator.setGraphic(iconImageView);
+
+		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
 		final Scene scene = new Scene(decorator, size, size);
 
 		/*JFXButton backButton = new JFXButton("Back");
@@ -77,7 +84,7 @@ public class App extends Application {
 			resultDialog.close();
 		});
 
-		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
+		primaryStage.getIcons().add(iconImage);
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(500);

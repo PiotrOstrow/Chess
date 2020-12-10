@@ -34,12 +34,9 @@ public class BoardCell extends StackPane {
 
 		int y1 = 8 - y;
 		char x1 = (char) ('a' + x);
-
 		if(x1 == 'd' && y1 == 4) // missing graphic d4??
 			y1 = 2;
 
-
-		System.out.println("Chess_Artwork/Chess_Board/Stone_Black/" + x1 + y1 + ".png");
 		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Stone_Black/" + x1 + y1 + ".png"));
 		getChildren().add(cellImageView);
 
