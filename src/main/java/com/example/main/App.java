@@ -9,11 +9,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,14 +47,13 @@ public class App extends Application {
 		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
 		final Scene scene = new Scene(decorator, size, size);
 
-		/*JFXButton backButton = new JFXButton("Back");
-		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
-
-		HBox hBox = new HBox();
-		hBox.setPadding(new Insets(10));
-		hBox.setAlignment(Pos.TOP_LEFT);gi
-		hBox.getChildren().add(backButton);
-		 */
+		JFXButton backButton = new JFXButton();
+		FontIcon icon2 = new FontIcon("mdi2a-arrow-left-bold");
+		icon2.setIconSize(24);
+		icon2.setIconColor(javafx.scene.paint.Color.rgb(255, 255, 255, 1));
+		backButton.setGraphic(icon2);
+		backButton.setAlignment(Pos.CENTER_LEFT);
+		backButton.setOnAction(event -> decorator.setContent(mainMenu));
 
 		JFXButton settingsButton = new JFXButton();
 		FontIcon icon = new FontIcon("mdi2c-cog");
@@ -67,13 +63,15 @@ public class App extends Application {
 		settingsButton.setAlignment(Pos.CENTER_RIGHT);
 		settingsButton.setOnAction(event -> settingsDialog.show());
 
-		gameRoot.setStyle("-fx-background-color: black");
+		gameRoot.setStyle("-fx-background-color: #141414");
 
 		StackPane settingsButtonContainer = new StackPane(settingsButton);
 		settingsButtonContainer.setAlignment(Pos.CENTER_RIGHT); // can not align button directly for whatever reason
 
+		HBox topContainer = new HBox(backButton, topBar, settingsButton);
+		topBar.prefWidthProperty().bind(primaryStage.widthProperty());
 		borderPane.setCenter(gameBoard);
-		borderPane.setTop(new StackPane(topBar, settingsButtonContainer));
+		borderPane.setTop(topContainer);
 		borderPane.setBottom(bottomBar);
 		gameRoot.getChildren().add(borderPane);
 
