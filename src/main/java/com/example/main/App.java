@@ -21,6 +21,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.*;
+
 public class App extends Application {
 
 	private final StackPane gameRoot = new StackPane();
@@ -30,6 +32,8 @@ public class App extends Application {
 	private final MainMenu mainMenu = new MainMenu();
 	private final ResultDialog resultDialog = new ResultDialog();
 	private final BorderPane borderPane = new BorderPane(); // game container
+
+	private Game currentGame;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -60,6 +64,23 @@ public class App extends Application {
 			startGame(game);
 		});
 
+		mainMenu.setOnResume(event -> {
+			File file = new File("game_save.bin");
+			if(file.exists()) {
+				try {
+					ObjectInputStream stream = new ObjectInputStream(new FileInputStream(file));
+					Game game = (Game) stream.readObject();
+					stream.close();
+					file.delete();
+
+					scene.setRoot(gameRoot);
+					startGame(game);
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
 		resultDialog.getRestartButton().setOnAction(event -> {
 			Game game = new Game();
 			game.setUpNormal();
@@ -74,6 +95,23 @@ public class App extends Application {
 			resultDialog.close();
 		});
 
+		primaryStage.setOnCloseRequest(event -> {
+			if(currentGame != null && !currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
+				try {
+					File file = new File("game_save.bin");
+					if(file.exists())
+						file.delete();
+					file.createNewFile();
+					ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
+					stream.writeObject(currentGame);
+					stream.flush();
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
 		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(scene);
@@ -83,6 +121,8 @@ public class App extends Application {
 	}
 
 	private void startGame(final Game game){
+		this.currentGame = game;
+
 		gameBoard.setGame(game, Color.WHITE);
 
 		topBar.set(game);

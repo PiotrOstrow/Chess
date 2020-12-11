@@ -4,21 +4,27 @@ import com.example.game.pieces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
-public class Game {
+public class Game implements Serializable {
+
+	private static final long serialVersionUID = 3146812975625918714L;
 
 	private final ChessPiece[][] pieces = new ChessPiece[8][8];
-	private final ObservableList<ChessPiece> capturedPieces = FXCollections.observableArrayList();
+	private final ArrayList<ChessPiece> capturedPieces = new ArrayList<>();
+	private transient ObservableList<ChessPiece> capturedPiecesObservable;
 	private final HashMap<ChessPiece, List<Position>> possibleMovesCache = new HashMap<>();
 
-	private final ArrayList<GameCallback> callbacks = new ArrayList<>();
+	private transient ArrayList<GameCallback> callbacks;
 
 	private final Stack<Move> moveLogStack = new Stack<>();
 
-	private final Player playerWhite;
-	private final Player playerBlack;
+	private Player playerWhite;
+	private Player playerBlack;
 
 	private King whiteKing;
 	private King blackKing;
@@ -33,10 +39,27 @@ public class Game {
 	}
 
 	public Game(boolean againstComputer) {
+		callbacks = new ArrayList<>();
+		capturedPiecesObservable = FXCollections.observableList(capturedPieces);
+
 		playerWhite = new Player(Color.WHITE);
 		playerBlack = againstComputer ? new Computer(this, Color.BLACK) : new Player(Color.BLACK);
 
 		currentMovePlayer = playerWhite;
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+
+		// init transient members
+		callbacks = new ArrayList<>();
+		capturedPiecesObservable = FXCollections.observableList(capturedPieces);
+
+		// if player is computer then need to reconstruct, callback is added in it's constructor and callbacks are transient
+		if(playerWhite instanceof Computer)
+			playerWhite = new Computer(this, Color.WHITE);
+		if(playerBlack instanceof Computer)
+			playerBlack = new Computer(this, Color.BLACK);
 	}
 
 	public ChessPiece getPiece(int x, int y) {
@@ -384,7 +407,7 @@ public class Game {
 	}
 
 	public ObservableList<ChessPiece> getCapturedPieces() {
-		return capturedPieces;
+		return capturedPiecesObservable;
 	}
 
 	public void addGameCallback(GameCallback callback) {

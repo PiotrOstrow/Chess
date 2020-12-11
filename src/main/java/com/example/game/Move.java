@@ -2,7 +2,9 @@ package com.example.game;
 
 import com.example.game.pieces.ChessPiece;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
 
 	// in case of castling, movedPiece is the King, capturedPiece is the Rook
 	public final ChessPiece movedPiece;

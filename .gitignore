@@ -7,3 +7,4 @@ target/
 *.iws
 
 dependency-reduced-pom.xml
+game_save.bin

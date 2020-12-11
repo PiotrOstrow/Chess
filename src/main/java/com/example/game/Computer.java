@@ -8,12 +8,16 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Computer extends Player {
+public class Computer extends Player implements Serializable {
 
 	private final Game game;
 	private final Random random = new Random();
@@ -21,19 +25,27 @@ public class Computer extends Player {
 	// marked true when a pawn is moved up to promote, next move() must be a promotion
 	private boolean promote;
 
+	private transient Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), ae -> move()));
+
 	public Computer(Game game, Color color) {
 		super(color);
 		this.game = game;
 
-		Timeline timeline = new Timeline(new KeyFrame(
-				Duration.millis(100),
-				ae -> move()));
-
-		game.addGameCallback(() -> {
-			timeline.setDelay(Duration.millis(Math.random() * 1500));
+		GameCallback callback = (GameCallback & Serializable) () -> {
 			timeline.stop();
+			timeline.setDelay(Duration.millis(Math.random() * 1500));
 			timeline.play();
-		});
+		};
+
+		// start timeline in case the color is white or the game has been resumed
+		callback.onMoved();
+
+		game.addGameCallback(callback);
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+		timeline = new Timeline(new KeyFrame(Duration.millis(100), ae -> move()));
 	}
 
 	private void move() {

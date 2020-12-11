@@ -1,6 +1,8 @@
 package com.example.game;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
 
 	public final Color color;
 

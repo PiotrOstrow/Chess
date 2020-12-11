@@ -2,9 +2,11 @@ package com.example.game.pieces;
 
 import com.example.game.Color;
 import com.example.game.Game;
+
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class ChessPiece {
+public abstract class ChessPiece implements Serializable {
 
 	protected final Color color;
 	protected final Position position;
