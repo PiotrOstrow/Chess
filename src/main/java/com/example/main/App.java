@@ -115,8 +115,8 @@ public class App extends Application {
 
 	private void setTheme(Theme theme) {
 		gameBoard.setTheme(theme);
-		// topBar.setTheme(theme);
-		// bottomBar.setTheme(theme);
+		topBar.setTheme(theme);
+		bottomBar.setTheme(theme);
 	}
 
 	private void startGame(final Game game){
