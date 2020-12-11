@@ -29,6 +29,7 @@ public class SettingsDialog extends JFXDialog {
 		styleComboBox.setValue(Theme.BLACK_STONE);
 
 		legendCheckBox = new JFXCheckBox("Grid legend");
+		legendCheckBox.selectedProperty().setValue(true);
 
 		VBox container = new VBox(label, styleComboBox, legendCheckBox);
 		container.setSpacing(20);

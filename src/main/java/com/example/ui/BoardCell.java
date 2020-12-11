@@ -111,11 +111,24 @@ public class BoardCell extends StackPane {
 			case POSSIBLE_MOVE:
 				cellImageView.setEffect(new Glow(2));
 
-				if(color == Color.WHITE)
-					//rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
-					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.33));
-				else
-					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				if(color == Color.WHITE) {
+					switch (theme) {
+						case WOOD:
+							rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
+							break;
+						case BLACK_STONE:
+						case GREY_STONE:
+							rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.33));
+							rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.30));
+							break;
+					}
+				} else {
+					if (theme == Theme.BLACK_STONE) {
+						rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.1));
+					} else {
+						rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+					}
+				}
 				break;
 		}
 	}
