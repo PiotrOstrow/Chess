@@ -79,6 +79,7 @@ public class App extends Application {
 
 		settingsDialog.setDialogContainer(gameRoot);
 		settingsDialog.onThemeChanged((observable, oldValue, newValue) -> setTheme(newValue));
+		settingsDialog.onLegendOption((observable, oldValue, newValue) -> gameBoard.setShowLegend(newValue));
 
 		resultDialog.setDialogContainer(gameRoot);
 		resultDialog.setOverlayClose(false);

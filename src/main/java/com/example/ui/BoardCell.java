@@ -27,6 +27,9 @@ public class BoardCell extends StackPane {
 	private Highlight highlight = Highlight.NONE;
 	private boolean checked;
 
+	private Theme theme = Theme.BLACK_STONE;
+	private ChessPiece chessPiece;
+
 	public BoardCell(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -52,15 +55,21 @@ public class BoardCell extends StackPane {
 	}
 
 	public void setTheme(Theme theme) {
+		this.theme = theme;
 		int y1 = 8 - y;
 		char x1 = (char) ('a' + x);
 		if(x1 == 'd' && y1 == 4) // missing graphic d4??
 			y1 = 2;
 
 		cellImageView.setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/" + x1 + y1 + ".png"));
+
+		if(chessPiece != null)
+			setPiece(chessPiece); // adjusts piece image
 	}
 
 	public void setPiece(ChessPiece piece) {
+		this.chessPiece = piece;
+
 		if(piece == null) {
 			chessImageView.setImage(null);
 		} else {
@@ -72,17 +81,17 @@ public class BoardCell extends StackPane {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess_Pieces/Stone/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess_Pieces/Stone/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess_Pieces/Stone/King" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess_Pieces/Stone/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess_Pieces/Stone/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess_Pieces/Stone/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Rook" + color + ".png";
 		return "";
 	}
 
