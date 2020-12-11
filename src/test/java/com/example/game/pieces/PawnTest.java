@@ -2,9 +2,7 @@ package com.example.game.pieces;
 
 import com.example.game.Color;
 import com.example.game.Game;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,6 +37,9 @@ public class PawnTest {
             "blackblockedpawn", "blackborderpawn", "blackimpossiblepawn", "blackordinarypawn",
             "blackpromotingpawn", "blackstartingpawn", "blackstrikingpawn"};
 
+    int u;
+    int v;
+
     @BeforeAll
     void init() {
         game = new Game();
@@ -46,28 +47,37 @@ public class PawnTest {
         for (int i = 0; i < allpawns.length; i++) {
             game.addPiece(allpawns[i]);
         }
+        u = 0;
+        v = 0;
 
     }
 
-    @Test
+
+
+    @RepeatedTest(14)
     void testGetPossibleMoves() {
 
-        for (int i = 0; i < allpawns.length; i++) {
-            assertTrue(allpawns[i].getPossibleMoves(game).size() <= 4);
-            System.out.println(names[i] + " has " + allpawns[i].getPossibleMoves(game).size() + " move(s), that's ok");
-        }
+
+
+            assertTrue(allpawns[u].getPossibleMoves(game).size() <= 4);
+            //for bughunting
+            //System.out.println(names[u] + " has " + allpawns[u].getPossibleMoves(game).size() + " move(s), that's ok");
+
+        u++;
     }
 
-    @Test void testCanMove() {
+    @RepeatedTest(14)
+    void testCanMove() {
 
-        for (int i = 0; i < allpawns.length; i++) {
-            for (int j = 0; j < allpawns[i].getPossibleMoves(game).size(); j++) {
+            for (int j = 0; j < allpawns[v].getPossibleMoves(game).size(); j++) {
 
-                assertTrue(allpawns[i].canMove(game, allpawns[i].getPossibleMoves(game).get(j).getX(),
-                        allpawns[i].getPossibleMoves(game).get(j).getY()));
-                System.out.println(names[i] +" can move to "+ allpawns[i].getPossibleMoves(game).get(j).getX() + ","
-                        + allpawns[i].getPossibleMoves(game).get(j).getY());
+               assertTrue(allpawns[v].canMove(game, allpawns[v].getPossibleMoves(game).get(j).getX(),
+                       allpawns[v].getPossibleMoves(game).get(j).getY()));
+                //for bughunting
+                //System.out.println(names[v] +" can move to "+ allpawns[v].getPossibleMoves(game).get(j).getX() + ","
+                //      + allpawns[v].getPossibleMoves(game).get(j).getY());
+
             }
-        }
+            v++;
     }
 }
