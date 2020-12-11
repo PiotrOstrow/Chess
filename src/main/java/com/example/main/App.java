@@ -55,12 +55,12 @@ public class App extends Application {
 
 		HBox hBox = new HBox();
 		hBox.setPadding(new Insets(10));
-		hBox.setAlignment(Pos.TOP_LEFT);
+		hBox.setAlignment(Pos.TOP_LEFT);gi
 		hBox.getChildren().add(backButton);
 		 */
 
 		JFXButton settingsButton = new JFXButton();
-		FontIcon icon = new FontIcon("mdi-settings");
+		FontIcon icon = new FontIcon("mdi2c-cog");
 		icon.setIconSize(24);
 		icon.setIconColor(javafx.scene.paint.Color.rgb(255, 255, 255, 1));
 		settingsButton.setGraphic(icon);

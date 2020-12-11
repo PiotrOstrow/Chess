@@ -49,12 +49,17 @@
         <dependency> <!--https://dlsc.com/2020/03/11/javafx-tip-32-need-icons-use-ikonli/ -->
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-javafx</artifactId>
-            <version>11.3.5</version>
+            <version>12.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-materialdesign-pack</artifactId>
-            <version>11.3.5</version>
+            <artifactId>ikonli-core</artifactId>
+            <version>12.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>12.0.0</version>
         </dependency>
     </dependencies>
 
