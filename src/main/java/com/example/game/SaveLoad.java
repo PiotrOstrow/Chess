@@ -30,6 +30,8 @@ public class SaveLoad {
         int fromy;
         int tox;
         int toy;
+        boolean awaitingpromotion = false;
+        String promoteto;
 
         try {
             scanner = new Scanner(new File("saves/NewSave.txt"));
@@ -41,16 +43,24 @@ public class SaveLoad {
 
 
         while (scanner.hasNext()) {
+
             fromx = scanner.nextInt();
             fromy = scanner.nextInt();
             tox = scanner.nextInt();
             toy = scanner.nextInt();
-            scanner.nextLine();
+            promoteto = scanner.nextLine();
+
+
             if ((game.getPiece(fromx, fromy) == null) || (!game.getPiece(fromx, fromy).getCanMove(game, tox, toy))) {
                 System.out.println("Bad savefile, aborting");
                 break;
             }
             game.move(game.getPiece(fromx, fromy), tox, toy);
+            //if (game.getPiece(tox,toy) instanceof Pawn &&
+             //       ((game.getPiece(tox,toy).getColor()==Color.WHITE&&toy==0) ||
+              //              ((game.getPiece(tox,toy).getColor()==Color.BLACK&&toy==7))))
+             //   awaitingpromotion= true;
+            //game.promote();
 
         }
 
@@ -71,6 +81,8 @@ public class SaveLoad {
         Stack<Move> movelog = gametosave.getMoveLogStack();
 
         for (int i = 0; i < movelog.size(); i++) {
+            System.out.println(pieceToName(gametosave.getPiece(movelog.get(i).toX,movelog.get(i).toY)));
+            System.out.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
             printWriter.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
         }
         fileWriter.close();
