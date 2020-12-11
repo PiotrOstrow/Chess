@@ -15,12 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 public class MainMenu extends StackPane {
 
 	private final Button newGameButton, resumeGameButton, exitButton;
@@ -29,20 +23,8 @@ public class MainMenu extends StackPane {
 	private final double backgroundImageAspectRatio;
 
 	public MainMenu() {
-		Font font = null, font2 = null;
-		URL url1 = getClass().getResource("/norwester/norwester.otf");
-		try {
-			String fontPath = new URI(url1.toString()).getPath();
-			font = Font.loadFont(new FileInputStream(fontPath), 48);
-			font2 = Font.loadFont(new FileInputStream(fontPath), 14);
-
-			if(font == null || font2 == null)
-				throw new NullPointerException();
-		} catch (URISyntaxException | NullPointerException | FileNotFoundException e) {
-			System.err.println("Could not load font");
-			e.printStackTrace();
-			Platform.exit();
-		}
+		Font font = FontLoader.loadFont("/norwester/norwester.otf", 48);
+		Font font2 = FontLoader.loadFont("/norwester/norwester.otf", 14);
 
 		Label chessLabel = new Label("CHESS GAME");
 		chessLabel.setStyle("-fx-text-fill: white;-fx-font-weight: bold");

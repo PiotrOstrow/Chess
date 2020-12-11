@@ -10,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.net.URL;
-
 public class ResultDialog extends JFXDialog {
 
     private Label gameResultLabel;
@@ -22,8 +20,7 @@ public class ResultDialog extends JFXDialog {
 
         gameResultLabel = new Label("");
         gameResultLabel.setStyle("-fx-text-fill: black");
-        URL url1 = getClass().getResource("/norwester/norwester.otf");
-        Font font = Font.loadFont(url1.toString(), 48);
+        Font font = FontLoader.loadFont("/norwester/norwester.otf", 48);
         gameResultLabel.setFont(font);
 
         restartButton = new JFXButton("Restart");
@@ -34,7 +31,7 @@ public class ResultDialog extends JFXDialog {
         menuButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
         exitButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
 
-        Font font2 = Font.loadFont(url1.toString(), 14);
+        Font font2 = FontLoader.loadFont("/norwester/norwester.otf", 14);
         restartButton.setFont(font2);
         menuButton.setFont(font2);
         exitButton.setFont(font2);
