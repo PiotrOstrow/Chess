@@ -22,6 +22,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.IOException;
+
 public class App extends Application {
 
 	private final StackPane gameRoot = new StackPane();
@@ -31,6 +34,7 @@ public class App extends Application {
 	private final MainMenu mainMenu = new MainMenu();
 	private final ResultDialog resultDialog = new ResultDialog();
 	private final BorderPane borderPane = new BorderPane(); // game container
+	private Game currentgame;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -65,9 +69,9 @@ public class App extends Application {
 			scene.setRoot(gameRoot);
 			Game game;
 			SaveLoad load = new SaveLoad();
-			//game = load.loadGame();
+			game = load.loadFromSave();
 			//game.setUpNormal();
-			//startGame(game);
+			startGame(game);
 		});
 
 		resultDialog.getRestartButton().setOnAction(event -> {
@@ -84,6 +88,17 @@ public class App extends Application {
 			resultDialog.close();
 		});
 
+		primaryStage.setOnCloseRequest(event -> {
+
+			SaveLoad closing = new SaveLoad();
+
+			try {
+				closing.saveGame(currentgame);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
 		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
 		primaryStage.setTitle("Chess");
 		primaryStage.setScene(scene);
@@ -98,6 +113,8 @@ public class App extends Application {
 		topBar.set(game);
 		bottomBar.set(game);
 
+		currentgame = game;
+
 		// temporary
 		game.addGameCallback(() -> {
 			gameBoard.onMoved();
@@ -109,6 +126,8 @@ public class App extends Application {
 			}
 		});
 	}
+
+
 
 	private void gameOver(boolean win) {
 		if(win) {

@@ -6,39 +6,66 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.Stack;
 
+
+//Tanken var att kunna spara och ladda både en position utan historik och ett spel med historik
+//Men för att slippa kladda ned interfacet blir nog bara spel med historik medtaget
+//Får se om resten får ligga kvar ändå, eller om det rensas bort
+
 public class SaveLoad{
     Scanner scanner;
+    //File file = new File("SavedGame.txt");
+    //System.out.println(new File("saves/SavedGame.txt").getAbsolutePath());
+    //file.exists();
+    //Scanner scanner = new Scanner(file);
     //Scanner scanner = new Scanner(new File("saves\\SavedPosition.txt"));
-    Game game = new Game();
+    Game game;
 
-    public SaveLoad()  {
-        try {
-            scanner = new Scanner(new File("saves/SavedGame.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public SaveLoad() {
+        File directory = new File("saves/");
+        if(!directory.exists())
+            directory.mkdir();
+
     }
 
 
-    public void loadGame() {
+    public Game loadGame() {
+
+
+        System.out.println("kom hit");
+        try {
+            scanner = new Scanner(new File("saves/TempSave.txt"));
+            //scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         if (scanner.nextLine().equals("SavedGame"))
-                loadFromSave();
+                game = loadFromSave();
         if  (scanner.nextLine().equals("SavedPosition"))
             loadFromPosition();
         scanner.close();
-        //return this.game;
+        return game;
         }
 
 
 
-    public void loadFromSave() {
+    public Game loadFromSave() {
+        game = new Game();
         int fromx;
         int fromy;
         int tox;
         int toy;
 
+        System.out.println("kom hit");
+        try {
+            scanner = new Scanner(new File("saves/NewSave.txt"));
+            //scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         game.setUpNormal();
+
 
         while (scanner.hasNext()) {
             fromx = scanner.nextInt();
@@ -46,13 +73,19 @@ public class SaveLoad{
             tox = scanner.nextInt();
             toy = scanner.nextInt();
             scanner.nextLine();
-            if (!game.getPiece(fromx,fromy).getCanMove(game,tox,toy)) {
-                System.out.println("Bad savefile, aborting");
+            System.out.print(fromx);
+            game.getPiece(fromx,fromy);
+            System.out.println(pieceToName(game.getPiece(fromx,fromy)));
+            if ((game.getPiece(fromx,fromy)==null)||(!game.getPiece(fromx,fromy).getCanMove(game,tox,toy))) {
+               System.out.println("Bad savefile, aborting");
                 break;
             }
             game.move(game.getPiece(fromx,fromy),tox,toy);
 
         }
+
+
+        return game;
     }
 
 
@@ -62,6 +95,7 @@ public class SaveLoad{
         int y;
         Color color;
         String colorstring;
+        game = new Game();
         while (scanner.hasNext()) {
             piecetype = scanner.next();
             if (piecetype.equals("BLACKTOMOVE")){
@@ -111,6 +145,7 @@ public class SaveLoad{
 
 
 public void savePosition() throws IOException {
+        //game = something;
     FileWriter fileWriter = new FileWriter("saves\\NewSave.txt");
     PrintWriter printWriter = new PrintWriter(fileWriter);
 
@@ -133,15 +168,31 @@ public void savePosition() throws IOException {
 
 }
 
-public void saveGame() throws IOException {
-    FileWriter fileWriter = new FileWriter("saves\\NewSave.txt");
+public void saveGame(Game gametosave) throws IOException {
+
+
+    File savefile = new File("saves/NewSave.txt");
+    if (savefile.exists()&&gametosave!=null){
+        boolean deleted = savefile.delete();
+        System.out.println(deleted);
+        boolean create = savefile.createNewFile();
+        System.out.println(create);
+    }
+    FileWriter fileWriter = new FileWriter("saves/NewSave.txt");
     PrintWriter printWriter = new PrintWriter(fileWriter);
 
-    printWriter.print("SavedGame");
-    Stack<Move> movelog = game.getMoveLogStack();
-    for (int i=0;i<movelog.size();i++){
-        printWriter.print(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
+
+    Stack<Move> movelog = gametosave.getMoveLogStack();
+
+    for (int i=0;i<movelog.size();i++) {
+        System.out.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
     }
+    //printWriter.write("SavedGame");
+
+    for (int i=0;i<movelog.size();i++){
+        printWriter.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
+    }
+    fileWriter.close();
 
 }
 
