@@ -27,19 +27,19 @@ import java.io.IOException;
 
 public class App extends Application {
 
-	private final StackPane gameRoot = new StackPane();
-	private final GameBoard gameBoard = new GameBoard(gameRoot);
-	private final CapturedPiecesBar topBar = new CapturedPiecesBar(Color.WHITE);
-	private final CapturedPiecesBar bottomBar = new CapturedPiecesBar(Color.BLACK);
-	private final MainMenu mainMenu = new MainMenu();
-	private final ResultDialog resultDialog = new ResultDialog();
-	private final BorderPane borderPane = new BorderPane(); // game container
-	private Game currentgame;
+    private final StackPane gameRoot = new StackPane();
+    private final GameBoard gameBoard = new GameBoard(gameRoot);
+    private final CapturedPiecesBar topBar = new CapturedPiecesBar(Color.WHITE);
+    private final CapturedPiecesBar bottomBar = new CapturedPiecesBar(Color.BLACK);
+    private final MainMenu mainMenu = new MainMenu();
+    private final ResultDialog resultDialog = new ResultDialog();
+    private final BorderPane borderPane = new BorderPane(); // game container
+    private Game currentgame;
 
-	@Override
-	public void start(Stage primaryStage) {
-		double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
-		final Scene scene = new Scene(mainMenu, size, size);
+    @Override
+    public void start(Stage primaryStage) {
+        double size = Math.min(750, Screen.getPrimary().getVisualBounds().getHeight() - 50);
+        final Scene scene = new Scene(mainMenu, size, size);
 
 		/*JFXButton backButton = new JFXButton("Back");
 		backButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: white");
@@ -50,99 +50,98 @@ public class App extends Application {
 		hBox.getChildren().add(backButton);
 		 */
 
-		borderPane.setCenter(gameBoard);
-		borderPane.setTop(topBar);
-		borderPane.setBottom(bottomBar);
-		gameRoot.getChildren().add(borderPane);
+        borderPane.setCenter(gameBoard);
+        borderPane.setTop(topBar);
+        borderPane.setBottom(bottomBar);
+        gameRoot.getChildren().add(borderPane);
 
-		resultDialog.setDialogContainer(gameRoot);
-		resultDialog.setOverlayClose(false);
+        resultDialog.setDialogContainer(gameRoot);
+        resultDialog.setOverlayClose(false);
 
-		mainMenu.setOnNewGame(event -> {
-			scene.setRoot(gameRoot);
-			Game game = new Game();
-			game.setUpNormal();
-			startGame(game);
-		});
+        mainMenu.setOnNewGame(event -> {
+            scene.setRoot(gameRoot);
+            Game game = new Game();
+            game.setUpNormal();
+            startGame(game);
+        });
 
-		mainMenu.setOnResumeGame(event -> {
-			scene.setRoot(gameRoot);
-			Game game;
-			SaveLoad load = new SaveLoad();
-			game = load.loadFromSave();
-			//game.setUpNormal();
-			startGame(game);
-		});
+        mainMenu.setOnResumeGame(event -> {
+            scene.setRoot(gameRoot);
+            Game game;
+            SaveLoad load = new SaveLoad();
+            game = load.loadFromSave();
+            //game.setUpNormal();
+            startGame(game);
+        });
 
-		resultDialog.getRestartButton().setOnAction(event -> {
-			Game game = new Game();
-			game.setUpNormal();
-			startGame(game);
-			borderPane.setEffect(null);
-			resultDialog.close();
-		});
+        resultDialog.getRestartButton().setOnAction(event -> {
+            Game game = new Game();
+            game.setUpNormal();
+            startGame(game);
+            borderPane.setEffect(null);
+            resultDialog.close();
+        });
 
-		resultDialog.getMenuButton().setOnAction(event -> {
-			scene.setRoot(mainMenu);
-			borderPane.setEffect(null);
-			resultDialog.close();
-		});
+        resultDialog.getMenuButton().setOnAction(event -> {
+            scene.setRoot(mainMenu);
+            borderPane.setEffect(null);
+            resultDialog.close();
+        });
 
-		primaryStage.setOnCloseRequest(event -> {
+        primaryStage.setOnCloseRequest(event -> {
 
-			SaveLoad closing = new SaveLoad();
+            SaveLoad closing = new SaveLoad();
 
-			try {
-				closing.saveGame(currentgame);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+            try {
+                closing.saveGame(currentgame);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-		primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
-		primaryStage.setTitle("Chess");
-		primaryStage.setScene(scene);
-		primaryStage.setMinWidth(500);
-		primaryStage.setMinHeight(500);
-		primaryStage.show();
-	}
+        primaryStage.getIcons().add(new Image("Chess_Artwork/Chess_Pieces/Wood/KnightW.png"));
+        primaryStage.setTitle("Chess");
+        primaryStage.setScene(scene);
+        primaryStage.setMinWidth(500);
+        primaryStage.setMinHeight(500);
+        primaryStage.show();
+    }
 
-	private void startGame(final Game game){
-		gameBoard.setGame(game, Color.WHITE);
+    private void startGame(final Game game) {
+        gameBoard.setGame(game, Color.WHITE);
 
-		topBar.set(game);
-		bottomBar.set(game);
+        topBar.set(game);
+        bottomBar.set(game);
 
-		currentgame = game;
+        currentgame = game;
 
-		// temporary
-		game.addGameCallback(() -> {
-			gameBoard.onMoved();
+        // temporary
+        game.addGameCallback(() -> {
+            gameBoard.onMoved();
 
-			if(game.isInCheckMate(Color.WHITE)) {
-				gameOver(gameBoard.getControlledColor() != Color.WHITE);
-			} else if (game.isInCheckMate(Color.BLACK)) {
-				gameOver(gameBoard.getControlledColor() != Color.BLACK);
-			}
-		});
-	}
+            if (game.isInCheckMate(Color.WHITE)) {
+                gameOver(gameBoard.getControlledColor() != Color.WHITE);
+            } else if (game.isInCheckMate(Color.BLACK)) {
+                gameOver(gameBoard.getControlledColor() != Color.BLACK);
+            }
+        });
+    }
 
 
+    private void gameOver(boolean win) {
+        if (win) {
+            resultDialog.getGameResultLabel().setText("Game Won");
+        } else {
+            resultDialog.getGameResultLabel().setText("Game Lost");
+        }
+        GaussianBlur blur = new GaussianBlur(0);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5000), new KeyValue(blur.radiusProperty(), 7)));
+        borderPane.setEffect(blur);
+        resultDialog.show();
+        timeline.playFromStart();
+    }
 
-	private void gameOver(boolean win) {
-		if(win) {
-			resultDialog.getGameResultLabel().setText("Game Won");
-		} else {
-			resultDialog.getGameResultLabel().setText("Game Lost");
-		}
-		GaussianBlur blur = new GaussianBlur(0);
-		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5000), new KeyValue(blur.radiusProperty(), 7)));
-		borderPane.setEffect(blur);
-		resultDialog.show();
-		timeline.playFromStart();
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
