@@ -1,6 +1,7 @@
 out/
 target/
 .idea/
+saves/
 
 *.iml
 *.ipr
