@@ -13,7 +13,10 @@ import java.util.List;
 
 public class CapturedPiecesBar extends HBox {
 
+	private Game game;
+
 	private Color color;
+	private Theme theme = Theme.BLACK_STONE;
 
 	public CapturedPiecesBar(Color color) {
 		this.color = color;
@@ -27,7 +30,13 @@ public class CapturedPiecesBar extends HBox {
 		this.color = color;
 	}
 
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+		set(game.getCapturedPieces());
+	}
+
 	public void set(Game game) {
+		this.game = game;
 		set(game.getCapturedPieces());
 		game.getCapturedPieces().addListener((ListChangeListener<? super ChessPiece>) c -> set(game.getCapturedPieces()));
 	}
@@ -50,17 +59,17 @@ public class CapturedPiecesBar extends HBox {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess_Symbols/Wood/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess_Symbols/Wood/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess_Symbols/Wood/King" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess_Symbols/Wood/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess_Symbols/Wood/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess_Symbols/Wood/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Symbols/" + theme.getSymbolsFolder() + "/Rook" + color + ".png";
 		return "";
 	}
 }

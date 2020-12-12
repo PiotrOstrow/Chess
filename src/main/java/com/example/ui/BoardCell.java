@@ -27,6 +27,9 @@ public class BoardCell extends StackPane {
 	private Highlight highlight = Highlight.NONE;
 	private boolean checked;
 
+	private Theme theme = Theme.BLACK_STONE;
+	private ChessPiece chessPiece;
+
 	public BoardCell(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -37,7 +40,7 @@ public class BoardCell extends StackPane {
 		if(x1 == 'd' && y1 == 4) // missing graphic d4??
 			y1 = 2;
 
-		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/" + x1 + y1 + ".png"));
+		cellImageView = new ImageView(new Image("Chess_Artwork/Chess_Board/Stone_Black/" + x1 + y1 + ".png"));
 		getChildren().add(cellImageView);
 
 		rectangle = new Rectangle(cellImageView.getImage().getWidth(), cellImageView.getImage().getHeight());
@@ -51,7 +54,22 @@ public class BoardCell extends StackPane {
 		setPrefSize(GRID_CELL_SIZE, GRID_CELL_SIZE);
 	}
 
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+		int y1 = 8 - y;
+		char x1 = (char) ('a' + x);
+		if(x1 == 'd' && y1 == 4) // missing graphic d4??
+			y1 = 2;
+
+		cellImageView.setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/" + x1 + y1 + ".png"));
+
+		if(chessPiece != null)
+			setPiece(chessPiece); // adjusts piece image
+	}
+
 	public void setPiece(ChessPiece piece) {
+		this.chessPiece = piece;
+
 		if(piece == null) {
 			chessImageView.setImage(null);
 		} else {
@@ -63,17 +81,17 @@ public class BoardCell extends StackPane {
 	private String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
-			return "Chess_Artwork/Chess_Pieces/Wood/Pawn" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Pawn" + color + ".png";
 		if(piece instanceof Bishop)
-			return "Chess_Artwork/Chess_Pieces/Wood/Bishop" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Bishop" + color + ".png";
 		if(piece instanceof King)
-			return "Chess_Artwork/Chess_Pieces/Wood/King" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/King" + color + ".png";
 		if(piece instanceof Knight)
-			return "Chess_Artwork/Chess_Pieces/Wood/Knight" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Knight" + color + ".png";
 		if(piece instanceof Queen)
-			return "Chess_Artwork/Chess_Pieces/Wood/Queen" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Queen" + color + ".png";
 		if(piece instanceof Rook)
-			return "Chess_Artwork/Chess_Pieces/Wood/Rook" + color + ".png";
+			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Rook" + color + ".png";
 		return "";
 	}
 
@@ -93,10 +111,24 @@ public class BoardCell extends StackPane {
 			case POSSIBLE_MOVE:
 				cellImageView.setEffect(new Glow(2));
 
-				if(color == Color.WHITE)
-					rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
-				else
-					rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+				if(color == Color.WHITE) {
+					switch (theme) {
+						case WOOD:
+							rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
+							break;
+						case BLACK_STONE:
+						case GREY_STONE:
+							rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.33));
+							rectangle.setFill(javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.30));
+							break;
+					}
+				} else {
+					if (theme == Theme.BLACK_STONE) {
+						rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.1));
+					} else {
+						rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+					}
+				}
 				break;
 		}
 	}

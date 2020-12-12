@@ -18,16 +18,16 @@ public class ResultDialog extends JFXDialog {
     public ResultDialog() {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        gameResultLabel = new Label("");
-        gameResultLabel.setStyle("-fx-text-fill: black");
         Font font = FontLoader.loadFont("/norwester/norwester.otf", 48);
+        gameResultLabel = new Label("result");
+        gameResultLabel.setStyle("-fx-text-fill: white;-fx-font-weight: bold");
         gameResultLabel.setFont(font);
 
         restartButton = new JFXButton("Restart");
         menuButton = new JFXButton("Menu");
         exitButton = new JFXButton("Exit");
 
-        restartButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
+        restartButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
         menuButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
         exitButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
 
@@ -70,7 +70,7 @@ public class ResultDialog extends JFXDialog {
         getChildren().add(vBox);
         content.setBody(vBox);
         setContent(content);
-
+        getChildren().get(getChildren().size() - 1).setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
     }
 
     public Label getGameResultLabel() {

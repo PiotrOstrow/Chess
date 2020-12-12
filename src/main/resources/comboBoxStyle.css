@@ -1,0 +1,15 @@
+.combo-box {
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell
+{
+    -fx-background: rgba(0, 0, 0, 0.7);
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view
+{
+    -fx-background-color: rgba(0, 0, 0, 0), rgba(0, 0, 0, 0);
+    -fx-text-fill: white;
+}

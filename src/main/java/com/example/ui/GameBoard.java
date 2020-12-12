@@ -28,6 +28,11 @@ public class GameBoard extends StackPane {
 	private Game currentGame;
 	private Color controlledColor;
 
+	private Theme theme = Theme.BLACK_STONE;
+
+	private ImageView[] borders = new ImageView[4];
+	private boolean showLegend = true;
+
 	public GameBoard(StackPane dialogRoot) {
 		GridPane gridPane = new GridPane();
 		for(int x = 0; x < 8; x++) {
@@ -38,10 +43,12 @@ public class GameBoard extends StackPane {
 			}
 		}
 
-		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_left_legend.png")), 0, 0, 1, 10);
-		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_right.png")), 9, 0, 1, 10);
-		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_top.png")), 1, 0, 8, 1);
-		gridPane.add(new ImageView(new Image("Chess_Artwork/Chess_Board/Wood/border_bottom_legend.png")), 1, 9, 8, 1);
+		gridPane.add((borders[0] = new ImageView()), 0, 0, 1, 10);
+		gridPane.add((borders[1] = new ImageView()), 9, 0, 1, 10);
+		gridPane.add((borders[2] = new ImageView()), 1, 0, 8, 1);
+		gridPane.add((borders[3] = new ImageView()), 1, 9, 8, 1);
+
+		loadBorder();
 
 		gridPane.setAlignment(Pos.CENTER);
 		getChildren().add(gridPane);
@@ -74,6 +81,30 @@ public class GameBoard extends StackPane {
 			currentGame.promote(Bishop.class);
 			promotionDialog.close();
 		});
+	}
+
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+
+		for(int x = 0; x < cells.length; x++) {
+			for(int y = 0; y < cells[0].length; y++) {
+				cells[x][y].setTheme(theme);
+			}
+		}
+
+		loadBorder();
+	}
+
+	public void setShowLegend(boolean legend) {
+		this.showLegend = legend;
+		loadBorder();
+	}
+
+	private void loadBorder() {
+		borders[0].setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/border_left" + (showLegend ? "_legend" : "") + ".png"));
+		borders[1].setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/border_right.png"));
+		borders[2].setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/border_top.png"));
+		borders[3].setImage(new Image("Chess_Artwork/Chess_Board/" + theme.getBoardFolder() + "/border_bottom" + (showLegend ? "_legend" : "") + ".png"));
 	}
 
 	@Override
