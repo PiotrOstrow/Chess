@@ -22,9 +22,7 @@ public class SettingsDialog extends JFXDialog {
 		Label label = new Label("Theme");
 		label.setStyle("-fx-font-weight: bold; -fx-text-fill: white");
 
-		styleComboBox = new JFXComboBox<Theme>(FXCollections.observableArrayList(
-				Theme.BLACK_STONE, Theme.GREY_STONE, Theme.WOOD
-		));
+		styleComboBox = new JFXComboBox<Theme>(FXCollections.observableArrayList(Theme.values()));
 		styleComboBox.setValue(Theme.BLACK_STONE);
 		styleComboBox.getStylesheets().add("comboBoxStyle.css");
 
