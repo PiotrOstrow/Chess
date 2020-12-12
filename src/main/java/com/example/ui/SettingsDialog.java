@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -21,15 +20,18 @@ public class SettingsDialog extends JFXDialog {
 		layout.setPrefWidth(200);
 
 		Label label = new Label("Theme");
-		label.setStyle("-fx-font-weight: bold");
+		label.setStyle("-fx-font-weight: bold; -fx-text-fill: white");
 
 		styleComboBox = new JFXComboBox<Theme>(FXCollections.observableArrayList(
 				Theme.BLACK_STONE, Theme.GREY_STONE, Theme.WOOD
 		));
 		styleComboBox.setValue(Theme.BLACK_STONE);
+		styleComboBox.getStylesheets().add("comboBoxStyle.css");
 
 		legendCheckBox = new JFXCheckBox("Grid legend");
 		legendCheckBox.selectedProperty().setValue(true);
+		legendCheckBox.setStyle("-fx-text-fill: white");
+		legendCheckBox.setCheckedColor(styleComboBox.getFocusColor());
 
 		VBox container = new VBox(label, styleComboBox, legendCheckBox);
 		container.setSpacing(20);
@@ -37,6 +39,8 @@ public class SettingsDialog extends JFXDialog {
 
 		layout.setBody(container);
 		setContent(layout);
+
+		layout.getParent().setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
 	}
 
 	public void onThemeChanged(ChangeListener<Theme> listener) {
