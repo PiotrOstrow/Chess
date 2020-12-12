@@ -92,6 +92,12 @@ public class GameBoard extends StackPane {
 			}
 		}
 
+		// update highlights to adjust for theme
+		for(Position p : highlightedPossibleMoves)
+			cells[p.getX()][p.getY()].setHighlighted(BoardCell.Highlight.POSSIBLE_MOVE);
+
+		highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
+
 		loadBorder();
 	}
 
