@@ -81,9 +81,16 @@ public class SaveLoad {
         Stack<Move> movelog = gametosave.getMoveLogStack();
 
         for (int i = 0; i < movelog.size(); i++) {
-            System.out.println(pieceToName(gametosave.getPiece(movelog.get(i).toX,movelog.get(i).toY)));
-            System.out.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
-            printWriter.println(movelog.get(i).fromX + " " + movelog.get(i).fromY + " " + movelog.get(i).toX + " " + movelog.get(i).toY);
+            Move move = movelog.get(i);
+
+            System.out.println(move.movedPiece);
+            System.out.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY);
+            printWriter.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY);
+
+            if(move.promote != null) {
+                // TODO: save promote
+                System.out.println(move.promote.getSimpleName());
+            }
         }
         fileWriter.close();
 

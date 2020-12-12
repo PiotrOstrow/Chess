@@ -59,6 +59,7 @@ public class Game {
 			Constructor<? extends ChessPiece> constructor = pieceType.getConstructor(Integer.TYPE, Integer.TYPE, Color.class);
 			ChessPiece newPiece = constructor.newInstance(pawn.getPosition().getX(), pawn.getPosition().getY(), pawn.getColor());
 			addPiece(newPiece); // overrides old piece
+			moveLogStack.peek().promote = pieceType;
 			onMoved(true);
 		} catch (Exception e) {
 			e.printStackTrace();
