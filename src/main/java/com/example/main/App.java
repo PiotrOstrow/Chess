@@ -100,7 +100,7 @@ public class App extends Application {
                 Game game = load.loadFromSave();
 				decorator.setContent(gameRoot);
                 startGame(game);
-            } else {
+			} else if (!currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
                 decorator.setContent(gameRoot);
                 startGame(currentGame);
             }
@@ -121,7 +121,7 @@ public class App extends Application {
 		});
 
         primaryStage.setOnCloseRequest(event -> {
-        	if(currentGame != null) {
+        	if(currentGame != null && !currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
 				SaveLoad closing = new SaveLoad();
 				try {
 					closing.saveGame(currentGame);
