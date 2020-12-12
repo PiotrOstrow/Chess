@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.io.File;
 import java.io.IOException;
 
 public class App extends Application {
@@ -96,12 +95,10 @@ public class App extends Application {
 		});
 
         mainMenu.setOnResumeGame(event -> {
-            if(currentGame != null) {
-                scene.setRoot(gameRoot);
-                Game game;
+            if(currentGame == null) {
                 SaveLoad load = new SaveLoad();
-                game = load.loadFromSave();
-                //game.setUpNormal();
+                Game game = load.loadFromSave();
+				decorator.setContent(gameRoot);
                 startGame(game);
             } else {
                 decorator.setContent(gameRoot);
@@ -124,13 +121,14 @@ public class App extends Application {
 		});
 
         primaryStage.setOnCloseRequest(event -> {
-            SaveLoad closing = new SaveLoad();
-
-            try {
-                closing.saveGame(currentGame);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        	if(currentGame != null) {
+				SaveLoad closing = new SaveLoad();
+				try {
+					closing.saveGame(currentGame);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
         });
 
 		primaryStage.getIcons().add(iconImage);
@@ -148,6 +146,7 @@ public class App extends Application {
 	}
 
 	private void startGame(final Game game){
+		currentGame = game;
 		gameBoard.setGame(game, Color.WHITE);
 
 		topBar.set(game);
