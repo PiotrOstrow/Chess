@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -20,14 +21,14 @@ public class ResultDialog extends JFXDialog {
 
         Font font = FontLoader.loadFont("/norwester/norwester.otf", 48);
         gameResultLabel = new Label("result");
-        gameResultLabel.setStyle("-fx-text-fill: white;-fx-font-weight: bold");
+        gameResultLabel.setStyle("-fx-text-fill: white");
         gameResultLabel.setFont(font);
 
         restartButton = new JFXButton("Restart");
         menuButton = new JFXButton("Menu");
         exitButton = new JFXButton("Exit");
 
-        restartButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
+        restartButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
         menuButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
         exitButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
 
