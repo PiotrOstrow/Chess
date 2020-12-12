@@ -96,7 +96,8 @@ public class GameBoard extends StackPane {
 		for(Position p : highlightedPossibleMoves)
 			cells[p.getX()][p.getY()].setHighlighted(BoardCell.Highlight.POSSIBLE_MOVE);
 
-		highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
+		if(highlighted != null)
+			highlighted.setHighlighted(BoardCell.Highlight.SELECTED);
 
 		loadBorder();
 	}

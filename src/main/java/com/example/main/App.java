@@ -10,14 +10,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.skin.ColorPickerSkin;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -137,6 +140,69 @@ public class App extends Application {
 		primaryStage.setMinWidth(500);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
+
+
+		{
+
+			ComboBox<Theme> comboBox = new ComboBox<>(FXCollections.observableArrayList(Theme.values()));
+			comboBox.setValue(Theme.BLACK_STONE);
+
+			ColorPicker colorPickerWhite = new ColorPicker();
+			Slider sliderWhite = new Slider(0, 1, 1);
+
+			ColorPicker colorPickerBlack = new ColorPicker();
+			Slider sliderBlack = new Slider(0, 1, 1);
+
+			Label glowLabelWhite = new Label("Glow");
+			Label glowLabelBlack = new Label("Glow");
+
+			sliderWhite.valueProperty().addListener((observable, oldValue, newValue) -> glowLabelWhite.setText(("Glow " + newValue).substring(0, 8)));
+			sliderBlack.valueProperty().addListener((observable, oldValue, newValue) -> glowLabelBlack.setText(("Glow " + newValue).substring(0, 8)));
+
+			GridPane gridPane = new GridPane();
+			gridPane.setVgap(20);
+			gridPane.setHgap(20);
+			gridPane.setAlignment(Pos.CENTER);
+			GridPane.setHalignment(comboBox, HPos.CENTER);
+
+			gridPane.add(comboBox, 0, 0, 2, 1);
+			gridPane.add(new Label("White squares"), 0, 1);
+			gridPane.add(new Label("Black squares"), 1, 1);
+			gridPane.add(colorPickerWhite, 0, 2);
+			gridPane.add(colorPickerBlack, 1, 2);
+			gridPane.add(glowLabelWhite, 0, 3);
+			gridPane.add(glowLabelBlack, 1, 3);
+			gridPane.add(sliderWhite, 0, 4);
+			gridPane.add(sliderBlack, 1, 4);
+
+
+			sliderWhite.valueProperty().addListener((observable, oldValue, newValue) -> {
+				BoardCell.glowHashMapWhite.get(comboBox.getValue()).setLevel(newValue.doubleValue());
+				gameBoard.setTheme(comboBox.getValue());
+			});
+
+			sliderBlack.valueProperty().addListener((observable, oldValue, newValue) -> {
+				BoardCell.glowHashMapBlack.get(comboBox.getValue()).setLevel(newValue.doubleValue());
+				gameBoard.setTheme(comboBox.getValue());
+			});
+
+			colorPickerWhite.valueProperty().addListener((observable, oldValue, newValue) -> {
+				BoardCell.colorHashMapWhite.put(comboBox.getValue(), colorPickerWhite.getValue());
+				gameBoard.setTheme(comboBox.getValue());
+			});
+
+			colorPickerBlack.valueProperty().addListener((observable, oldValue, newValue) -> {
+				BoardCell.colorHashMapBlack.put(comboBox.getValue(), colorPickerBlack.getValue());
+				gameBoard.setTheme(comboBox.getValue());
+			});
+
+
+			Scene scene1 = new Scene(gridPane, 300, 300);
+
+			Stage newWindow = new Stage();
+			newWindow.setScene(scene1);
+			newWindow.show();
+		}
 	}
 
 	private void setTheme(Theme theme) {

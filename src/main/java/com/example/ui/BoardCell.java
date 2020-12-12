@@ -2,11 +2,18 @@ package com.example.ui;
 
 import com.example.game.Color;
 import com.example.game.pieces.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.util.HashMap;
 
 public class BoardCell extends StackPane {
 
@@ -14,6 +21,28 @@ public class BoardCell extends StackPane {
 
 	public enum Highlight {
 		NONE, SELECTED, POSSIBLE_MOVE
+	}
+
+	public static final HashMap<Theme, Glow> glowHashMapWhite = new HashMap<>();
+	public static final HashMap<Theme, Glow> glowHashMapBlack = new HashMap<>();
+	public static final HashMap<Theme, javafx.scene.paint.Color> colorHashMapWhite = new HashMap<>();
+	public static final HashMap<Theme, javafx.scene.paint.Color> colorHashMapBlack = new HashMap<>();
+
+	static {
+		for(Theme theme : Theme.values()) {
+			glowHashMapWhite.put(theme, new Glow(2));
+			glowHashMapBlack.put(theme, new Glow(2));
+
+			colorHashMapWhite.put(theme, javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+			colorHashMapBlack.put(theme, javafx.scene.paint.Color.rgb(0, 0, 0, 0));
+		}
+
+		colorHashMapWhite.put(Theme.WOOD, javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.55));
+		colorHashMapWhite.put(Theme.BLACK_STONE, javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.30));
+		colorHashMapWhite.put(Theme.GREY_STONE, javafx.scene.paint.Color.rgb(128 + 64, 128 + 64, 0, 0.30));
+		colorHashMapWhite.put(Theme.BLUE_STONE, javafx.scene.paint.Color.rgb(255, 255, 0, 0.15));
+
+		colorHashMapBlack.put(Theme.BLACK_STONE, javafx.scene.paint.Color.rgb(255, 255, 255, 0.1));
 	}
 
 	private final int x;
@@ -124,12 +153,16 @@ public class BoardCell extends StackPane {
 							rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 0, 0.15));
 							break;
 					}
+					rectangle.setFill(colorHashMapWhite.get(theme));
+					cellImageView.setEffect(glowHashMapWhite.get(theme));
 				} else {
 					if (theme == Theme.BLACK_STONE ) {
 						rectangle.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.1));
 					} else {
 						rectangle.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0));
 					}
+					rectangle.setFill(colorHashMapBlack.get(theme));
+					cellImageView.setEffect(glowHashMapBlack.get(theme));
 				}
 				break;
 		}
