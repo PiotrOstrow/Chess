@@ -9,7 +9,10 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ResultDialog extends JFXDialog {
@@ -20,21 +23,33 @@ public class ResultDialog extends JFXDialog {
     public ResultDialog() {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        gameResultLabel = new Label("");
-        gameResultLabel.setStyle("-fx-text-fill: black");
+        Font font = null, font2 = null;
         URL url1 = getClass().getResource("/norwester/norwester.otf");
-        Font font = Font.loadFont(url1.toString(), 48);
+        try {
+            String fontPath = new URI(url1.toString()).getPath();
+            font = Font.loadFont(new FileInputStream(fontPath), 48);
+            font2 = Font.loadFont(new FileInputStream(fontPath), 14);
+
+            if(font == null || font2 == null)
+                throw new NullPointerException();
+        } catch (URISyntaxException | NullPointerException | FileNotFoundException e) {
+            System.err.println("Could not load font");
+            e.printStackTrace();
+            Platform.exit();
+        }
+
+        gameResultLabel = new Label("result");
+        gameResultLabel.setStyle("-fx-text-fill: white;-fx-font-weight: bold");
         gameResultLabel.setFont(font);
 
         restartButton = new JFXButton("Restart");
         menuButton = new JFXButton("Menu");
         exitButton = new JFXButton("Exit");
 
-        restartButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
+        restartButton.setStyle("-fx-background-color: dimgray; -fx-text-fill: black");
         menuButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
         exitButton.setStyle("-fx-background-color: cornflowerblue; -fx-text-fill: white");
 
-        Font font2 = Font.loadFont(url1.toString(), 14);
         restartButton.setFont(font2);
         menuButton.setFont(font2);
         exitButton.setFont(font2);
@@ -73,7 +88,7 @@ public class ResultDialog extends JFXDialog {
         getChildren().add(vBox);
         content.setBody(vBox);
         setContent(content);
-
+        getChildren().get(getChildren().size() - 1).setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
     }
 
     public Label getGameResultLabel() {

@@ -4,13 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 public class PromotionDialog extends JFXDialog {
 
@@ -54,5 +50,6 @@ public class PromotionDialog extends JFXDialog {
         getChildren().add(hBox);
         content.setBody(hBox);
         setContent(content);
+        getChildren().get(getChildren().size() - 1).setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
     }
 }
