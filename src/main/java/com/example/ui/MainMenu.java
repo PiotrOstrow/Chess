@@ -86,6 +86,8 @@ public class MainMenu extends StackPane {
 		double yOffset = 350;
 		backgroundImageView.setViewport(new Rectangle2D(xOffset, yOffset, backgroundImage.getWidth() - xOffset, backgroundImage.getHeight() - yOffset));
 		backgroundImageAspectRatio = backgroundImageView.getViewport().getWidth() / backgroundImageView.getViewport().getHeight();
+
+		setMinSize(10, 10);
 	}
 
 	@Override

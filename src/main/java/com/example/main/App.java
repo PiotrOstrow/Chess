@@ -45,7 +45,8 @@ public class App extends Application {
 		iconImageView.setFitWidth(24);
 		iconImageView.setFitHeight(24);
 
-		final JFXDecorator decorator = new JFXDecorator(primaryStage, mainMenu, false, true, true);
+		StackPane decoratorRoot = new StackPane(mainMenu);
+		JFXDecorator decorator = new JFXDecorator(primaryStage, decoratorRoot, false, true, true);
 		decorator.setCustomMaximize(true);
 		decorator.setGraphic(iconImageView);
 
@@ -58,7 +59,7 @@ public class App extends Application {
 		icon2.setIconColor(javafx.scene.paint.Color.rgb(255, 255, 255, 1));
 		backButton.setGraphic(icon2);
 		backButton.setAlignment(Pos.CENTER_LEFT);
-		backButton.setOnAction(event -> decorator.setContent(mainMenu));
+		backButton.setOnAction(event -> decoratorRoot.getChildren().setAll(mainMenu));
 
 		JFXButton settingsButton = new JFXButton();
 		FontIcon icon = new FontIcon("mdi2c-cog");
@@ -88,7 +89,7 @@ public class App extends Application {
 		resultDialog.setOverlayClose(false);
 
 		mainMenu.setOnNewGame(event -> {
-			decorator.setContent(gameRoot);
+			decoratorRoot.getChildren().setAll(gameRoot);
 			Game game = new Game();
 			game.setUpNormal();
 			startGame(game);
@@ -98,10 +99,10 @@ public class App extends Application {
             if(currentGame == null) {
                 SaveLoad load = new SaveLoad();
                 Game game = load.loadFromSave();
-				decorator.setContent(gameRoot);
+				decoratorRoot.getChildren().setAll(gameRoot);
                 startGame(game);
 			} else if (!currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
-                decorator.setContent(gameRoot);
+                decoratorRoot.getChildren().setAll(gameRoot);
                 startGame(currentGame);
             }
         });
@@ -115,7 +116,7 @@ public class App extends Application {
 		});
 
 		resultDialog.getMenuButton().setOnAction(event -> {
-			decorator.setContent(mainMenu);
+			decoratorRoot.getChildren().setAll(mainMenu);
 			borderPane.setEffect(null);
 			resultDialog.close();
 		});
