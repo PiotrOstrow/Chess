@@ -349,7 +349,6 @@ public class Game {
 			pieces[move.fromX][move.fromY] = move.movedPiece;
 			pieces[move.toX][move.fromY] = move.captured;
 			capturedPieces.remove(move.captured);
-			//capturedPieces.remove(move.captured);
 
 		}
 		else { // regular move
@@ -376,7 +375,7 @@ public class Game {
 	}
 
 	public void setUpNormal(){
-		/*
+
 		for (int i=0; i<=7; i++){
 			addPiece(new Pawn(i, 6, Color.WHITE));
 			addPiece(new Pawn(i, 1, Color.BLACK));
@@ -398,13 +397,6 @@ public class Game {
 		addPiece(new Queen(3, 7, Color.WHITE));
 		addPiece(new Queen(3, 0, Color.BLACK));
 
-		 */
-		for (int i=0; i<=3; i++){
-			addPiece(new Pawn(2*i, 3, Color.WHITE));
-			addPiece(new Pawn(2*i+1, 1, Color.BLACK));
-		}
-		addPiece(new King(4, 7, Color.WHITE));
-		addPiece(new King(4, 0, Color.BLACK));
 	}
 
 	public Color getCurrentMovePlayer() {
