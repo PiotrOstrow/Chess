@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
@@ -61,7 +62,7 @@ public class Game {
 			addPiece(newPiece); // overrides old piece
 			moveLogStack.peek().promote = pieceType;
 			onMoved(true);
-		} catch (Exception e) {
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 	}

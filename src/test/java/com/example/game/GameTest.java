@@ -16,14 +16,19 @@ public class GameTest {
 		Game game = new Game(false);
 		game.setUpNormal();
 
-		assertThrows(Exception.class, () -> game.promote(Queen.class));
+		// nothing to promote
+		assertThrows(IllegalStateException.class, () -> game.promote(Queen.class));
 
-		// replace black rook with white pawn to promote
-		game.addPiece(new Pawn(7, 0, Color.WHITE));
+		// replace black pawn with white pawn and move up to promote
+		Pawn pawn = new Pawn(7, 1, Color.WHITE);
+		game.addPiece(pawn);
+		assertTrue(game.move(pawn, 6, 0));
 
+		// can't promote to a king or a pawn
 		assertThrows(IllegalArgumentException.class, () -> game.promote(King.class));
+		assertThrows(IllegalArgumentException.class, () -> game.promote(Pawn.class));
 
-		// should not throw exception
+		// should not throw exception, otherwise test will fail as intended
 		game.promote(Bishop.class);
 	}
 
