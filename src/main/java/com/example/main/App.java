@@ -121,16 +121,8 @@ public class App extends Application {
 			resultDialog.close();
 		});
 
-        primaryStage.setOnCloseRequest(event -> {
-        	if(currentGame != null && !currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
-				SaveLoad closing = new SaveLoad();
-				try {
-					closing.saveGame(currentGame);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-        });
+		setTheme(settingsDialog.getSelectedTheme());
+		gameBoard.setShowLegend(settingsDialog.isLegendChecked());
 
 		primaryStage.getIcons().add(iconImage);
 		primaryStage.setTitle("Chess");
@@ -138,6 +130,19 @@ public class App extends Application {
 		primaryStage.setMinWidth(500);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
+	}
+
+	@Override
+	public void stop() throws Exception {
+		settingsDialog.saveSettingsToFile();
+		if (currentGame != null && !currentGame.isInCheckMate(Color.WHITE) && !currentGame.isInCheckMate(Color.BLACK)) {
+			SaveLoad closing = new SaveLoad();
+			try {
+				closing.saveGame(currentGame);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void setTheme(Theme theme) {

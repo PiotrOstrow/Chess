@@ -8,3 +8,4 @@ saves/
 *.iws
 
 dependency-reduced-pom.xml
+config.ini

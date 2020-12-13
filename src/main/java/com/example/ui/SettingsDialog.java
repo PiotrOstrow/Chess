@@ -10,10 +10,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import java.io.*;
+import java.util.Properties;
+
 public class SettingsDialog extends JFXDialog {
 
 	private final JFXComboBox<Theme> styleComboBox;
 	private final JFXCheckBox legendCheckBox;
+
+	private final Properties properties;
+	private final File propertiesFile;
 
 	public SettingsDialog() {
 		JFXDialogLayout layout = new JFXDialogLayout();
@@ -39,6 +45,42 @@ public class SettingsDialog extends JFXDialog {
 		setContent(layout);
 
 		layout.getParent().setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
+
+		properties = new Properties();
+		propertiesFile = new File("config.ini");
+		if(propertiesFile.exists()){
+			try {
+				properties.load(new FileInputStream(propertiesFile));
+				styleComboBox.setValue(Theme.fromName(properties.getProperty("theme", "Black Stone")));
+				legendCheckBox.setSelected(Boolean.parseBoolean(properties.getProperty("grid", "false")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public Theme getSelectedTheme() {
+		return styleComboBox.getValue();
+	}
+
+	public boolean isLegendChecked() {
+		return legendCheckBox.isSelected();
+	}
+
+	public void saveSettingsToFile() {
+		try {
+			if(!propertiesFile.exists())
+				System.out.println(propertiesFile.createNewFile());
+
+			properties.setProperty("theme", styleComboBox.getValue().toString());
+			properties.setProperty("grid", Boolean.toString(legendCheckBox.isSelected()));
+
+			FileWriter fileWriter = new FileWriter(propertiesFile);
+			properties.store(fileWriter, "");
+			fileWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void onThemeChanged(ChangeListener<Theme> listener) {

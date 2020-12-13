@@ -30,4 +30,12 @@ public enum Theme {
 	public String toString() {
 		return name;
 	}
+
+	public static Theme fromName(String name) {
+		for(Theme theme : values())
+			if(theme.name.equalsIgnoreCase(name))
+				return theme;
+
+		return null;
+	}
 }

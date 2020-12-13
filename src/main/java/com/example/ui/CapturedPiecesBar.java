@@ -32,7 +32,8 @@ public class CapturedPiecesBar extends HBox {
 
 	public void setTheme(Theme theme) {
 		this.theme = theme;
-		set(game.getCapturedPieces());
+		if(game != null)
+			set(game.getCapturedPieces());
 	}
 
 	public void set(Game game) {
