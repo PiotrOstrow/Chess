@@ -30,7 +30,6 @@ public class SaveLoad {
         int fromy;
         int tox;
         int toy;
-        boolean awaitingpromotion = false;
         String promoteto;
 
         try {
@@ -44,11 +43,15 @@ public class SaveLoad {
 
         while (scanner.hasNext()) {
 
+            promoteto="";
+            if (!scanner.hasNextInt()){System.out.println("Bad savefile, aborting");break;}
             fromx = scanner.nextInt();
+            if (!(scanner.hasNextInt())){System.out.println("Bad savefile, aborting");break;}
             fromy = scanner.nextInt();
+            if (!(scanner.hasNextInt())){System.out.println("Bad savefile, aborting");break;}
             tox = scanner.nextInt();
+            if (!(scanner.hasNextInt())){System.out.println("Bad savefile, aborting");break;}
             toy = scanner.nextInt();
-            scanner.nextLine();
 
 
             if ((game.getPiece(fromx, fromy) == null) || (!game.getPiece(fromx, fromy).getCanMove(game, tox, toy))) {
@@ -61,13 +64,17 @@ public class SaveLoad {
                     // if there is no line, the game was closed when the dialog was open and nothing was selected
                     break;
                 }
-                promoteto = scanner.nextLine();
+                if (scanner.hasNext())
+                    promoteto = scanner.next();
                 switch (promoteto.toLowerCase()){
                     case "queen":   game.promote(Queen.class);  break;
                     case "knight":  game.promote(Knight.class); break;
                     case "bishop":  game.promote(Bishop.class); break;
                     case "rook":    game.promote(Rook.class);   break;
                 }
+            }
+            if (scanner.hasNext()) {
+                scanner.nextLine();
             }
 
         }
@@ -90,12 +97,12 @@ public class SaveLoad {
 
         for (int i = 0; i < movelog.size(); i++) {
             Move move = movelog.get(i);
-
-            printWriter.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY);
+            String promoteto = "";
 
             if(move.promote != null) {
-                printWriter.println(move.promote.getSimpleName());
+                promoteto = " " + move.promote.getSimpleName();
             }
+            printWriter.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY + promoteto);
         }
         fileWriter.close();
 
