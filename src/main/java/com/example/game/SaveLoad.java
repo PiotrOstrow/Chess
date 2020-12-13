@@ -48,7 +48,7 @@ public class SaveLoad {
             fromy = scanner.nextInt();
             tox = scanner.nextInt();
             toy = scanner.nextInt();
-            promoteto = scanner.nextLine();
+            scanner.nextLine();
 
 
             if ((game.getPiece(fromx, fromy) == null) || (!game.getPiece(fromx, fromy).getCanMove(game, tox, toy))) {
@@ -56,11 +56,19 @@ public class SaveLoad {
                 break;
             }
             game.move(game.getPiece(fromx, fromy), tox, toy);
-            //if (game.getPiece(tox,toy) instanceof Pawn &&
-             //       ((game.getPiece(tox,toy).getColor()==Color.WHITE&&toy==0) ||
-              //              ((game.getPiece(tox,toy).getColor()==Color.BLACK&&toy==7))))
-             //   awaitingpromotion= true;
-            //game.promote();
+            if (game.getPiece(tox,toy) instanceof Pawn && (toy == 0 || toy == 7)) {
+                if(!scanner.hasNextLine()){
+                    // if there is no line, the game was closed when the dialog was open and nothing was selected
+                    break;
+                }
+                promoteto = scanner.nextLine();
+                switch (promoteto.toLowerCase()){
+                    case "queen":   game.promote(Queen.class);  break;
+                    case "knight":  game.promote(Knight.class); break;
+                    case "bishop":  game.promote(Bishop.class); break;
+                    case "rook":    game.promote(Rook.class);   break;
+                }
+            }
 
         }
 
@@ -83,13 +91,10 @@ public class SaveLoad {
         for (int i = 0; i < movelog.size(); i++) {
             Move move = movelog.get(i);
 
-            System.out.println(move.movedPiece);
-            System.out.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY);
             printWriter.println(move.fromX + " " + move.fromY + " " + move.toX + " " + move.toY);
 
             if(move.promote != null) {
-                // TODO: save promote
-                System.out.println(move.promote.getSimpleName());
+                printWriter.println(move.promote.getSimpleName());
             }
         }
         fileWriter.close();

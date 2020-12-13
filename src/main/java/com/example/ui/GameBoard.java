@@ -135,6 +135,15 @@ public class GameBoard extends StackPane {
 				cells[x][y].setPiece(piece);
 			}
 		}
+
+		for(int x = 0; x < 8; x++) {
+			ChessPiece p1 = game.getPiece(x, 0);
+			ChessPiece p2 = game.getPiece(x, 7);
+			if((p1 instanceof Pawn && p1.getColor() == controlledColor)
+					|| (p2 instanceof Pawn && p2.getColor() == controlledColor)){
+				promotionDialog.show();
+			}
+		}
 	}
 
 	private void highlightCheck(BoardCell cell) {
