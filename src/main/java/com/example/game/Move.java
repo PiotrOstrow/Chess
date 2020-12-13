@@ -12,6 +12,8 @@ public class Move {
 	public final int toY;
 	public final ChessPiece captured;
 
+	public Class<? extends ChessPiece> promote = null;
+
 	public Move(ChessPiece movedPiece, int fromX, int fromY, int toX, int toY, ChessPiece captured) {
 		this.movedPiece = movedPiece;
 		this.fromX = fromX;
