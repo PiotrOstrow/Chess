@@ -24,6 +24,24 @@ public class Pawn extends ChessPiece{
         if ((Math.abs(position.getX()-x)==1) && position.getY()==y-dir && game.getPiece(x,y)!=null)
             return true;
 
+        if ((y==3.5+ 1.5*dir)&&(game.getPiece(x,y-dir) instanceof Pawn)&&(game.getPiece(x,y-dir).color != this.color)){
+            if (game.getMoveLogStack().lastElement().fromX==x && game.getMoveLogStack().lastElement().fromY==y+dir
+                    && game.getMoveLogStack().lastElement().toY ==y-dir)
+                return true;}
+
+        /*
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x+1,y) instanceof Pawn)&&(game.getPiece(x+1,y).color != this.color)){
+            if (game.getMoveLogStack().lastElement().fromX==x+1 && game.getMoveLogStack().lastElement().fromY==y+dir*2
+                    && game.getMoveLogStack().lastElement().toY ==y)
+                return true;}
+        if ((y==3.5+ 0.5*dir)&&(game.getPiece(x-1,y) instanceof Pawn)&&(game.getPiece(x-1,y).color != this.color)) {
+            if (game.getMoveLogStack().lastElement().fromX == x - 1 && game.getMoveLogStack().lastElement().fromY == y + dir * 2
+                    && game.getMoveLogStack().lastElement().toY == y)
+                return true;
+        }
+
+         */
+
         return false;
     }
 
@@ -50,17 +68,24 @@ public class Pawn extends ChessPiece{
         if (game.getPiece(x+1, y+dir)!=null && game.getPiece(x+1, y+dir).color != this.color)
             list.add(new Position(x+1,y+dir));
 
-        /*
+
+
         //en passant
         if ((y==3.5+ 0.5*dir)&&(game.getPiece(x-1,y) instanceof Pawn)&&(game.getPiece(x-1,y).color != this.color)){
+            if (game.getMoveLogStack().lastElement().fromX==x-1 && game.getMoveLogStack().lastElement().fromY==y+dir*2
+            && game.getMoveLogStack().lastElement().toY ==y)
             //TODO before implementing: check if that was last move
             list.add(new Position(x-1,y+dir));
         }
         if ((y==3.5+ 0.5*dir)&&(game.getPiece(x+1,y) instanceof Pawn)&&(game.getPiece(x+1,y).color != this.color)){
+            if (game.getMoveLogStack().lastElement().fromX==x+1 && game.getMoveLogStack().lastElement().fromY==y+dir*2
+                    && game.getMoveLogStack().lastElement().toY ==y)
             //TODO before implementing: check if that was last move
             list.add(new Position(x+1,y+dir));
         }
-        */
+
+
+
 
 
         return list;
