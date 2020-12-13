@@ -59,8 +59,6 @@ public class KnightTest {
         whiteKnight.canMove(game,1, 1);
         assertFalse(whiteKnight.canMove(game,-1, 0));
 
-        // same spot
-        assertFalse(whiteKnight.canMove(game,3, 3));
 
         // empty spot, but invalid movement
         assertFalse(whiteKnight.canMove(game,4, 4));
