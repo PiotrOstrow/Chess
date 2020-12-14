@@ -80,10 +80,11 @@ public class Game {
 			//capturing with en passent
 			if (chessPiece instanceof Pawn && (previousX!=x)&&pieces[x][y]==null) {
 				capturedPieces.add(pieces[x][previousY]);
+				moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][previousY]));
 				pieces[x][previousY] = null;
+			} else {
+				moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][y]));
 			}
-
-			moveLogStack.add(new Move(chessPiece, previousX, previousY, x, y, pieces[x][y]));
 
 			pieces[x][y] = chessPiece;
 			pieces[previousX][previousY] = null;
@@ -327,7 +328,8 @@ public class Game {
 
 		Move move = moveLogStack.pop();
 
-		if (move.movedPiece instanceof King && Math.abs(move.fromX - move.toX) > 1) { // castling
+		if (move.movedPiece instanceof King && Math.abs(move.fromX - move.toX) > 1) {
+			// castling
 			ChessPiece king = move.movedPiece;
 			ChessPiece rook = move.captured;
 			int xDir = move.fromX - move.toX > 0 ? -1 : 1;
@@ -341,17 +343,20 @@ public class Game {
 
 			pieces[king.getPosition().getX()][king.getPosition().getY()] = king;
 			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = rook;
-		}
-		//en passent
-		if ((move.movedPiece instanceof Pawn) && (move.fromX!=move.toX) && getPiece(move.toX,move.toY)==null){
+		} else if (move.movedPiece instanceof Pawn && move.fromX != move.toX && move.captured.getPosition().getY() == move.fromY){
+			//en passent
 			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
+			// reverse moving pawn
 			pieces[move.fromX][move.fromY] = move.movedPiece;
-			pieces[move.toX][move.fromY] = move.captured;
-			capturedPieces.remove(move.captured);
+			pieces[move.toX][move.toY] = null;
 
-		}
-		else { // regular move
+			// restore captured pawn
+			Position p = move.captured.getPosition();
+			pieces[p.getX()][p.getY()] = move.captured;
+			capturedPieces.remove(move.captured);
+		} else {
+			// regular move
 			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
 			pieces[move.fromX][move.fromY] = move.movedPiece;
