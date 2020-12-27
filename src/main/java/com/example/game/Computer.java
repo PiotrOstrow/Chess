@@ -26,10 +26,10 @@ public class Computer extends Player {
 		this.game = game;
 
 		Timeline timeline = new Timeline(new KeyFrame(
-				Duration.millis(100),
+				Duration.millis(200),
 				ae -> move()));
 
-		game.addGameCallback(() -> {
+		game.addGameCallback((move) -> {
 			timeline.setDelay(Duration.millis(Math.random() * 1500));
 			timeline.stop();
 			timeline.play();

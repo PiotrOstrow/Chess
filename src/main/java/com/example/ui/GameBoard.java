@@ -2,16 +2,24 @@ package com.example.ui;
 
 import com.example.game.Color;
 import com.example.game.Game;
+import com.example.game.Move;
 import com.example.game.pieces.*;
 import com.example.game.pieces.ChessPiece;
 import com.example.game.pieces.King;
 import com.example.game.pieces.Position;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,6 +164,7 @@ public class GameBoard extends StackPane {
 		ChessPiece chessPiece = currentGame.getPiece(from.getX(), from.getY());
 
 		if(currentGame.move(chessPiece, to.getX(), to.getY())) {
+			// promotion dialog
 			if(chessPiece instanceof Pawn) {
 				if(chessPiece.getPosition().getY() == 0 || chessPiece.getPosition().getY() == 7) {
 					promotionDialog.show();
@@ -165,6 +174,7 @@ public class GameBoard extends StackPane {
 	}
 
 	public void setGame(Game game, Color controlledColor) {
+		game.addGameCallback(this::onMoved);
 		this.currentGame = game;
 		this.controlledColor = controlledColor;
 
@@ -190,9 +200,58 @@ public class GameBoard extends StackPane {
 		checkHightlight.add(cell);
 	}
 
-	public void onMoved() {
-		setGame(currentGame, controlledColor); // temporary
+	private void animateMove(final Move move) {
+		if(move.promote != null) { // no animation for promote
+			cells[move.toX][move.toY].setPiece(currentGame.getPiece(move.toX, move.toY));
+		} else {
+			BoardCell from = cells[move.fromX][move.fromY];
+			BoardCell to = cells[move.toX][move.toY];
 
+			final ImageView animated = new ImageView();
+			getChildren().add(animated);
+			animated.setImage(new Image(to.getImagePath(move.movedPiece)));
+			animated.setVisible(true);
+
+			Point2D translateFrom = from.localToScene(animated.getImage().getWidth() / 2, animated.getImage().getHeight() / 2);
+			translateFrom = sceneToLocal(translateFrom);
+			animated.setTranslateX(translateFrom.getX() - getWidth() / 2);
+			animated.setTranslateY(translateFrom.getY() - getHeight() / 2);
+
+			Point2D translateTo = to.localToScene(animated.getImage().getWidth() / 2, animated.getImage().getHeight() / 2);
+			translateTo = sceneToLocal(translateTo);
+
+			from.setPiece(null);
+
+			EventHandler<ActionEvent> onFinished = ae -> {
+				// set captured to null in case it's en passant
+				if(move.isEnPassant()) {
+					Position c = move.captured.getPosition();
+					cells[c.getX()][c.getY()].setPiece(null);
+				}
+				to.setPiece(move.movedPiece);
+				getChildren().remove(animated);
+			};
+
+			KeyValue keyValueX = new KeyValue(animated.translateXProperty(), translateTo.getX() - getWidth() / 2);
+			KeyValue keyValueY = new KeyValue(animated.translateYProperty(), translateTo.getY() - getHeight() / 2);
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(150), onFinished, keyValueX, keyValueY);
+
+			if(move.isCastleMove()) { // animate rook
+				int rookFromX = move.fromX - move.toX > 0 ? 0 : 7;
+				int rookToX = rookFromX == 7 ? 5 : 3;
+				Move rookMove = new Move(move.captured, rookFromX, move.fromY, rookToX, move.toY, null);
+				animateMove(rookMove);
+			}
+
+			Timeline timeline = new Timeline(keyFrame);
+			timeline.play();
+		}
+	}
+
+	public void onMoved(Move move) {
+		animateMove(move);
+
+		// highlight check
 		for(BoardCell cell : checkHightlight)
 			cell.setChecked(false);
 		checkHightlight.clear();

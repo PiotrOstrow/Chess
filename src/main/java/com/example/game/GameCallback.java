@@ -1,5 +1,5 @@
 package com.example.game;
 
 public interface GameCallback {
-	void onMoved();
+	void onMoved(Move move);
 }

@@ -78,7 +78,7 @@ public class BoardCell extends StackPane {
 		}
 	}
 
-	private String getImagePath(ChessPiece piece) {
+	public String getImagePath(ChessPiece piece) {
 		char color = piece.getColor() == Color.BLACK ? 'B' : 'W';
 		if(piece instanceof Pawn)
 			return "Chess_Artwork/Chess_Pieces/" + theme.getSymbolsFolder() + "/Pawn" + color + ".png";

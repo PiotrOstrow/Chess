@@ -137,8 +137,9 @@ public class Game {
 		else
 			checkedKing = null;
 
+		Move move = moveLogStack.peek();
 		for (GameCallback callback : callbacks)
-			callback.onMoved();
+			callback.onMoved(move);
 	}
 
 	private boolean canCastleMove(ChessPiece chessPiece, int x, int y){
@@ -328,8 +329,7 @@ public class Game {
 
 		Move move = moveLogStack.pop();
 
-		if (move.movedPiece instanceof King && Math.abs(move.fromX - move.toX) > 1) {
-			// castling
+		if (move.isCastleMove()) {
 			ChessPiece king = move.movedPiece;
 			ChessPiece rook = move.captured;
 			int xDir = move.fromX - move.toX > 0 ? -1 : 1;
@@ -343,8 +343,7 @@ public class Game {
 
 			pieces[king.getPosition().getX()][king.getPosition().getY()] = king;
 			pieces[rook.getPosition().getX()][rook.getPosition().getY()] = rook;
-		} else if (move.movedPiece instanceof Pawn && move.fromX != move.toX && move.captured.getPosition().getY() == move.fromY){
-			//en passent
+		} else if (move.isEnPassant()){
 			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
 			// reverse moving pawn
@@ -355,8 +354,7 @@ public class Game {
 			Position p = move.captured.getPosition();
 			pieces[p.getX()][p.getY()] = move.captured;
 			capturedPieces.remove(move.captured);
-		} else {
-			// regular move
+		} else { // regular move
 			move.movedPiece.getPosition().set(move.fromX, move.fromY);
 
 			pieces[move.fromX][move.fromY] = move.movedPiece;
@@ -380,7 +378,6 @@ public class Game {
 	}
 
 	public void setUpNormal(){
-
 		for (int i=0; i<=7; i++){
 			addPiece(new Pawn(i, 6, Color.WHITE));
 			addPiece(new Pawn(i, 1, Color.BLACK));
@@ -401,7 +398,6 @@ public class Game {
 		addPiece(new Bishop(5, 0, Color.BLACK));
 		addPiece(new Queen(3, 7, Color.WHITE));
 		addPiece(new Queen(3, 0, Color.BLACK));
-
 	}
 
 	public Color getCurrentMovePlayer() {

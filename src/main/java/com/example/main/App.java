@@ -158,10 +158,7 @@ public class App extends Application {
 		topBar.set(game);
 		bottomBar.set(game);
 
-		// temporary
-		game.addGameCallback(() -> {
-			gameBoard.onMoved();
-
+		game.addGameCallback((move) -> {
 			if(game.isInCheckMate(Color.WHITE)) {
 				gameOver(gameBoard.getControlledColor() != Color.WHITE);
 			} else if (game.isInCheckMate(Color.BLACK)) {

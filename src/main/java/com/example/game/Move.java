@@ -1,6 +1,8 @@
 package com.example.game;
 
 import com.example.game.pieces.ChessPiece;
+import com.example.game.pieces.King;
+import com.example.game.pieces.Pawn;
 
 public class Move {
 
@@ -21,6 +23,14 @@ public class Move {
 		this.toX = toX;
 		this.toY = toY;
 		this.captured = captured;
+	}
+
+	public boolean isCastleMove() {
+		return movedPiece instanceof King && Math.abs(fromX - toX) > 1;
+	}
+
+	public boolean isEnPassant() {
+		return movedPiece instanceof Pawn && fromX != toX && captured.getPosition().getY() == fromY;
 	}
 
 	@Override
